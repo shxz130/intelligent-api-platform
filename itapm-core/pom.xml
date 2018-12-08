@@ -11,5 +11,11 @@
 
     <artifactId>itapm-core</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.gitee.itapm</groupId>
+            <artifactId>itapm-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
