@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = UrlPathConstants.ITAPM_GO_LOGIN,method={RequestMethod.GET})
+    @GetMapping(value = UrlPathConstants.ITAPM_GO_LOGIN)
     public String login(User user){
         return TemplatePathConstants.LOGIN_PAGE;
     }

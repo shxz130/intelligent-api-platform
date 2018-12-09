@@ -14,4 +14,22 @@ public class UrlPathConstants {
      * 登陆入口
      */
     public static final String ITAPM_GO_LOGIN="/itapm/go_login.htm";
+
+
+    /**
+     * 主页
+     */
+    public static final String ITAPM_GO_INDEX="/itapm/";
+
+    /**
+     * 查询页
+     *
+     */
+    public static final String ITAPM_GO_SEARCH="/itapm/go_search.htm";
+
+    /**
+     * 接口明细
+     *
+     */
+    public static final String ITAPM_GO_INTERFACE_DETAIL="/itapm/go_interface_detail.htm";
 }

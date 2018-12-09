@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
 
-    @RequestMapping(value = UrlPathConstants.ITAPM_GO_LOGIN,method={RequestMethod.GET})
-    public String login(User user){
-        return TemplatePathConstants.LOGIN_PAGE;
+    @RequestMapping(value = UrlPathConstants.ITAPM_GO_INDEX,method={RequestMethod.GET})
+    public String login(){
+        return TemplatePathConstants.INDEX;
     }
 }
