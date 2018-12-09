@@ -1,4 +1,4 @@
-package com.gitee.itapm.runner;
+package com.gitee.itapm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
