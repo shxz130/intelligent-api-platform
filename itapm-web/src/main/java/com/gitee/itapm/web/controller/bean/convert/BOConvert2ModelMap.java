@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class BOConvert2ModelMap {
 
-    public static Map<String,Object> convertSearchResp(SearchResp searchResp){
+    public static Map<String,Object> convertSearchResp(SeachResp searchResp){
         Map<String,Object> resultMap=new HashMap<>();
         if(searchResp==null){
             return resultMap;
