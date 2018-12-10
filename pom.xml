@@ -133,7 +133,7 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>2.0.0.RELEASE</version>
                     <configuration>
-                        <fork>true</fork>
+                        <skip>true</skip>
                         <mainClass>com.gitee.itapm.Application</mainClass>
                     </configuration>
 
