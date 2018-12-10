@@ -3,7 +3,7 @@ package com.gitee.itapm.web.utils;
 /**
  * Created by jetty on 2018/12/9.
  */
-public class UrlPathConstants {
+public final class UrlPathConstants {
 
     /**
      *  查询系统列表
