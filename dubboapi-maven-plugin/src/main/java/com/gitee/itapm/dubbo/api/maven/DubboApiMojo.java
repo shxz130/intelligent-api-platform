@@ -1,6 +1,12 @@
 package com.gitee.itapm.dubbo.api.maven;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -9,23 +15,15 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-
-import javax.annotation.Resource;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
+import org.apache.maven.project.artifact.MavenMetadataSource;
 
 
 import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * Created by jetty on 2018/12/9.
@@ -33,7 +31,7 @@ import java.util.jar.JarFile;
 @Mojo(name = "dubbo-api")
 public class DubboApiMojo extends AbstractMojo {
 
-    private final static String classLocation = System.getProperty("user.dir") ;
+    private final static String classPath = System.getProperty("user.dir") ;
 
     @Parameter(defaultValue = "${project}", readonly = true)
     private MavenProject project;
@@ -41,33 +39,197 @@ public class DubboApiMojo extends AbstractMojo {
     @Component
     private MavenProjectHelper projectHelper;
 
+    private URLClassLoader urlClassLoader;
 
+    private Set<String> classFilePathSet;
+
+    private Set<String> jarFilePathSet;
+
+
+    public DubboApiMojo() {
+    }
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
 
         try{
-            List<File> jarFileList=new ArrayList<File>();
-            getAllJarFile(new File(classLocation), jarFileList);
-            URL[] urls=convertFile2UrlArray(jarFileList);
-
-            URLClassLoader classLoader=URLClassLoader.newInstance(urls,DubboApiMojo.class.getClassLoader());
-        /*    for(int i=1;i<urls.length;i++){
-                loadJar(classLoader,urls[i]);
-            }*/
-            List<String> javaFileStringList=new ArrayList<String>();
-            getAllJavaFile(new File(classLocation),javaFileStringList);
-            List<Class> classList=convertJavaFile2Class(javaFileStringList,classLoader);
-
+            if(project.getPackaging().equals("pom")){
+                return;
+            }
+            getLog().debug(String.format("class路径全名为[%s]",classPath));
+            initClassLoader();
+            generateApi();
         }catch (Exception e){
-            getLog().info(e);
+            getLog().error(e);
         }
 
     }
 
+    private void generateApi(){
+
+      try {
+          for(String className:classFilePathSet){
+              try {
+                  className = className.split("(classes/)|(!/)")[1];
+                  className = className.replace("/", ".").replace(".class", "");
+                  Class clazz = Class.forName(className, true, urlClassLoader);
+                  getLog().info(className);
+              }catch (Exception e){
+                  e.printStackTrace();
+              }
+          }
+      } catch (Exception e) {
+          throw new RuntimeException(e);
+      }
+  }
+
+
+
+  public void initClassLoader() {
+      File dependencyClassPathFile = new File(project.getBuild().getOutputDirectory());
+      getLog().debug(String.format("输出全路径为:[%s]", project.getBuild().getOutputDirectory()));
+      String packageType = project.getPackaging();
+      try {
+          urlClassLoader = new URLClassLoader(new URL[]{dependencyClassPathFile.toURI().toURL()}, DubboApiMojo.class.getClassLoader());
+      } catch (Exception e) {
+          throw new RuntimeException(e);
+      }
+      if ("war".equals(packageType)) {
+          String libPath = project.getBuild().getDirectory() + File.separator + project.getBuild().getFinalName() +
+                  File.separator + "WEB-INFO" + File.separator + "lib";
+          List<File> jarFileList = new ArrayList<File>();
+          getAllJarFile(new File(libPath), jarFileList);
+          loadAllFileToClassLoader(jarFileList);
+      }
+
+      loadAllFileToClassLoader(getAllJavaDependencyFileSet());
+
+      //如果是SpringBBoot 多module工程，从子module的target目录下获取lib和classes
+      Set<File> files = getAllModuleTargetLibAndClassFile();
+      loadAllFileToClassLoader(files);
+
+  }
+
+
+
+    public Set<File> getAllModuleTargetLibAndClassFile(){
+          List<String> classesPathList=getAllModuleClassesFileList();
+          classFilePathSet=new HashSet<String>(classesPathList);
+          jarFilePathSet=new HashSet<String>(classesPathList);
+          List<String> jarFilePathList=getAllModuleJarFileList();
+          jarFilePathSet.addAll(jarFilePathList);
+          Set<File> resultSet=new HashSet<File>();
+          Set<String> tempSet=new HashSet<String>();
+          tempSet.addAll(classesPathList);
+          tempSet.addAll(jarFilePathList);
+          for(String filePath:tempSet){
+              resultSet.add(new File(filePath));
+          }
+          return resultSet;
+  }
+
+  /**
+   * 获取所有.class文件
+   * @return
+   */
+    public List<String> getAllModuleClassesFileList() {
+        List<String> classesFilePathList = new ArrayList<String>();
+        classesFilePathList.addAll(getProjectClassesFilePathList(project, "target" + File.separator + "classes"));
+        if (project.getCollectedProjects() != null) {
+            List<MavenProject> list = project.getCollectedProjects();
+            for (MavenProject mavenProject : list) {
+                classesFilePathList.addAll(getProjectClassesFilePathList(mavenProject, "target" + File.separator + "classes"));
+                if (mavenProject.getCollectedProjects() != null) {
+                    List<MavenProject> mavenProjects = mavenProject.getCollectedProjects();
+                    for (MavenProject mp : mavenProjects) {
+                        classesFilePathList.addAll(getProjectClassesFilePathList(mavenProject, "target" + File.separator + "classes"));
+                    }
+                }
+            }
+        }
+        return classesFilePathList;
+    }
+
+    /**
+     * 获取SpringBoot应用程序的jar包
+     *
+     * @return
+     */
+    public List<String> getAllModuleJarFileList(){
+        String key= "target" + File.separator + "BOOT-INF"+File.separator;
+        List<String> jarFilePathList=new ArrayList<String>();
+        jarFilePathList.addAll(getProjectJarFilePathList(project, key));
+        if (project.getCollectedProjects() != null) {
+            List<MavenProject> list = project.getCollectedProjects();
+            for (MavenProject mavenProject : list) {
+                jarFilePathList.addAll(getProjectJarFilePathList(mavenProject, key));
+                if (mavenProject.getCollectedProjects() != null) {
+                    List<MavenProject> mavenProjects = mavenProject.getCollectedProjects();
+                    for (MavenProject mp : mavenProjects) {
+                        jarFilePathList.addAll(getProjectJarFilePathList(mavenProject, key));
+                    }
+                }
+            }
+        }
+        return jarFilePathList;
+    }
+
+    public List<String> getProjectJarFilePathList(MavenProject project,String path){
+        List<String> fileStringList=new ArrayList<String>();
+        String filePath=project.getBasedir().getAbsoluteFile().getPath();
+        String targetFilePath=filePath+File.separator+path;
+        getAllEndWithTypeFile(new File(targetFilePath), ".jar", fileStringList);
+        return fileStringList;
+    }
+
+
+
+    public List<String> getProjectClassesFilePathList(MavenProject project,String path){
+        List<String> fileStringList=new ArrayList<String>();
+        String filePath=project.getBasedir().getAbsoluteFile().getPath();
+        String targetFilePath=filePath+File.separator+path;
+        getAllEndWithTypeFile(new File(targetFilePath), ".class", fileStringList);
+        return fileStringList;
+    }
+
+
+
+
+    private Set<File> getAllJavaDependencyFileSet(){
+        Set<File> fileSet=new HashSet();
+        Set<Artifact> artifactList=null;
+        try{
+            Field field=project.getClass().getDeclaredField("resolvedArtifacts");
+            field.setAccessible(true);
+            artifactList=(Set<Artifact>)field.get(project);
+        }catch (Exception e){
+            getLog().error(e);
+            return fileSet;
+        }
+
+        for(Artifact artifact: artifactList){
+            if(artifact.getFile()==null){
+                break;
+            }
+            fileSet.add(artifact.getFile());
+        }
+        return fileSet;
+    }
+
+
+
+    private void loadAllFileToClassLoader(Collection<File> jarFileCollection){
+        for(File jarFile: jarFileCollection){
+            try {
+                loadJar(urlClassLoader, jarFile.toURI().toURL());
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     public void loadJar(URLClassLoader urlClassLoader,URL targetUrl){
-
         boolean isLoader = false;
         for (URL url : urlClassLoader.getURLs()) {
             if (url.equals(targetUrl)) {
@@ -89,7 +251,7 @@ public class DubboApiMojo extends AbstractMojo {
     }
 
 
-    public List<Class> convertJavaFile2Class(List<String>  javaFileStringList,URLClassLoader classLoader){
+    /*public List<Class> convertJavaFile2Class(List<String>  javaFileStringList,URLClassLoader classLoader){
         List<Class> classList=new ArrayList<Class>();
         for(String name: javaFileStringList){
             try{
@@ -103,27 +265,22 @@ public class DubboApiMojo extends AbstractMojo {
             }
         }
         return classList;
-    }
-
- /*   public URL getApplicationUrl(URL[] urls){
-        for(URL url:urls){
-            if(url.getPath().contains("runner"))
-        }
     }*/
 
-    public void getAllJavaFile(File file,List<String> fileNameList){
+
+    public void getAllEndWithTypeFile(File file,String type,List<String> fileNameList){
         if(file.isDirectory()){
             for(File fileTemp:file.listFiles()){
-                getAllJavaFile(fileTemp,fileNameList);
+                getAllEndWithTypeFile(fileTemp,type, fileNameList);
             }
         }else{
-            if(file.getAbsolutePath().endsWith(".java")){
+            if(file.getAbsolutePath().endsWith(type)){
                 fileNameList.add(file.getAbsolutePath());
             }
         }
     }
 
-    public void getAllJarFile(File file,List<File> jarFileList){
+    public void getAllJarFile(File file, List<File> jarFileList){
         if(file.isDirectory()){
             for(File fileTemp:file.listFiles()){
                 getAllJarFile(fileTemp, jarFileList);
@@ -150,13 +307,11 @@ public class DubboApiMojo extends AbstractMojo {
     }
 
 
-    public static void generateApi(){
 
-        URL[] urls;
+    /*public static void generateApi(){
+
+
         try {
-            urls = new URL[] { new URL("file:" + classLocation) };
-            URLClassLoader loader = new URLClassLoader(urls);
-
 
             String className = urls[0].getPath();
             className = className.split("(classes/)|(!/)")[1];
@@ -169,7 +324,7 @@ public class DubboApiMojo extends AbstractMojo {
             throw new RuntimeException(e);
         }
     }
-
+*/
 
 
 

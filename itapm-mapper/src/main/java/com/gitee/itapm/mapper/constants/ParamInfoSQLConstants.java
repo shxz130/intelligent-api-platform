@@ -5,6 +5,8 @@ package com.gitee.itapm.mapper.constants;
  */
 public class ParamInfoSQLConstants {
 
+    public static final String TABLE_NAME="t_itapm_param_info";
+
     public static final String QUERY_TABLE_PARAMS=
                     "id as id," +
                     "type as type," +
@@ -26,11 +28,15 @@ public class ParamInfoSQLConstants {
                     "param_name,param_type,param_length,required,default_value," +
                     "param_description,example,create_time,update_time ";
 
+    public static final String QUERY_BY_INTERFACE_DETAIL_ID_AND_PARENT_ID_IS_NULL="";
 
     public static final String INSERT_SQL=
-            "insert into t_itapm_interface_detail("+
+            "insert into "+TABLE_NAME+"("+
                     INSERT_PARAM+") values("+
                     "#{id},#{type},#{parentId},#{interfaceDetailId}," +
                     "#{paramName},#{paramType},#{paramLength},#{required},#{defaultValue}" +
                     ",#{paramDescription},#{example},now(),now())";
+
+
+
 }
