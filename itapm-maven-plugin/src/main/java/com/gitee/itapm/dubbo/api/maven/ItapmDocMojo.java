@@ -1,12 +1,6 @@
 package com.gitee.itapm.dubbo.api.maven;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -15,7 +9,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-import org.apache.maven.project.artifact.MavenMetadataSource;
 
 
 import java.io.File;
@@ -28,8 +21,8 @@ import java.util.*;
 /**
  * Created by jetty on 2018/12/9.
  */
-@Mojo(name = "dubbo-api")
-public class DubboApiMojo extends AbstractMojo {
+@Mojo(name = "generate-doc")
+public class ItapmDocMojo extends AbstractMojo {
 
     private final static String classPath = System.getProperty("user.dir") ;
 
@@ -46,7 +39,7 @@ public class DubboApiMojo extends AbstractMojo {
     private Set<String> jarFilePathSet;
 
 
-    public DubboApiMojo() {
+    public ItapmDocMojo() {
     }
 
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -90,7 +83,7 @@ public class DubboApiMojo extends AbstractMojo {
       getLog().debug(String.format("输出全路径为:[%s]", project.getBuild().getOutputDirectory()));
       String packageType = project.getPackaging();
       try {
-          urlClassLoader = new URLClassLoader(new URL[]{dependencyClassPathFile.toURI().toURL()}, DubboApiMojo.class.getClassLoader());
+          urlClassLoader = new URLClassLoader(new URL[]{dependencyClassPathFile.toURI().toURL()}, ItapmDocMojo.class.getClassLoader());
       } catch (Exception e) {
           throw new RuntimeException(e);
       }
