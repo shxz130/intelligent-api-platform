@@ -16,6 +16,7 @@
         <module>itapm-web</module>
         <module>itapm-runner</module>
         <module>itapm-maven-plugin</module>
+        <module>itapm-annotations</module>
     </modules>
 
     <properties>
