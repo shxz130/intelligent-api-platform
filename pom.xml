@@ -151,7 +151,7 @@
 
     <profiles>
         <profile>
-            <id>generate-api-doc</id>
+            <id>generate-doc</id>
             <build>
                 <plugins>
                     <plugin>
@@ -160,10 +160,10 @@
                         <version>1.0-SNAPSHOT</version>
                         <executions>
                             <execution>
-                                <id>generate-dubbo-api</id>
+                                <id>generate-doc</id>
                                 <phase>install</phase>
                                 <goals>
-                                    <goal>dubbo-api</goal>
+                                    <goal>generate-doc</goal>
                                 </goals>
                             </execution>
                         </executions>

@@ -4,9 +4,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
@@ -22,6 +20,7 @@ import java.util.*;
  * Created by jetty on 2018/12/9.
  */
 @Mojo(name = "generate-doc")
+@Execute(goal = "generate-doc", phase = LifecyclePhase.COMPILE)
 public class ItapmDocMojo extends AbstractMojo {
 
     private final static String classPath = System.getProperty("user.dir") ;
@@ -298,97 +297,4 @@ public class ItapmDocMojo extends AbstractMojo {
         return urls;
 
     }
-
-
-
-    /*public static void generateApi(){
-
-
-        try {
-
-            String className = urls[0].getPath();
-            className = className.split("(classes/)|(!/)")[1];
-            className = className.replace("/", ".").replace(".class", "");
-            Object obj = Class.forName(className);
-
-            Class<?> c = loader.loadClass(className);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-*/
-
-
-
-
-
-   /* public void compilerJavaCode() throws MojoExecutionException, MojoFailureException {
-
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(
-                null, null, null);
-        List<String> javaSourcePaths=getJavaSourcePaths(project);
-
-
-        String[] array=javaSourcePaths.toArray(new String[javaSourcePaths.size()]);
-        List<String> javaFileList=new ArrayList<String>();
-        for(String javaDirectoryString : array){
-            try{
-               getAllJavaFile(new File(javaDirectoryString), javaFileList);
-                File file=new File(classLocation);
-                file.mkdir();
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }
-        Iterable<? extends JavaFileObject> sourcefiles = fileManager.getJavaFileObjects(javaFileList.toArray(new String[javaFileList.size()]));
-        Iterable<String> options = Arrays.asList("-d", classLocation);
-        compiler.getTask(null, fileManager, null, options, null, sourcefiles)
-                .call();
-        try {
-            fileManager.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    private List<String> getJavaSourcePathWithOutCollected(MavenProject mp){
-        return mp.getCompileSourceRoots();
-    }
-
-
-    private List<String> getJavaSourcePaths(MavenProject mavenProjectParam) {
-        List<String> compileSourceRootList = new ArrayList<String>();
-        compileSourceRootList.addAll(getJavaSourcePathWithOutCollected(mavenProjectParam));
-        if (mavenProjectParam.getCollectedProjects() != null) {
-            List<MavenProject> list = mavenProjectParam.getCollectedProjects();
-            for (MavenProject mavenProject : list) {
-                compileSourceRootList.addAll(getJavaSourcePathWithOutCollected(mavenProject));
-                if (mavenProject.getCollectedProjects() != null) {
-                    List<MavenProject> mavenProjects = mavenProject.getCollectedProjects();
-                    for (MavenProject mp : mavenProjects) {
-                        compileSourceRootList.addAll(getJavaSourcePathWithOutCollected(mp));
-                    }
-                }
-            }
-        }
-        return compileSourceRootList;
-    }
-
-
-    public void getAllJavaFile(File file,List<String> fileNameList){
-        if(file.isDirectory()){
-            for(File fileTemp:file.listFiles()){
-                getAllJavaFile(fileTemp,fileNameList);
-            }
-        }else{
-            if(file.getAbsolutePath().endsWith(".java")){
-                fileNameList.add(file.getAbsolutePath());
-            }
-        }
-    }*/
-
-
 }
