@@ -1,6 +1,5 @@
 package com.gitee.itapm.web.controller.bean.convert;
 
-import com.gitee.itapm.core.handle.bean.SearchResp;
 
 import java.util.HashMap;
 import java.util.Map;
