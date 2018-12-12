@@ -17,6 +17,7 @@
         <module>itapm-runner</module>
         <module>itapm-maven-plugin</module>
         <module>itapm-annotations</module>
+        <module>itapm-paser</module>
     </modules>
 
     <properties>
@@ -30,6 +31,7 @@
         <apache-common.version>2.6</apache-common.version>
         <guava.version>21.0</guava.version>
         <lombok.version>1.16.20</lombok.version>
+        <junit.version>4.10</junit.version>
     </properties>
 
     <parent>
@@ -120,6 +122,12 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
             </dependency>
 
         </dependencies>

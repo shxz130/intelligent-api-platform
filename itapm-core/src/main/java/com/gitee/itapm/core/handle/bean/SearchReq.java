@@ -1,6 +1,6 @@
 package com.gitee.itapm.core.handle.bean;
 
-import com.gitee.itapm.core.handle.parent.bean.BaseBO;
+import com.gitee.itapm.service.bean.parent.BaseBO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

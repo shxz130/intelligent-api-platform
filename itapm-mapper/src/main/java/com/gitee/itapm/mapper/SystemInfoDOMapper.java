@@ -18,7 +18,7 @@ public interface SystemInfoDOMapper {
 
 
 
-    @Select(SystemInfoSQLConstants.QUERY_BY_ID)
-    public SystemInfoDO queryById(@Param("id")Integer id);
+    @Select(SystemInfoSQLConstants.QUERY_BY_NAME)
+    public SystemInfoDO queryByEnName(@Param("enName")String enName);
 
 }

@@ -59,6 +59,12 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.gitee.itapm</groupId>
+      <artifactId>itapm-paser</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
 
   </dependencies>
 </project>

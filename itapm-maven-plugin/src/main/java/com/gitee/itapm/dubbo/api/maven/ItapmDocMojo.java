@@ -1,5 +1,9 @@
 package com.gitee.itapm.dubbo.api.maven;
 
+import com.gitee.itapm.paser.ClassParseEngine;
+import com.gitee.itapm.paser.bean.ApiDoc;
+import com.gitee.itapm.paser.bean.Catagory;
+import com.gitee.itapm.paser.bean.Document;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -37,6 +41,12 @@ public class ItapmDocMojo extends AbstractMojo {
 
     private Set<String> jarFilePathSet;
 
+    @Parameter(readonly = true, defaultValue = "${system.enname}")
+    private String systemEnName;
+
+    @Parameter(readonly = true, defaultValue = "${system.chname}")
+    private String SystemChName;
+
 
     public ItapmDocMojo() {
     }
@@ -48,32 +58,46 @@ public class ItapmDocMojo extends AbstractMojo {
             if(project.getPackaging().equals("pom")){
                 return;
             }
-            getLog().debug(String.format("class路径全名为[%s]",classPath));
             initClassLoader();
-            generateApi();
+            Document document=generateDocument();
+            write(document);
         }catch (Exception e){
             getLog().error(e);
         }
-
     }
 
-    private void generateApi(){
+    private void write(Document document){
+        getLog().info(String.format("最终生成的doc文档格式如下：%s",document));
+    }
 
-      try {
-          for(String className:classFilePathSet){
-              try {
+
+    private Document generateDocument(){
+        List<Class> classList=getAllNeedParseClass();
+        List<Catagory> catagoryList= ClassParseEngine.parse(classList);
+        return new Document(systemEnName,SystemChName,catagoryList);
+    }
+
+      private List<Class>  getAllNeedParseClass(){
+          List<Class> classList=new ArrayList<Class>();
+          List<String> classNameList=new ArrayList<String>();
+          String currentClassName=null;
+          try {
+              for(String className:classFilePathSet){
                   className = className.split("(classes/)|(!/)")[1];
                   className = className.replace("/", ".").replace(".class", "");
+                  classNameList.add(className);
+                  currentClassName=className;
                   Class clazz = Class.forName(className, true, urlClassLoader);
-                  getLog().info(className);
-              }catch (Exception e){
-                  e.printStackTrace();
+                  classList.add(clazz);
               }
+          } catch (Exception e) {
+              getLog().info(String.format("解析的所有class文件如下：%s",classList));
+              getLog().error(String.format("加载出错的class为%s",currentClassName));
+              throw new RuntimeException(e);
           }
-      } catch (Exception e) {
-          throw new RuntimeException(e);
+          getLog().info(String.format("解析的所有class文件如下：",classList));
+          return classList;
       }
-  }
 
 
 
@@ -99,7 +123,7 @@ public class ItapmDocMojo extends AbstractMojo {
       //如果是SpringBBoot 多module工程，从子module的target目录下获取lib和classes
       Set<File> files = getAllModuleTargetLibAndClassFile();
       loadAllFileToClassLoader(files);
-
+      Thread.currentThread().setContextClassLoader(urlClassLoader);
   }
 
 

@@ -1,6 +1,6 @@
 package com.gitee.itapm.core.handle.parent;
 
-import com.gitee.itapm.core.handle.parent.bean.BaseBO;
+import com.gitee.itapm.service.bean.parent.BaseBO;
 
 import java.util.HashMap;
 import java.util.Map;

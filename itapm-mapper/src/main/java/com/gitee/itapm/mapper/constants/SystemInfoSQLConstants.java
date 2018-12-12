@@ -27,7 +27,7 @@ public final class SystemInfoSQLConstants {
                     "#{status},now(),now())";
 
 
-    public static final String QUERY_BY_ID =
-            "select " + QUERY_TABLE_PARAMS + " t_itapm_system_info where id = " +
-                    "(#{id}";
+    public static final String QUERY_BY_NAME =
+            "select " + QUERY_TABLE_PARAMS + " t_itapm_system_info where en_name = " +
+                    "(#{enName}";
 }

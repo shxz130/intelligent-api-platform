@@ -32,4 +32,12 @@ public final class UrlPathConstants {
      *
      */
     public static final String ITAPM_GO_INTERFACE_DETAIL="/itapm/go_interface_detail.htm";
+
+    /**
+     * api接口推送documents地址
+     *
+     *
+     */
+    public static final String ITAPM_API_PUSH_URL="/itapm/api/push.json";
+
 }

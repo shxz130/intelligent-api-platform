@@ -1,4 +1,4 @@
-package com.gitee.itapm.core.handle.parent.bean;
+package com.gitee.itapm.service.bean.parent;
 
 /**
  * Created by jetty on 2018/12/9.
