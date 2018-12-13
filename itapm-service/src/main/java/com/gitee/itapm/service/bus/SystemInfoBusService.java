@@ -19,6 +19,14 @@ public class SystemInfoBusService {
         SystemInfoBO systemInfoBO=systemInfoService.queryByEnName(systemEnName);
         if(systemInfoBO==null){
             systemInfoBO = systemInfoService.persist(systemEnName,systemChName);
+        }else{
+            SystemInfoBO systemInfotemp=new SystemInfoBO();
+            systemInfotemp.setChName(systemChName);
+            systemInfotemp.setEnName(systemEnName);
+            if(!systemInfotemp.equals(systemInfoBO)){
+                systemInfotemp.setId(systemInfoBO.getId());
+                systemInfoService.updateById(systemInfotemp);
+            }
         }
        return systemInfoBO;
    }

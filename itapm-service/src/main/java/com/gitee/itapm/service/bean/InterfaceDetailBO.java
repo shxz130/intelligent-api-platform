@@ -3,6 +3,7 @@ package com.gitee.itapm.service.bean;
 import com.gitee.itapm.mapper.bean.parent.AbstractDO;
 import com.gitee.itapm.service.bean.parent.BaseBO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Data
 @ToString
+@EqualsAndHashCode(exclude = {"id","createTime","updateTime"})
 public class InterfaceDetailBO extends BaseBO{
 
     private Integer id;

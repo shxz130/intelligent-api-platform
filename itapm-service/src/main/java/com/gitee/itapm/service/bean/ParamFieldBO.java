@@ -1,6 +1,7 @@
 package com.gitee.itapm.service.bean;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"id","createTime","updateTime"})
 public class ParamFieldBO {
 
     private Integer id;

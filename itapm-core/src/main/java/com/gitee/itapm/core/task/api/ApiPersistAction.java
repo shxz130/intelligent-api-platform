@@ -42,12 +42,26 @@ public class ApiPersistAction {
     private ParamTypeRefGenericBusService paramTypeRefGenericBusService;
 
     public void handle(Document document){
+        //初始化系统信息 增加，修改
         SystemInfoBO systemInfoBO=systemInfoBusService.persist(document.getSystemEnName(), document.getSystemChName());
+        //初始化版本信息
         SystemVersionBO systemVersionBO=systemVersionBusService.persist(systemInfoBO, document.getVersion());
 
+        List<InterfaceCatagoryBO> catagoryList=interfaceCatagoryBusService.queryBySystemVersionId(systemVersionBO.getId());
+
         for(Catagory catagory:document.getCatagoryList()){
-           InterfaceCatagoryBO interfaceCatagoryBO= interfaceCatagoryBusService.persist(systemVersionBO.getId(), catagory.getCatagoryName());
+            //接口分类处理
+            InterfaceCatagoryBO interfaceCatagoryBO= interfaceCatagoryBusService.persist(systemVersionBO.getId(), catagory.getCatagoryName());
+            //接口文档处理
             handleApiDoc(systemVersionBO, interfaceCatagoryBO, catagory.getApiDocList());
+
+            catagoryList.remove(catagory);
+        }
+        //删除系统没有的分类
+        for(InterfaceCatagoryBO interfaceCatagoryBO:catagoryList){
+
+            interfaceCatagoryBusService.deleteById(interfaceCatagoryBO.getId());
+
         }
 
     }
@@ -56,24 +70,32 @@ public class ApiPersistAction {
         if(CollectionUtils.isEmpty(apiDocList)){
             return;
         }
+        //查询数据库所有该分类的接口信息
         List<InterfaceDetailBO> currentSystemInterfaceDetailList=interfaceDetailBusService.queryByCatagoryId(interfaceCatagoryBO.getId());
+
         for(ApiDoc apiDoc:apiDocList){
             //处理泛型
             handleGeneric(systemVersionBO,apiDoc,apiDoc.getGenericParameterList());
-            //接口明细落库
+            //接口明细落库 插入，修改
             InterfaceDetailBO interfaceDetailBO=interfaceDetailBusService.persist(convertApiDoc2InterfaceDetail(systemVersionBO, interfaceCatagoryBO, apiDoc));
+            //参数类型处理
             handleParamType(interfaceDetailBO, apiDoc);
+            //
             currentSystemInterfaceDetailList.remove(interfaceDetailBO);
         }
+        //删除数据库老的接口信息（注释去掉的哪些）
         for(InterfaceDetailBO interfaceDetailBO:currentSystemInterfaceDetailList){
             interfaceDetailBusService.deleteById(interfaceDetailBO.getId());
         }
     }
 
     private void handleGeneric(SystemVersionBO systemVersionBO,ApiDoc apiDoc,List<Parameter> parameterList){
+
         if(!CollectionUtils.isEmpty(parameterList)){
             for(Parameter parameter:parameterList){
+                //保存
                 ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
+                //查询数据库所有记录
                 List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramGenericType.getId());
                 //所有数据落库
                 if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
@@ -87,6 +109,8 @@ public class ApiPersistAction {
                         paramFieldDBBOList.remove(paramFieldBO);
                     }
                 }
+
+                //删除去掉的属性
                 for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
                     paramFieldBusService.deleteById(paramFieldBO.getId());
                 }
@@ -94,11 +118,18 @@ public class ApiPersistAction {
         }
     }
 
-
     private void handleParamType(InterfaceDetailBO interfaceDetailBO,ApiDoc apiDoc){
-        List<Parameter> reqParamList= apiDoc.getReqParamList();
-        for(Parameter parameter: reqParamList){
-            ParamTypeBO paramTypeBO=paramTypeBusService.persist(interfaceDetailBO.getId(), parameter.getName(),ParamTypeBO.RESOURCE_REQ);
+        dealParamList(interfaceDetailBO, apiDoc.getReqParamList(), ParamTypeBO.RESOURCE_REQ);
+        dealParamList(interfaceDetailBO, apiDoc.getRespParamList(), ParamTypeBO.RESOURCE_RESP);
+    }
+
+    private void dealParamList(InterfaceDetailBO interfaceDetailBO,List<Parameter> parameterList,String type){
+
+        if(CollectionUtils.isEmpty(parameterList)){
+            return;
+        }
+        for(Parameter parameter: parameterList){
+            ParamTypeBO paramTypeBO=paramTypeBusService.persist(interfaceDetailBO.getId(), parameter.getName(),type);
             List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramTypeBO.getId());
             if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
                 for(ParamField paramField:parameter.getParamFieldList()){
@@ -115,25 +146,7 @@ public class ApiPersistAction {
             for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
                 paramFieldBusService.deleteById(paramFieldBO.getId());
             }
-
         }
-
-
-    }
-
-
-    private void handleParamField(Parameter parameter){
-        if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
-            for(ParamField paramField: parameter.getParamFieldList()){
-                paramFieldBusService.persist(convertToParamFieldBO(paramField));
-                handleGenericType(paramField, paramField.getRefGenericClassNameList());
-            }
-        }
-
-    }
-
-    private void handleGenericType(ParamField paramField,List<String> string){
-
     }
 
 
@@ -166,13 +179,13 @@ public class ApiPersistAction {
     }
 
     private void handleRefGeneric(Integer systemVersionId ,ParamTypeBO paramTypeBO,List<String> genericClassList){
-        if(!CollectionUtils.isEmpty(genericClassList)){
-            for(String classsName:genericClassList){
-                ParamGenericTypeBO paramGenericTypeBO=paramGenericTypeBusService.queryBySystemVersionIdAndName(systemVersionId,classsName);
-                paramTypeRefGenericBusService.persist(paramTypeBO.getId(),paramGenericTypeBO.getId());
-            }
+        if(CollectionUtils.isEmpty(genericClassList)){
+           return;
         }
-
+        for(String classsName:genericClassList){
+            ParamGenericTypeBO paramGenericTypeBO=paramGenericTypeBusService.queryBySystemVersionIdAndName(systemVersionId,classsName);
+            paramTypeRefGenericBusService.persist(paramTypeBO.getId(),paramGenericTypeBO.getId());
+        }
     }
 
 

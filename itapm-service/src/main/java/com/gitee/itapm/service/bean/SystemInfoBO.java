@@ -4,6 +4,7 @@ import com.gitee.itapm.mapper.bean.parent.AbstractDO;
 import com.gitee.itapm.service.bean.parent.BaseBO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"id","createTime","updateTime"})
 public class SystemInfoBO extends BaseBO {
 
     private Integer id;

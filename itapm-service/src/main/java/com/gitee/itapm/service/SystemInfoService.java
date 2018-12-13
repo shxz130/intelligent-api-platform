@@ -11,4 +11,6 @@ public interface SystemInfoService {
     public SystemInfoBO persist(String enName,String chName);
 
     public SystemInfoBO queryByEnName(String enName);
+
+    public void updateById(SystemInfoBO systemInfoBO);
 }
