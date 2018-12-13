@@ -91,29 +91,30 @@ public class ApiPersistAction {
 
     private void handleGeneric(SystemVersionBO systemVersionBO,ApiDoc apiDoc,List<Parameter> parameterList){
 
-        if(!CollectionUtils.isEmpty(parameterList)){
-            for(Parameter parameter:parameterList){
-                //保存
-                ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
-                //查询数据库所有记录
-                List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramGenericType.getId());
-                //所有数据落库
-                if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
-                    for(ParamField paramField:parameter.getParamFieldList()){
-                        ParamFieldBO insertBO= convertToParamFieldBO(paramField);
-                        if(paramFieldDBBOList.contains(insertBO)){
-                            paramFieldDBBOList.remove(insertBO);
-                            continue;
-                        }
-                        ParamFieldBO paramFieldBO=paramFieldBusService.persist(insertBO);
-                        paramFieldDBBOList.remove(paramFieldBO);
+        if(CollectionUtils.isEmpty(parameterList)){
+           return;
+        }
+        for(Parameter parameter:parameterList){
+            //保存
+            ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
+            //查询数据库所有记录
+            List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramGenericType.getId());
+            //所有数据落库
+            if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
+                for(ParamField paramField:parameter.getParamFieldList()){
+                    ParamFieldBO insertBO= convertToParamFieldBO(paramField);
+                    if(paramFieldDBBOList.contains(insertBO)){
+                        paramFieldDBBOList.remove(insertBO);
+                        continue;
                     }
+                    ParamFieldBO paramFieldBO=paramFieldBusService.persist(insertBO);
+                    paramFieldDBBOList.remove(paramFieldBO);
                 }
+            }
 
-                //删除去掉的属性
-                for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
-                    paramFieldBusService.deleteById(paramFieldBO.getId());
-                }
+            //删除去掉的属性
+            for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
+                paramFieldBusService.deleteById(paramFieldBO.getId());
             }
         }
     }
