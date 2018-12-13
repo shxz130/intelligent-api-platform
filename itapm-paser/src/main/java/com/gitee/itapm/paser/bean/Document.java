@@ -18,6 +18,10 @@ public class Document {
 
     private String systemChName;
 
+    private String version;
+
     private List<Catagory> catagoryList;
+
+
 
 }

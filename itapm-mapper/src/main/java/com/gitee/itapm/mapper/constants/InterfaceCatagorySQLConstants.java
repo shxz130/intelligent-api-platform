@@ -5,6 +5,8 @@ package com.gitee.itapm.mapper.constants;
  */
 public class InterfaceCatagorySQLConstants {
 
+    private static final String TABLE_NAME="t_itapm_interface_catagory";
+
     public static final String QUERY_TABLE_PARAMS=
             "id as id," +
                     "system_id as systemId, " +
@@ -21,9 +23,14 @@ public class InterfaceCatagorySQLConstants {
 
 
     public static final String INSERT_SQL=
-            "insert into t_itapm_interface_detail("+
+            "insert into "+TABLE_NAME+"("+
                     INSERT_PARAM+") values("+
                     "#{id},#{systemId}," +
                     "#{name},#{status}," +
                     "now(),now())";
+
+
+    public static final String QUERY_BY_SYSTEM_ID=
+            "select "+QUERY_TABLE_PARAMS+" from "+TABLE_NAME+
+                    "where system_id=#{systemId}";
 }

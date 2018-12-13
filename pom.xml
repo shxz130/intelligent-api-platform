@@ -18,6 +18,7 @@
         <module>itapm-maven-plugin</module>
         <module>itapm-annotations</module>
         <module>itapm-paser</module>
+        <module>itapm-test</module>
     </modules>
 
     <properties>
@@ -32,6 +33,7 @@
         <guava.version>21.0</guava.version>
         <lombok.version>1.16.20</lombok.version>
         <junit.version>4.10</junit.version>
+        <hutool.version>4.1.19</hutool.version>
     </properties>
 
     <parent>
@@ -130,6 +132,12 @@
                 <version>${junit.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -158,28 +166,5 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>generate-doc</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.gitee.itapm.maven</groupId>
-                        <artifactId>itapm-maven-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <id>generate-doc</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>generate-doc</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
 
-    </profiles>
 </project>

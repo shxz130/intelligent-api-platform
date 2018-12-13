@@ -23,7 +23,7 @@ public class Excutor {
             @Override
             public void run() {
                 ApiPersistAction apiPersistAction= (ApiPersistAction)SpringContextUtils.getBeanByName("apiPersistAction");
-                apiPersistAction.persist(document);
+                apiPersistAction.handle(document);
             }
         });
     }

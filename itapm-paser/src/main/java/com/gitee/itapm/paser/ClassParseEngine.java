@@ -64,7 +64,7 @@ public class ClassParseEngine {
         apiDoc.setRequestType(null);
         apiDoc.setStatus(dubboApi.status().toString());
         apiDoc.setType(ProtocalType.DUBBO.toString());
-        apiDoc.setCallers(dubboApi.caller().toString());
+        apiDoc.setCallers(Arrays.asList(dubboApi.caller()));
         List<Parameter> reqParameteList=ParamParseEngine.parse(method.getParameterTypes());
         apiDoc.setReqParamList(reqParameteList);
         List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()});

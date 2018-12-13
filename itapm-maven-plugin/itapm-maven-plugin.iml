@@ -85,5 +85,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:8.0.32" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:4.1.19" level="project" />
   </component>
 </module>

@@ -42,7 +42,7 @@ public class ApiDoc {
     /**
      * callers 调用方
      */
-    private String callers;
+    private List<String> callers;
 
     /**
      * 状态

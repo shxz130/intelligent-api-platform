@@ -8,5 +8,7 @@ import com.gitee.itapm.service.bean.SystemInfoBO;
 public interface SystemInfoService {
 
 
+    public SystemInfoBO persist(String enName,String chName);
+
     public SystemInfoBO queryByEnName(String enName);
 }

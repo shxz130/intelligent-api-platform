@@ -1,5 +1,7 @@
 package com.gitee.itapm.dubbo.api.maven;
 
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
 import com.gitee.itapm.paser.ClassParseEngine;
 import com.gitee.itapm.paser.bean.ApiDoc;
 import com.gitee.itapm.paser.bean.Catagory;
@@ -23,6 +25,7 @@ import java.util.*;
 /**
  * Created by jetty on 2018/12/9.
  */
+
 @Mojo(name = "generate-doc")
 @Execute(goal = "generate-doc", phase = LifecyclePhase.COMPILE)
 public class ItapmDocMojo extends AbstractMojo {
@@ -41,13 +44,17 @@ public class ItapmDocMojo extends AbstractMojo {
 
     private Set<String> jarFilePathSet;
 
-    @Parameter(readonly = true, defaultValue = "${system.enname}")
+    @Parameter(readonly = true, defaultValue = "${systemEnName}")
     private String systemEnName;
 
-    @Parameter(readonly = true, defaultValue = "${system.chname}")
-    private String SystemChName;
+    @Parameter
+    private String systemChName;
 
+    @Parameter
+    private String docBaseUrl;
 
+    @Parameter
+    private String docVersion;
     public ItapmDocMojo() {
     }
 
@@ -67,14 +74,19 @@ public class ItapmDocMojo extends AbstractMojo {
     }
 
     private void write(Document document){
-        getLog().info(String.format("最终生成的doc文档格式如下：%s",document));
+        getLog().info(String.format("最终生成的doc文档格式如下：%s", JSON.toJSONString(document)));
+        try{
+            HttpUtil.post(docBaseUrl,JSON.toJSONString(document),3000);
+        }catch (Exception e){
+            getLog().error(String.format("推送文档异常，docBaseUrl=%s",docBaseUrl),e);
+        }
     }
 
 
     private Document generateDocument(){
         List<Class> classList=getAllNeedParseClass();
         List<Catagory> catagoryList= ClassParseEngine.parse(classList);
-        return new Document(systemEnName,SystemChName,catagoryList);
+        return new Document(systemEnName,systemChName,docVersion,catagoryList);
     }
 
       private List<Class>  getAllNeedParseClass(){
