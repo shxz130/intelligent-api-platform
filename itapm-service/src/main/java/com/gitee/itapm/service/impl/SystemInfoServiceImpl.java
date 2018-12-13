@@ -22,4 +22,14 @@ public class SystemInfoServiceImpl implements SystemInfoService {
         SystemInfoDO systemInfoDO = systemInfoDOMapper.queryByEnName(enName);
         return BeanCopierUtils.copyOne2One(systemInfoDO,SystemInfoBO.class);
     }
+
+    @Override
+    public SystemInfoBO persist(String enName, String chName) {
+        return null;
+    }
+
+    @Override
+    public void updateById(SystemInfoBO systemInfoBO) {
+
+    }
 }

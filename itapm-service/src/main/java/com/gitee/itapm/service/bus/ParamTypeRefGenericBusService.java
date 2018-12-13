@@ -1,8 +1,6 @@
 package com.gitee.itapm.service.bus;
 
-import com.gitee.itapm.service.ParamGenericTypeService;
 import com.gitee.itapm.service.ParamTypeRefGenericService;
-import com.gitee.itapm.service.bean.ParamGenericTypeBO;
 import com.gitee.itapm.service.bean.ParamTypeRefGenericBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
