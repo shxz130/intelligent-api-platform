@@ -163,6 +163,8 @@ public class ApiPersistAction {
         return paramFieldBO;
     }
 
+
+
     private InterfaceDetailBO convertApiDoc2InterfaceDetail(SystemVersionBO systemVersionBO,InterfaceCatagoryBO interfaceCatagoryBO,ApiDoc apiDoc){
         InterfaceDetailBO interfaceDetailBO=new InterfaceDetailBO();
         interfaceDetailBO.setCatagoryId(interfaceCatagoryBO.getId());
