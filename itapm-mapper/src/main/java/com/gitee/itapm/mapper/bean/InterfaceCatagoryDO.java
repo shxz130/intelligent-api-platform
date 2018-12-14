@@ -17,7 +17,7 @@ public class InterfaceCatagoryDO extends AbstractDO {
 
     private Integer id;
 
-    private Integer systemId;
+    private Integer systemVersionId;
 
     private String name;
 

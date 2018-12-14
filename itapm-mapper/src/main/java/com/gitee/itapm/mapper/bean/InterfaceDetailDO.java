@@ -16,7 +16,7 @@ public class InterfaceDetailDO extends AbstractDO{
 
     private Integer id;
 
-    private Integer systemId;
+    private Integer systemVersionId;
 
     private String systemName;
 
@@ -26,11 +26,23 @@ public class InterfaceDetailDO extends AbstractDO{
 
     private String address;
 
-    private String users;
+
+    private String caller;
+
+    /**
+     * 协议类型 dubbo/rest
+     */
+    private String type;
+    /**
+     * 请求类型  rest时，区分get/post
+     */
+    private String requestType;
 
     private String status;
 
     private String description;
+
+    private String memo;
 
     private Date createTime;
 
