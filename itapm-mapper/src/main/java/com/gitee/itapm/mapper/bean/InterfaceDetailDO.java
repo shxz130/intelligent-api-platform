@@ -26,7 +26,6 @@ public class InterfaceDetailDO extends AbstractDO{
 
     private String address;
 
-
     private String caller;
 
     /**

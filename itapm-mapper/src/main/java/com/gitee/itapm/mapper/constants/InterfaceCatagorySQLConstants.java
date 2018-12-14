@@ -5,7 +5,7 @@ package com.gitee.itapm.mapper.constants;
  */
 public class InterfaceCatagorySQLConstants {
 
-    private static final String TABLE_NAME="t_itapm_interface_catagory";
+    private static final String TABLE_NAME="t_itapm_interface_catagory ";
 
     public static final String QUERY_TABLE_PARAMS=
             "id as id," +
@@ -17,20 +17,36 @@ public class InterfaceCatagorySQLConstants {
 
 
     public static final String INSERT_PARAM=
-                    "id ,system_version_id," +
-                    "name,status," +
-                    "create_time,update_time ";
+                    "id ," +
+                    "system_version_id," +
+                    "name," +
+                    "status," +
+                    "create_time," +
+                    "update_time ";
+
+
+    public static final String BASE_SELECT= "select "+QUERY_TABLE_PARAMS+" from "+TABLE_NAME+" ";
 
 
     public static final String INSERT_SQL=
-            "insert into "+TABLE_NAME+"("+
-                    INSERT_PARAM+") values("+
-                    "#{id},#{systemVersionId}," +
-                    "#{name},#{status}," +
-                    "now(),now())";
+            "insert into "+TABLE_NAME+"("+INSERT_PARAM+") values("+
+                    "#{id}," +
+                    "#{systemVersionId}," +
+                    "#{name}," +
+                    "#{status}," +
+                    "now()," +
+                    "now())";
 
 
     public static final String QUERY_BY_SYSTEM_VERSION_ID=
-            "select "+QUERY_TABLE_PARAMS+" from "+TABLE_NAME+
-                    "where system_version_id=#{systemVersionId}";
+                    BASE_SELECT
+                    +"where " +
+                    "system_version_id=#{systemVersionId}";
+
+    public static final String QUERY_BY_SYSTEM_VERSION_ID_NAME=BASE_SELECT+
+            "where "+
+            "system_version_id=#{systemVersionId} "+
+            "name=#{name}";
+
+    public static final String DELETE_BY_ID="delete from "+TABLE_NAME+"where id=#{id}";
 }
