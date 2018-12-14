@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
  * Created by jetty on 2018/12/9.
  */
 @Configuration
-@PropertySource("file:/wls/wls81/enconfig/tacqa/env.properties")
+@PropertySource("file:/wls/wls81/envconfig/itapm/env.properties")
 public class DataSourceConfig {
 
 

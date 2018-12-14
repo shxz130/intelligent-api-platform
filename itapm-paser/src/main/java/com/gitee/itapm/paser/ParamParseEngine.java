@@ -21,7 +21,7 @@ public class ParamParseEngine {
 
     public static final Map <String,Parameter> cache=new ConcurrentHashMap<>();
 
-    public static List<Parameter> parse(Class[] classes){
+    public static List<Parameter> parse(Class[] classes,Map<String,Class> contextMap){
         List<Parameter> parameterList=new ArrayList<>();
         for(Class clazz: classes){
             Parameter cacheParameter=cache.get(clazz.getCanonicalName());
@@ -34,7 +34,7 @@ public class ParamParseEngine {
             List<ParamField> paramList=new ArrayList<>();
             for(Field field: annotationFieldList){
                 field.setAccessible(true);
-                ParamField param=convert2Param(field);
+                ParamField param=convert2Param(field,contextMap);
                 paramList.add(param);
             }
             parameterList.add(new Parameter(clazz.getCanonicalName(),paramList));
@@ -43,7 +43,7 @@ public class ParamParseEngine {
     }
 
 
-    private static ParamField convert2Param(Field field){
+    private static ParamField convert2Param(Field field,Map<String,Class> contextMap){
         ParamField param=new ParamField();
         ApiParam apiParam=field.getAnnotation(ApiParam.class);
         param.setDefaultValue(apiParam.defaultValue());
@@ -53,7 +53,7 @@ public class ParamParseEngine {
         param.setRequired(apiParam.required().toString());
         param.setType(getType(field.getGenericType().toString()));
         param.setName(field.getName());
-        param.setRefGenericClassNameList(getGenericParamTypeList(field));
+        param.setRefGenericClassNameList(getGenericParamTypeList(field,contextMap));
         return param;
     }
 
@@ -87,7 +87,7 @@ public class ParamParseEngine {
 
 
 
-    private static List<String> getGenericParamTypeList(Field field){
+    private static List<String> getGenericParamTypeList(Field field,Map<String,Class> contextMap){
         List<String> list=new ArrayList<>();
         Type type= field.getGenericType();
         if(type instanceof ParameterizedType){
@@ -96,6 +96,7 @@ public class ParamParseEngine {
             for(Type argument: types){
                 if(argument instanceof Class){
                     Class clazz=(Class)argument;
+                    contextMap.put(clazz.getCanonicalName(),clazz);
                     list.add(clazz.getCanonicalName());
                 }
             }

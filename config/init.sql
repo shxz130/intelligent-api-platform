@@ -79,7 +79,7 @@ ALTER table t_itapm_param_type add UNIQUE INDEX idx_param_detail_id_name(interfa
 
 create TABLE t_itapm_generic_param_type(
   id INT auto_increment PRIMARY  key COMMENT '主键',
-  systemVersionId int NOT NULL COMMENT '所属系统',
+  system_version_id int NOT NULL COMMENT '所属系统',
   name VARCHAR(128) NOT NULL COMMENT '泛型类型名称',
   create_time datetime COMMENT '创建时间',
   update_time datetime COMMENT '创建时间'

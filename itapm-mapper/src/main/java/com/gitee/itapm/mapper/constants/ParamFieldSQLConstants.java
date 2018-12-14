@@ -70,15 +70,15 @@ public class ParamFieldSQLConstants {
     public static final String PERSIST = "insert into "+TABLE_NAME+"("+
             BASE_INSERT_SQL+")" +
             "values(" +
-                "${paramTypeId}," +
-                "${paramName}," +
-                "${paramType}," +
-                "${paramLength}," +
-                "${required}"+
-                "${defaultValue}," +
-                "${paramDescription}," +
-                "${example}," +
-                "now(),now()";
+                "#{paramTypeId}," +
+                "#{paramName}," +
+                "#{paramType}," +
+                "#{paramLength}," +
+                "#{required},"+
+                "#{defaultValue}," +
+                "#{paramDescription}," +
+                "#{example}," +
+                "now(),now())";
 
 
     public static final String UPDATE_BY_ID ="update "+TABLE_NAME+" set "+BASE_UPDATE+" where id=#{id}";

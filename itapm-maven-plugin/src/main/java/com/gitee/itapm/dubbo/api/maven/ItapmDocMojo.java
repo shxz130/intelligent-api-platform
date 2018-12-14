@@ -278,24 +278,6 @@ public class ItapmDocMojo extends AbstractMojo {
 
     }
 
-
-    /*public List<Class> convertJavaFile2Class(List<String>  javaFileStringList,URLClassLoader classLoader){
-        List<Class> classList=new ArrayList<Class>();
-        for(String name: javaFileStringList){
-            try{
-                String preKey="src"+File.separator+"main"+File.separator+"java"+File.separator;
-                String subkey=".java";
-                String beanName=name.substring(name.indexOf(preKey)+preKey.length(),name.lastIndexOf(subkey)).replace(File.separator, ".");
-                Class clazz=Class.forName(beanName,true,classLoader);
-                classList.add(clazz);
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }
-        return classList;
-    }*/
-
-
     public void getAllEndWithTypeFile(File file,String type,List<String> fileNameList){
         if(file.isDirectory()){
             for(File fileTemp:file.listFiles()){

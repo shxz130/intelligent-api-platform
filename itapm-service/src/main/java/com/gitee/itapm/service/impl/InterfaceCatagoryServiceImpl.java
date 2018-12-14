@@ -35,6 +35,8 @@ public class InterfaceCatagoryServiceImpl implements InterfaceCatagoryService {
     public InterfaceCatagoryBO persist(Integer systemVersionId, String name) {
         InterfaceCatagoryDO interfaceCatagoryDO=new InterfaceCatagoryDO();
         interfaceCatagoryDO.setSystemVersionId(systemVersionId);
+        interfaceCatagoryDO.setName(name);
+        interfaceCatagoryDO.setStatus("ONLINE");
         interfaceCatagoryDOMapper.insert(interfaceCatagoryDO);
         return BeanCopierUtils.copyOne2One(interfaceCatagoryDO,InterfaceCatagoryBO.class);
     }

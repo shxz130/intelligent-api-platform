@@ -34,6 +34,6 @@ public class ParamGenericTypeServiceImpl implements ParamGenericTypeService {
         paramGenericTypeDO.setName(name);
         paramGenericTypeDO.setSystemVersionId(systemVersionId);
         paramGenericTypeDOMapper.persist(paramGenericTypeDO);
-        return null;
+        return BeanCopierUtils.copyOne2One(paramGenericTypeDO,ParamGenericTypeBO.class);
     }
 }

@@ -18,7 +18,7 @@ public class SystemVersionBusService {
 
     public synchronized SystemVersionBO persist(SystemInfoBO systemInfoBO,String version){
         SystemVersionBO systemVersionBO= systemVersionService.queryBySystemInfoIdAndVersion(systemInfoBO.getId(), version);
-        if(systemInfoBO==null){
+        if(systemVersionBO==null){
             systemVersionBO=systemVersionService.persist( systemInfoBO.getId(),systemInfoBO.getEnName(), version);
         }
         return systemVersionBO;

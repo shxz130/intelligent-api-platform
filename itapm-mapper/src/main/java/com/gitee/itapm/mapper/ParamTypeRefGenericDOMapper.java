@@ -14,13 +14,13 @@ public interface ParamTypeRefGenericDOMapper {
 
 
     @Select(ParamTypeRefGenericSQLConstants.QUERY_BY_PARAM_AND_GENERIC_TYPE_ID)
-    ParamTypeRefGenericDO queryByParamAndGenericTypeId(Integer paramTypeId, Integer genericTypeId);
+    ParamTypeRefGenericDO queryByParamAndGenericTypeId(@Param("paramTypeId")Integer paramTypeId, @Param("genericTypeId")Integer genericTypeId);
 
     @Options(useGeneratedKeys=true, keyProperty="id")
     @Insert(ParamTypeRefGenericSQLConstants.PERSIST)
     void persist(ParamTypeRefGenericDO paramTypeRefGenericDO);
 
     @Delete(ParamTypeRefGenericSQLConstants.DELETE_BY_ID)
-    Integer deleteById(Integer id);
+    Integer deleteById(@Param("id")Integer id);
 
 }

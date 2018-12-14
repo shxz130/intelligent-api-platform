@@ -23,15 +23,13 @@ public class InterfaceDetailSQLConstants {
                     "description as description,"+
                     "memo as memo,"+
                     "create_time as createTime," +
-                    "update_time as updateTime";
+                    "update_time as updateTime ";
 
 
     public static final String QUERY_BASE_SQL= "select "+QUERY_TABLE_PARAMS+" from "+TABLE_NAME+" ";
 
 
     public static final String INSERT_PARAM=
-                    "id ," +
-                    "system_id, " +
                     "system_version_id," +
                     "system_name,"+
                     "catagory_id," +
@@ -39,7 +37,7 @@ public class InterfaceDetailSQLConstants {
                     "address," +
                     "caller," +
                     "type, "+
-                    "requestType, "+
+                    "request_type, "+
                     "status," +
                     "description," +
                     "memo,"+
@@ -50,7 +48,6 @@ public class InterfaceDetailSQLConstants {
     public static final String INSERT_SQL=
             "insert into "+TABLE_NAME+"("+
                     INSERT_PARAM+") values("+
-                    "#{id}," +
                     "#{systemVersionId}," +
                     "#{systemName}," +
                     "#{catagoryId}," +
@@ -82,14 +79,14 @@ public class InterfaceDetailSQLConstants {
     public static final String QUERY_BY_SYSTEM_VERSION_ID_CATAGORY_ID_CONDITION=QUERY_BASE_SQL+
             "where system_id=#{systemVersionId} " +
               "and catagory_id = #{catagoryId} " +
-              "and (name like concat(concat('%',#{condition}),'%')  or address like concat(concat('%',#{condition}),'%') or url like concat(concat('%',#{condition}),'%'))"+
+              "and (name like concat(concat('%',#{condition}),'%')  or address like concat(concat('%',#{condition}),'%') or url like concat(concat('%',#{condition}),'%')) "+
             "order by update_time desc";
 
 
     public static final String QUERY_BY_SYSTEM_VERSION_ID_NAME =QUERY_BASE_SQL+
                     "where " +
-                    "system_version_id=#{systemVersionId} and" +
-                    "name = #{name} order by id desc";
+                    "system_version_id=#{systemVersionId} and " +
+                    " name = #{name} order by id desc";
 
     public static final String UPDATE_BY_ID = "update " +TABLE_NAME+"set "+
             "system_version_id = #{systemVersionId}, " +

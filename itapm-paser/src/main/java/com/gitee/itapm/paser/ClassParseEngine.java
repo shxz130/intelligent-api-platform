@@ -7,6 +7,7 @@ import com.gitee.itapm.paser.bean.ApiDoc;
 import com.gitee.itapm.paser.bean.Catagory;
 import com.gitee.itapm.paser.bean.ParamField;
 import com.gitee.itapm.paser.bean.Parameter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
@@ -15,6 +16,7 @@ import java.util.*;
 /**
  * Created by jetty on 2018/12/11.
  */
+@Slf4j
 public class ClassParseEngine {
 
     public static List<Catagory> parse(List<Class> clazzList){
@@ -65,51 +67,32 @@ public class ClassParseEngine {
         apiDoc.setStatus(dubboApi.status().toString());
         apiDoc.setType(ProtocalType.DUBBO.toString());
         apiDoc.setCallers(Arrays.asList(dubboApi.caller()));
-        List<Parameter> reqParameteList=ParamParseEngine.parse(method.getParameterTypes());
-        apiDoc.setReqParamList(reqParameteList);
-        List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()});
-        apiDoc.setRespParamList(respParamterList);
 
-        apiDoc.setGenericParameterList(getGenericParameterList(reqParameteList,respParamterList));
+        Map contextMap=new HashMap<String,Class>();
+        //此map用来缓存泛型中的class，反射会加载出错。
+        List<Parameter> reqParameteList=ParamParseEngine.parse(method.getParameterTypes(),contextMap);
+        apiDoc.setReqParamList(reqParameteList);
+        List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()},contextMap);
+        apiDoc.setRespParamList(respParamterList);
+        apiDoc.setGenericParameterList(getGenericParameterList(contextMap));
         return apiDoc;
     }
 
 
-    private static List<Parameter> getGenericParameterList(List<Parameter> reqParamList,List<Parameter> respParamList){
-
-        Set<String> genericClassNameSet=new LinkedHashSet<>();
-        for(Parameter parameter:reqParamList){
-            for(ParamField paramField:parameter.getParamFieldList()){
-                if(!CollectionUtils.isEmpty(paramField.getRefGenericClassNameList())){
-                    genericClassNameSet.addAll(paramField.getRefGenericClassNameList());
-                }
-            }
-        }
-
-        for(Parameter parameter:respParamList){
-            for(ParamField paramField:parameter.getParamFieldList()){
-                if(!CollectionUtils.isEmpty(paramField.getRefGenericClassNameList())){
-                    genericClassNameSet.addAll(paramField.getRefGenericClassNameList());
-                }
-            }
-        }
-
+    private static List<Parameter> getGenericParameterList(Map<String,Class> contextMap){
 
         List<Class> genericClassList=new ArrayList<>();
-        for(String className:genericClassNameSet){
-            try{
-                genericClassList.add(Class.forName(className));
-            }catch (Exception e){
+        for(Map.Entry<String,Class> entry:contextMap.entrySet()){
+            genericClassList.add(entry.getValue());
 
-            }
         }
 
-        Class[] genericClasses=new Class[genericClassList.size()];
+        Class[] genericClasses=new Class[contextMap.entrySet().size()];
         for(int i=0;i<genericClassList.size();i++){
             genericClasses[i]=genericClassList.get(i);
         }
 
-        return ParamParseEngine.parse(genericClasses);
+        return ParamParseEngine.parse(genericClasses,new HashMap<>());
     }
 
 

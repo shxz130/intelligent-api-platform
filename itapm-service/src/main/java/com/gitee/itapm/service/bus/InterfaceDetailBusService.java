@@ -26,8 +26,8 @@ public class InterfaceDetailBusService {
             return result;
         }else{
             interfaceDetailBO.setId(result.getId());
-            result=interfaceDetailBO;
             interfaceDetailService.updateById(interfaceDetailBO);
+            result= interfaceDetailService.queryBySystemVersionIdAndName(interfaceDetailBO.getSystemVersionId(), interfaceDetailBO.getName());
         }
         return result;
     }

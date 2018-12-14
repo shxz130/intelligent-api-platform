@@ -31,6 +31,7 @@ public class ParamTypeRefGenericServiceImpl implements ParamTypeRefGenericServic
     public ParamTypeRefGenericBO persist(Integer paramTypeId, Integer genericTypeId) {
         ParamTypeRefGenericDO paramTypeRefGenericDO=new ParamTypeRefGenericDO();
         paramTypeRefGenericDO.setGenericTypeId(genericTypeId);
+        paramTypeRefGenericDO.setParamTypeId(paramTypeId);
         paramTypeRefGenericDOMapper.persist(paramTypeRefGenericDO);
         return BeanCopierUtils.copyOne2One(paramTypeRefGenericDO,ParamTypeRefGenericBO.class);
     }

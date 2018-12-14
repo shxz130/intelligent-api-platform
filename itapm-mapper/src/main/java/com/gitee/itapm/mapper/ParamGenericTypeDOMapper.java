@@ -2,10 +2,7 @@ package com.gitee.itapm.mapper;
 
 import com.gitee.itapm.mapper.bean.ParamGenericTypeDO;
 import com.gitee.itapm.mapper.constants.ParamGenericTypeSQLConstants;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 /**
  * Created by jetty on 2018/12/14.
@@ -14,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
 public interface ParamGenericTypeDOMapper {
 
     @Select(ParamGenericTypeSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_AND_NAME)
-    ParamGenericTypeDO queryBySystemVersionIdAndName(Integer typeId, String name);
+    ParamGenericTypeDO queryBySystemVersionIdAndName(@Param("systemVersionId")Integer typeId,@Param("name") String name);
 
     @Options(useGeneratedKeys=true, keyProperty="id")
     @Insert(ParamGenericTypeSQLConstants.PERSIST)

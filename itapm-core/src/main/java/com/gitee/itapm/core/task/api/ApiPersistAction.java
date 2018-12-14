@@ -55,7 +55,7 @@ public class ApiPersistAction {
             //接口文档处理
             handleApiDoc(systemVersionBO, interfaceCatagoryBO, catagory.getApiDocList());
 
-            catagoryList.remove(catagory);
+            catagoryList.remove(interfaceCatagoryBO);
         }
         //删除系统没有的分类
         for(InterfaceCatagoryBO interfaceCatagoryBO:catagoryList){
@@ -94,29 +94,19 @@ public class ApiPersistAction {
         if(CollectionUtils.isEmpty(parameterList)){
            return;
         }
+
         for(Parameter parameter:parameterList){
-            //保存
             ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
-            //查询数据库所有记录
-            List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramGenericType.getId());
+            //保存
             //所有数据落库
             if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
                 for(ParamField paramField:parameter.getParamFieldList()){
-                    ParamFieldBO insertBO= convertToParamFieldBO(paramField);
-                    if(paramFieldDBBOList.contains(insertBO)){
-                        paramFieldDBBOList.remove(insertBO);
-                        continue;
-                    }
+                    ParamFieldBO insertBO= convertToParamFieldBO(paramGenericType.getId(),paramField);
                     ParamFieldBO paramFieldBO=paramFieldBusService.persist(insertBO);
-                    paramFieldDBBOList.remove(paramFieldBO);
                 }
             }
-
-            //删除去掉的属性
-            for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
-                paramFieldBusService.deleteById(paramFieldBO.getId());
-            }
         }
+
     }
 
     private void handleParamType(InterfaceDetailBO interfaceDetailBO,ApiDoc apiDoc){
@@ -134,7 +124,7 @@ public class ApiPersistAction {
             List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramTypeBO.getId());
             if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
                 for(ParamField paramField:parameter.getParamFieldList()){
-                    ParamFieldBO insertBO= convertToParamFieldBO(paramField);
+                    ParamFieldBO insertBO= convertToParamFieldBO(paramTypeBO.getId(),paramField);
                     if(paramFieldDBBOList.contains(insertBO)){
                         paramFieldDBBOList.remove(insertBO);
                         continue;
@@ -151,8 +141,9 @@ public class ApiPersistAction {
     }
 
 
-    private ParamFieldBO convertToParamFieldBO(ParamField paramField){
+    private ParamFieldBO convertToParamFieldBO(Integer parentId,ParamField paramField){
         ParamFieldBO paramFieldBO=new ParamFieldBO();
+        paramFieldBO.setParamTypeId(parentId);
         paramFieldBO.setDefaultValue(paramField.getDefaultValue());
         paramFieldBO.setExample(paramField.getExample());
         paramFieldBO.setParamDescription(paramField.getDesrciption());
@@ -187,7 +178,9 @@ public class ApiPersistAction {
         }
         for(String classsName:genericClassList){
             ParamGenericTypeBO paramGenericTypeBO=paramGenericTypeBusService.queryBySystemVersionIdAndName(systemVersionId,classsName);
-            paramTypeRefGenericBusService.persist(paramTypeBO.getId(),paramGenericTypeBO.getId());
+            if(paramGenericTypeBO !=null){
+                paramTypeRefGenericBusService.persist(paramTypeBO.getId(),paramGenericTypeBO.getId());
+            }
         }
     }
 

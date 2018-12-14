@@ -21,6 +21,9 @@ public class SystemInfoServiceImpl implements SystemInfoService {
     @Override
     public SystemInfoBO queryByEnName(String enName) {
         SystemInfoDO systemInfoDO = systemInfoDOMapper.queryByEnName(enName);
+        if(systemInfoDO==null){
+            return null;
+        }
         return BeanCopierUtils.copyOne2One(systemInfoDO,SystemInfoBO.class);
     }
 

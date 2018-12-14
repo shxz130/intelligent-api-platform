@@ -18,13 +18,13 @@ public interface InterfaceCatagoryDOMapper {
 
 
     @Select(InterfaceCatagorySQLConstants.QUERY_BY_SYSTEM_VERSION_ID_NAME)
-    InterfaceCatagoryDO queryBySystemVersionIdAndName(Integer systemVersionId, String name);
+    InterfaceCatagoryDO queryBySystemVersionIdAndName(@Param("systemVersionId")Integer systemVersionId, @Param("name")String name);
 
 
     @Select(InterfaceCatagorySQLConstants.QUERY_BY_SYSTEM_VERSION_ID)
-    List<InterfaceCatagoryDO> queryBySystemVersionId(Integer systemVersionId);
+    List<InterfaceCatagoryDO> queryBySystemVersionId(@Param("systemVersionId")Integer systemVersionId);
 
 
     @Delete(InterfaceCatagorySQLConstants.DELETE_BY_ID)
-    Integer deleteById(Integer id);
+    Integer deleteById(@Param("id")Integer id);
 }

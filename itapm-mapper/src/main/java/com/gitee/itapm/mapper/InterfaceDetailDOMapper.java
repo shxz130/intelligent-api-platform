@@ -2,7 +2,6 @@ package com.gitee.itapm.mapper;
 
 import com.gitee.itapm.mapper.bean.InterfaceDetailDO;
 import com.gitee.itapm.mapper.constants.InterfaceDetailSQLConstants;
-import com.gitee.itapm.mapper.constants.ParamInfoSQLConstants;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

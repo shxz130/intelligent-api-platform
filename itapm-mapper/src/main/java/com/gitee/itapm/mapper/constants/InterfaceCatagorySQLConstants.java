@@ -5,10 +5,10 @@ package com.gitee.itapm.mapper.constants;
  */
 public class InterfaceCatagorySQLConstants {
 
-    private static final String TABLE_NAME="t_itapm_interface_catagory ";
+    private static final String TABLE_NAME=" t_itapm_interface_catagory ";
 
     public static final String QUERY_TABLE_PARAMS=
-            "id as id," +
+            " id as id," +
                     "system_version_id as systemVersionId, " +
                     "name as name, " +
                     "status as status, " +
@@ -17,7 +17,6 @@ public class InterfaceCatagorySQLConstants {
 
 
     public static final String INSERT_PARAM=
-                    "id ," +
                     "system_version_id," +
                     "name," +
                     "status," +
@@ -30,7 +29,6 @@ public class InterfaceCatagorySQLConstants {
 
     public static final String INSERT_SQL=
             "insert into "+TABLE_NAME+"("+INSERT_PARAM+") values("+
-                    "#{id}," +
                     "#{systemVersionId}," +
                     "#{name}," +
                     "#{status}," +
@@ -45,7 +43,7 @@ public class InterfaceCatagorySQLConstants {
 
     public static final String QUERY_BY_SYSTEM_VERSION_ID_NAME=BASE_SELECT+
             "where "+
-            "system_version_id=#{systemVersionId} "+
+            "system_version_id=#{systemVersionId} and "+
             "name=#{name}";
 
     public static final String DELETE_BY_ID="delete from "+TABLE_NAME+"where id=#{id}";

@@ -7,6 +7,7 @@ import com.gitee.itapm.paser.bean.ParamField;
 import com.gitee.itapm.paser.bean.Parameter;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class ParamParseEngineTest {
 
     @Test
     public void test(){
-        List<Parameter> params= ParamParseEngine.parse(new Class[]{TestBean.class});
+        List<Parameter> params= ParamParseEngine.parse(new Class[]{TestBean.class},new HashMap<>());
         for(Parameter param: params){
             System.out.println(param);
         }

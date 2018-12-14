@@ -25,7 +25,7 @@ public class ParamTypeSQLConstants {
     private static final String BASE_SELECT_FIELD=" " +
             "id as id," +
             "interface_detail_id as interfaceDetailId, " +
-            "param_type_name = paramTypeName," +
+            "param_type_name as paramTypeName," +
             "resource as resource," +
             "create_time as createTime," +
             "update_time as updateTime ";

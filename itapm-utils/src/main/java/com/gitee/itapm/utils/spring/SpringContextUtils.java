@@ -3,10 +3,12 @@ package com.gitee.itapm.utils.spring;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by jetty on 2018/12/11.
  */
+@Component
 public class SpringContextUtils implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
