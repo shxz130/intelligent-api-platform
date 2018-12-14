@@ -11,7 +11,7 @@ public class SystemVersionDO extends AbstractDO {
 
     private Integer id;
 
-    private String systemId;
+    private Integer systemId;
 
     private String systemName;
 

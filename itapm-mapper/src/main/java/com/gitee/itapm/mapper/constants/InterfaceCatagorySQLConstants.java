@@ -9,7 +9,7 @@ public class InterfaceCatagorySQLConstants {
 
     public static final String QUERY_TABLE_PARAMS=
             "id as id," +
-                    "system_id as systemId, " +
+                    "system_version_id as systemVersionId, " +
                     "name as name, " +
                     "status as status, " +
                     "create_time as createTime," +
@@ -17,7 +17,7 @@ public class InterfaceCatagorySQLConstants {
 
 
     public static final String INSERT_PARAM=
-                    "id ,system_id," +
+                    "id ,system_version_id," +
                     "name,status," +
                     "create_time,update_time ";
 
@@ -25,12 +25,12 @@ public class InterfaceCatagorySQLConstants {
     public static final String INSERT_SQL=
             "insert into "+TABLE_NAME+"("+
                     INSERT_PARAM+") values("+
-                    "#{id},#{systemId}," +
+                    "#{id},#{systemVersionId}," +
                     "#{name},#{status}," +
                     "now(),now())";
 
 
-    public static final String QUERY_BY_SYSTEM_ID=
+    public static final String QUERY_BY_SYSTEM_VERSION_ID=
             "select "+QUERY_TABLE_PARAMS+" from "+TABLE_NAME+
-                    "where system_id=#{systemId}";
+                    "where system_version_id=#{systemVersionId}";
 }

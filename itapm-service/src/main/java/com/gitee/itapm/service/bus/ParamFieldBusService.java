@@ -19,7 +19,8 @@ public class ParamFieldBusService {
     public synchronized ParamFieldBO persist(ParamFieldBO paramFieldBO){
         ParamFieldBO result= paramFieldService.queryByParamTypeIdAndParamName(paramFieldBO.getParamTypeId(), paramFieldBO.getParamName());
         if(result==null){
-            result=paramFieldService.persist(paramFieldBO);
+            paramFieldService.persist(paramFieldBO);
+            result=paramFieldBO;
         }else{
             paramFieldBO.setId(result.getId());
             result=paramFieldBO;

@@ -15,8 +15,6 @@ public class ParamTypeDO extends AbstractDO {
 
     public static final String RESOURCE_RESP="RESP";
 
-    public static final String RESOURCE_GENERIC="GENERIC";
-
     private Integer id;
 
     private Integer interfaceDetailId;

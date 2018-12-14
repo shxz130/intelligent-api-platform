@@ -15,7 +15,7 @@ import java.util.List;
 public interface InterfaceDetailDOMapper {
 
     @Insert(InterfaceDetailSQLConstants.INSERT_SQL)
-    public Integer insert(InterfaceDetailDO interfaceDetailDO);
+    public Integer persist(InterfaceDetailDO interfaceDetailDO);
 
     @Select(InterfaceDetailSQLConstants.QUERY_BY_ID)
     public InterfaceDetailDO queryById(@Param("id")Integer id);
@@ -29,4 +29,11 @@ public interface InterfaceDetailDOMapper {
     @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_ID_CATAGORY_ID_CONDITION)
     public List<InterfaceDetailDO> queryBySystemIdCatagoryIdAndCondition(@Param("systemId")Integer systemId,@Param("catagoryId")Integer catagoryId,@Param("condition")String condition);
 
+    InterfaceDetailDO queryBySystemVersionIdAndName(Integer systemVersionId, String name);
+
+    Integer updateById(InterfaceDetailDO interfaceDetailDO);
+
+    List<InterfaceDetailDO> queryByCatagoryId(Integer catagoryId);
+
+    InterfaceDetailDO deleteById(Integer id);
 }

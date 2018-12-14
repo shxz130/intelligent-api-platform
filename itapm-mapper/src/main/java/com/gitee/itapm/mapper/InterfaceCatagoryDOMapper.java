@@ -17,7 +17,12 @@ public interface InterfaceCatagoryDOMapper {
     @Insert(InterfaceCatagorySQLConstants.INSERT_SQL)
     public Integer insert(InterfaceCatagoryDO interfaceCatagoryDO);
 
-    @Select(InterfaceCatagorySQLConstants.QUERY_BY_SYSTEM_ID)
-    public List<InterfaceCatagoryDO> queryBySystemId(@Param("systemId")Integer systemId);
+    @Select(InterfaceCatagorySQLConstants.QUERY_BY_SYSTEM_VERSION_ID)
+    public List<InterfaceCatagoryDO> queryBySystemId(@Param("systemVersionId")Integer systemVesionId);
 
+    InterfaceCatagoryDO queryBySystemVersionIdAndName(Integer systemVersionId, String name);
+
+    List<InterfaceCatagoryDO> queryBySystemVersionId(Integer systemVersionId);
+
+    Integer deleteById(Integer id);
 }

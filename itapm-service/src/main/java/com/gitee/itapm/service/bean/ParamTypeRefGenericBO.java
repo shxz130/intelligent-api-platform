@@ -17,11 +17,11 @@ public class ParamTypeRefGenericBO extends BaseBO {
 
     private Integer paramTypeId;
 
-    private Integer paramFieldId;
+    private Integer genericTypeId;
 
-    public ParamTypeRefGenericBO(Integer paramTypeId,Integer paramFieldId){
-        this.paramFieldId=this.paramFieldId;
+    public ParamTypeRefGenericBO(Integer paramTypeId,Integer genericTypeId){
         this.paramTypeId=this.paramTypeId;
+        this.genericTypeId=this.genericTypeId;
     }
 
 }

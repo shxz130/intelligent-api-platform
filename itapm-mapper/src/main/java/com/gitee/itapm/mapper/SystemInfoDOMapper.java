@@ -14,11 +14,13 @@ import org.apache.ibatis.annotations.Select;
 public interface SystemInfoDOMapper {
 
     @Insert(SystemInfoSQLConstants.INSERT_SQL)
-    public Integer insert(SystemInfoDO systemInfoDO);
+    public Integer persist(SystemInfoDO systemInfoDO);
 
 
 
     @Select(SystemInfoSQLConstants.QUERY_BY_NAME)
     public SystemInfoDO queryByEnName(@Param("enName")String enName);
 
+
+    public void updateById(SystemInfoDO systemInfoDO);
 }

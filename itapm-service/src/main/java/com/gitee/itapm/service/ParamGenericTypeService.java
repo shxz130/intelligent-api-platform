@@ -9,6 +9,6 @@ public interface ParamGenericTypeService {
 
     public ParamGenericTypeBO queryBySystemVersionIdAndName(Integer typeId,String name);
 
-    public ParamGenericTypeBO persist(Integer typeId,String name);
+    public ParamGenericTypeBO persist(Integer systemVersionId,String name);
 
 }

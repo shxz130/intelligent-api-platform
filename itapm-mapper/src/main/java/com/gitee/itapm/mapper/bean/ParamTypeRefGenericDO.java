@@ -17,11 +17,12 @@ public class ParamTypeRefGenericDO extends AbstractDO {
 
     private Integer paramTypeId;
 
-    private Integer paramFieldId;
+    private Integer genericTypeId;
 
-    public ParamTypeRefGenericDO(Integer paramTypeId, Integer paramFieldId){
-        this.paramFieldId=this.paramFieldId;
+    public ParamTypeRefGenericDO(Integer paramTypeId, Integer genericTypeId){
         this.paramTypeId=this.paramTypeId;
+        this.genericTypeId=this.genericTypeId;
+
     }
 
 }

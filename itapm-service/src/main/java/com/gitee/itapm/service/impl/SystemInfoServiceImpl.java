@@ -6,6 +6,7 @@ import com.gitee.itapm.service.SystemInfoService;
 import com.gitee.itapm.service.bean.SystemInfoBO;
 import com.gitee.itapm.utils.bean.BeanCopierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.interceptor.BeanFactoryCacheOperationSourceAdvisor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,11 +26,16 @@ public class SystemInfoServiceImpl implements SystemInfoService {
 
     @Override
     public SystemInfoBO persist(String enName, String chName) {
-        return null;
+        SystemInfoDO systemInfoDO=new SystemInfoDO();
+        systemInfoDO.setEnName(enName);
+        systemInfoDO.setChName(chName);
+        systemInfoDOMapper.persist(systemInfoDO);
+        return BeanCopierUtils.copyOne2One(systemInfoDO,SystemInfoBO.class);
     }
 
     @Override
     public void updateById(SystemInfoBO systemInfoBO) {
-
+        SystemInfoDO systemInfoDO= BeanCopierUtils.copyOne2One(systemInfoBO,SystemInfoDO.class);
+        systemInfoDOMapper.updateById(systemInfoDO);
     }
 }

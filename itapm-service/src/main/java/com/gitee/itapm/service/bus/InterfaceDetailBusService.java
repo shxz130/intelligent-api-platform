@@ -20,7 +20,8 @@ public class InterfaceDetailBusService {
     public synchronized InterfaceDetailBO persist(InterfaceDetailBO interfaceDetailBO){
         InterfaceDetailBO result= interfaceDetailService.queryBySystemVersionIdAndName(interfaceDetailBO.getSystemVersionId(), interfaceDetailBO.getName());
         if(result==null){
-            result= interfaceDetailService.persist(interfaceDetailBO);
+            interfaceDetailService.persist(interfaceDetailBO);
+            result=interfaceDetailBO;
         }else if(result.equals(interfaceDetailBO)){
             return result;
         }else{

@@ -56,7 +56,7 @@ public final class BeanCopierUtils {
 
 
     public static <T> List<T> copyList2List(List<?> source, Class<T> target)
-            throws InstantiationException, IllegalAccessException {
+           {
         if (source.isEmpty()) {
             return new ArrayList<T>();
         }
