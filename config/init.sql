@@ -56,7 +56,8 @@ create TABLE t_itapm_interface_detail(
   type VARCHAR(32) COMMENT '类型 dubbo/REST',
   request_type VARCHAR(32) COMMENT '请求类型',
   status VARCHAR(16) NOT NULL COMMENT 'PRE_ONLINE 预上线，ONLINE 已上线，OFFLINE 已下线，PRE_OFFLINE 准备下线',
-  description VARCHAR(512) COMMENT '接口描述信息',
+  description VARCHAR(256) COMMENT '接口描述信息',
+  memo VARCHAR(1024) COMMENT 'memo',
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '接口明细表';
