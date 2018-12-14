@@ -1,9 +1,8 @@
-package com.gitee.itapm.dubbo.api.maven;
+package com.gitee.itapm.api.maven.annotation;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.gitee.itapm.paser.ClassParseEngine;
-import com.gitee.itapm.paser.bean.ApiDoc;
 import com.gitee.itapm.paser.bean.Catagory;
 import com.gitee.itapm.paser.bean.Document;
 import org.apache.maven.artifact.Artifact;
