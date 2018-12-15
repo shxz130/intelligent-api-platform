@@ -22,21 +22,6 @@ public class SearchController {
     private SearchHandler searchHandler;
 
 
-    /**
-     * 查询页面
-     *
-     * @param search
-     * @param model
-     * @return
-     */
-    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
-    public String searchGet(Search search,Model model){
-        SearchResp searchResp=new SearchResp();
-        searchHandler.handle(DTOConvert2BO.convert2SearchBO(search), searchResp);
-        model.addAttribute("pageBean", searchResp.getPageBean());
-        return TemplatePathConstants.SEARCH;
-    }
-
 
     @GetMapping(UrlPathConstants.ITAPM_GO_SEARCH)
     public String searchPost(Search search,Model model){
@@ -44,6 +29,7 @@ public class SearchController {
         searchHandler.handle(DTOConvert2BO.convert2SearchBO(search), searchResp);
         model.addAttribute("pageBean",searchResp.getPageBean());
         model.addAttribute("systemInfoList",searchResp.getSystemInfoList());
+        model.addAttribute("search",search);
         return TemplatePathConstants.SEARCH;
     }
 }

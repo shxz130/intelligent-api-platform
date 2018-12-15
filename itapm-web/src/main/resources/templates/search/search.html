@@ -28,7 +28,7 @@
              <div class="layui-col-md2">
              <div class="layui-select-title">
                   <div class="layui-input-inline">
-                    <select name="modules" lay-verify="required" id="systemId" class="layui-input" lay-search="" >
+                    <select name="modules" lay-verify="required" id="systemId" class="layui-input" onselect="${search.systemId!''}">
                       <option value="">所有系统</option>
                       <#list systemInfoList as systemInfo>
                           <option value="${systemInfo.id?c}">${systemInfo.enName}</option>
@@ -38,7 +38,7 @@
                 </div>
                 </div>
              <div class="layui-col-md8">
-                <input type="text" name="title" id="searchKey" lay-verify="title" autocomplete="off" placeholder="请输入接口名称或者接口描述信息" class="layui-input">
+                <input type="text" name="title" id="searchKey" lay-verify="title" autocomplete="off" placeholder="请输入接口名称或者接口所属类名，或者接口描述信息" value="${search.searchKey!''}" class="layui-input">
 
              </div>
              <div class="layui-col-md2">
@@ -87,14 +87,14 @@
 
                 <input type="hidden" id="pageSize" value="${pageBean.currentPage}">
                 <input type="hidden" id="currentPage" value="${pageBean.currentPage}">
-
+                <input type="hidden" id="preSystemId" value="${search.systemId}">
 
 
                 <div>
                     <a class="prev" href="javascript:redirect(${pageBean.currentPage-10})">&lt;&lt;</a>
                     <a class="num" href="javascript:redirect(${pageBean.currentPage-1})">${pageBean.currentPage-1}</a>
                     <span class="current">${pageBean.currentPage}</span>
-                    <a class="num" href="">${pageBean.currentPage+1}</a>
+                    <a class="num" href="javascript:redirect(${pageBean.currentPage+1})">${pageBean.currentPage+1}</a>
                     <a class="next" href="javascript:redirect(${pageBean.currentPage+10})">&gt;&gt;</a>
                 </div>
             </div>
@@ -182,20 +182,43 @@
 
     </body>
 
+    <script>
+        $(function  () {
+
+
+            layui.use('form', function(){
+                var form = layui.form;
+                var preSystemId=$("#preSystemId").val();
+                $("#systemId").find("option[value='"+preSystemId+"']").prop("selected",true);
+                form.render();
+            });
+        })
+
+
+    </script>
+
 
     <script type="text/javascript">
+
+        $(document).ready(function(){
+            var key=$("#preSystemId").val();
+            //根据值让option选中
+            $("#refundReason option[value='"+key+"']").attr("selected","selected");
+        });
+
 
         function redirect(currentPage){
             var systemId=$("#systemId").val();
             var searchKey=$("#searchKey").val();
             var currentPage=currentPage;
+
             var pageSize=10;
             if(systemId ==''){
                 layer.msg('请先选择系统，再查询', function(){
                 });
                 return;
             }
-            window.location.href="${request.contextPath}"+"/itapm/go_search.htm?systemId="+systemId+"&searchKey="+searchKey+"&currentPage="+currentPage+"&pageSize="+pageSize;
+            window.location.href="${request.contextPath}"+"/itapm/go_search.htm?systemId="+systemId+"&currentPage="+currentPage+"&pageSize="+pageSize+"&searchKey="+encodeURI(searchKey);
         }
 
 

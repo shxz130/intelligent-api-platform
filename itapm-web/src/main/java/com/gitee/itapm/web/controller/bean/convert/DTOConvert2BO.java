@@ -13,6 +13,7 @@ public class DTOConvert2BO {
         searchReq.setCurrentPage(search.getCurrentPage());
         searchReq.setPageSize(search.getPageSize());
         searchReq.setSystemId(search.getSystemId());
+        searchReq.setSearchKey(search.getSearchKey());
         return searchReq;
     }
 }
