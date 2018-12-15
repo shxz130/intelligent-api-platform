@@ -54,4 +54,8 @@ public class SystemVersionSQLConstants {
             "#{systemVersion}," +
             "now()," +
             "now())";
+
+    public static final String QUERY_LAST_ONE_BY_STSTEM_INFO_ID = QUERY_BASE_SQL+"where "+
+            "system_id =#{systemInfoId} order by create_time desc limit 1";
+
 }

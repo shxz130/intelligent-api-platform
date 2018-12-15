@@ -13,12 +13,12 @@ import lombok.ToString;
 @Data
 public class SearchReq extends BaseBO{
 
-    private String systemId;
+    private Integer systemId;
 
     private String searchKey;
 
-    private Integer currentPage;
+    private Integer currentPage=1;
 
-    private Integer pageSize;
+    private Integer pageSize=10;
 
 }

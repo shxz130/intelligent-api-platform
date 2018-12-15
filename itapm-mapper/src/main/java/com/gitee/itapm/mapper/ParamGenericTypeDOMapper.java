@@ -13,7 +13,9 @@ public interface ParamGenericTypeDOMapper {
     @Select(ParamGenericTypeSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_AND_NAME)
     ParamGenericTypeDO queryBySystemVersionIdAndName(@Param("systemVersionId")Integer typeId,@Param("name") String name);
 
-    @Options(useGeneratedKeys=true, keyProperty="id")
     @Insert(ParamGenericTypeSQLConstants.PERSIST)
+    @Options(useGeneratedKeys=true, keyProperty="id")
     void persist(ParamGenericTypeDO paramGenericTypeDO);
+    @Select(ParamGenericTypeSQLConstants.QUERY_BY_ID)
+    ParamGenericTypeDO queryById(Integer genericTypeId);
 }

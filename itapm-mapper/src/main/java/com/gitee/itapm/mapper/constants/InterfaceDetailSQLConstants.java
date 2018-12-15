@@ -69,16 +69,15 @@ public class InterfaceDetailSQLConstants {
 
     public static final String QUERY_BY_SYSTEM_VERSION_ID=QUERY_BASE_SQL+
             "where " +
-            "system_id=#{systemVersionId} order by create_time desc";
+            "system_version_id=#{systemVersionId} order by create_time desc";
 
     public static final String QUERY_BY_SYSTEM_VERSION_ID_CATAGORY_ID=QUERY_BASE_SQL+
             "where " +
             "system_version_id=#{systemVersionId} and " +
             "catagory_id = #{catagoryId} order by update_time desc";
 
-    public static final String QUERY_BY_SYSTEM_VERSION_ID_CATAGORY_ID_CONDITION=QUERY_BASE_SQL+
+    public static final String QUERY_BY_SYSTEM_VERSION_ID_CONDITION=QUERY_BASE_SQL+
             "where system_id=#{systemVersionId} " +
-              "and catagory_id = #{catagoryId} " +
               "and (name like concat(concat('%',#{condition}),'%')  or address like concat(concat('%',#{condition}),'%') or url like concat(concat('%',#{condition}),'%')) "+
             "order by update_time desc";
 

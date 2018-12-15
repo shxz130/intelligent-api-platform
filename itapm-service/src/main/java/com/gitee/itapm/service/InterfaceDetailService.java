@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface InterfaceDetailService {
 
-    public InterfaceDetailBO persist(InterfaceDetailBO interfaceDetailBO);
+    public void persist(InterfaceDetailBO interfaceDetailBO);
 
     public InterfaceDetailBO queryBySystemVersionIdAndName(Integer systemVersionId,String name);
 
@@ -19,4 +19,10 @@ public interface InterfaceDetailService {
     public List<InterfaceDetailBO> queryByCatagoryId(Integer catagoryId);
 
     public void deleteById(Integer id);
+
+    InterfaceDetailBO queryById(Integer interfaceDetailId);
+
+    List<InterfaceDetailBO> queryBySystemVersionIdAndCondition(Integer systemVersionId,String searchKey);
+
+    List<InterfaceDetailBO> queryBySystemVersionId(Integer systemVersionId);
 }

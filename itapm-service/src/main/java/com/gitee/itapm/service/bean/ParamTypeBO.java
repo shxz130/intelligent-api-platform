@@ -4,6 +4,7 @@ import com.gitee.itapm.service.bean.parent.BaseBO;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jetty on 2018/12/13.
@@ -28,6 +29,9 @@ public class ParamTypeBO extends BaseBO {
     private Date createTime;
 
     private Date updateTime;
+
+
+    private List<ParamFieldBO> paramFieldList;
 
 
 }

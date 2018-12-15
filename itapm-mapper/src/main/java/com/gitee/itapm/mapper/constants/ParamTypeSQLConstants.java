@@ -52,7 +52,6 @@ public class ParamTypeSQLConstants {
 
     public static final String QUERY_BY_INTERFACE_DETAIL_ID_NAME_AND_RESOURCE = BASE_QUERY_SQL+
             "where interface_detail_id=#{interfaceDetailId} and " +
-            "param_type_name =#{paramTypeName} and " +
             "resource =#{resource}";
 
     public static final String PERSIST = "insert into "+TABLE_NAME+"("+BASE_INSERT_FIELD+") "+

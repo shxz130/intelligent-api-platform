@@ -19,13 +19,13 @@ public interface InterfaceDetailDOMapper {
     public InterfaceDetailDO queryById(@Param("id")Integer id);
 
     @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_VERSION_ID)
-    public List<InterfaceDetailDO> queryBySystemId(@Param("systemVersionId")Integer systemVersionId);
+    public List<InterfaceDetailDO> queryBySystemVersionId(@Param("systemVersionId")Integer systemVersionId);
 
     @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_CATAGORY_ID)
     public List<InterfaceDetailDO> queryBySystemIdCatagoryId(@Param("systemVersionId")Integer systemVersionId,@Param("catagoryId")Integer catagoryId);
 
-    @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_CATAGORY_ID_CONDITION)
-    public List<InterfaceDetailDO> queryBySystemIdCatagoryIdAndCondition(@Param("systemVersionId")Integer systemVersionId,@Param("catagoryId")Integer catagoryId,@Param("condition")String condition);
+    @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_CONDITION)
+    public List<InterfaceDetailDO> queryBySystemVersionIdAndCondition(@Param("systemVersionId")Integer systemVersionId,@Param("condition")String condition);
 
     @Select(InterfaceDetailSQLConstants.QUERY_BY_SYSTEM_VERSION_ID_NAME)
     InterfaceDetailDO queryBySystemVersionIdAndName(@Param("systemVersionId")Integer systemVersionId,@Param("name") String name);
@@ -37,5 +37,5 @@ public interface InterfaceDetailDOMapper {
     List<InterfaceDetailDO> queryByCatagoryId(@Param("catagoryId")Integer catagoryId);
 
     @Delete(InterfaceDetailSQLConstants.DELETE_BY_ID)
-    InterfaceDetailDO deleteById(@Param("id")Integer id);
+    Integer deleteById(@Param("id")Integer id);
 }

@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="${request.contextPath}/css/font.css">
     <link rel="stylesheet" href="${request.contextPath}/css/xadmin.css">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -37,11 +37,11 @@
       <div class="layui-row layui-col-space12">
              <div class="layui-col-md3">
                   <span lay-separator="">
-                  <a href>接口名称:&nbsp;&nbsp;&nbsp;&nbsp;查询交易信息接口</a></span>
+                  <a href>接口名称:&nbsp;&nbsp;&nbsp;&nbsp;${interfaceDetail.description!}</a></span>
               </div>
              <div class="layui-col-md9">
                     <span lay-separator="">
-                    <a href>接口地址:&nbsp;&nbsp;&nbsp;&nbsp;com.github.biz.facade.GeneralPurchaseFacade.purchase</a>              
+                    <a href>接口地址:&nbsp;&nbsp;&nbsp;&nbsp;${interfaceDetail.name!}</a>
                     </span>
              </div>
 
@@ -52,129 +52,126 @@
                
              <div class="layui-col-md2">
                <span lay-separator="">
-                    <a href>接口状态： online</a>              
+                    <a href>接口状态： ${interfaceDetail.status!}</a>
                     </span>
              </div>
 
              <div class="layui-col-md2">
                 <span lay-separator="">
-                    <a href>所属系统：系统A</a>              
+                    <a href>所属系统：${interfaceDetail.systemName!}</a>
                  </span>
              </div>
              <div class="layui-col-md2">
                 <span lay-separator="">
-                    <a href>接口使用方： 上游系统A，上游系统B，上游系统C</a>              
+                    <a href>接口使用方: ${interfaceDetail.caller!} </a>
                  </span>
              </div>
                 <div class="layui-col-md2">
                 <span lay-separator="">
-                    <a href>接口提供时间：2018-12-02</a>              
+                    <a href>接口提供时间：${(interfaceDetail.createTime?date)!}  </a>
                  </span>
              </div>
                 <div class="layui-col-md2">
                 <span lay-separator="">
-                    <a href>接口最后修改时间：2018-12-02</a>              
+                    <a href>接口最后修改时间：${(interfaceDetail.updatetime?date)!}</a>
                  </span>
              </div>
       </div>
 
        <div class="layui-row layui-col-space10">
-                   <div class="layui-col-md10">
-                     <span lay-separator="">
-                       接口描述：<textarea placeholder="接口说明信息，接口说明信息，接口说明信息，接口说明信息" class="layui-textarea"></textarea>
-                    </span>
-                   </div>
-                   
+           <div class="layui-col-md10">
+             <span lay-separator="">
+               接口描述：<textarea placeholder="接口说明信息，接口说明信息，接口说明信息，接口说明信息" class="layui-textarea" readonly>
+                 ${interfaceDetail.memo!}
+             </textarea>
+            </span>
+           </div>
         </div>
 
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-         <legend>请求参数：</legend>
-    </fieldset>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+            <legend>请求参数：${interfaceDetail.reqParamTypeBO.paramTypeName}</legend>
+        </fieldset>
 
-    <table class="layui-table">
-    <colgroup>
-      <col width="150">
-      <col width="150">
-      <col width="200">
-      <col>
-    </colgroup>
-    <thead>
-      <tr>
-        <th>请求参数</th>
-        <th>参数类型</th>
-        <th>长度</th>
-        <th>是否必填</th>
-        <th>默认值</th>
-        <th>接口描述</th>
-        <th>示例值</th>
-      </tr> 
-    </thead>
-    <tbody>
-      <tr>
-        <td>type</td>
-        <td>java.lang.String</td>
-        <td></td>
-        <td>Y</td>
-        <td>Y</td>
-        <td>类型</td>
-        <td>类型</td>
-      </tr>
-      <tr>
-        <td>id</td>
-        <td>java.lang.String</td>
-        <td>18</td>
-        <td>Y</td>
-        <td></td>
-        <td>流水号，长度默认为18</td>
-        <td>TN2342543654645654</td>
-      </tr>
-    </tbody>
-  </table>
+        <table class="layui-table layui-form">
+            <thead>
+            <tr>
+                <th>请求参数</th>
+                <th>参数类型</th>
+                <th>长度</th>
+                <th>是否必填</th>
+                <th>默认值</th>
+                <th>接口描述</th>
+                <th>示例值</th>
+            </thead>
+            <tbody class="x-cate">
 
-  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-         <legend>返回参数:</legend>
-    </fieldset>
+            <#list interfaceDetail.reqParamTypeBO.paramFieldList as paramField>
+                <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
 
-    <table class="layui-table">
-    <colgroup>
-      <col width="150">
-      <col width="150">
-      <col width="200">
-      <col>
-    </colgroup>
-    <thead>
-      <tr>
-        <th>返回参数</th>
-        <th>参数类型</th>
-        <th>长度</th>
-        <th>是否必填</th>
-        <th>默认值</th>
-        <th>接口描述</th>
-        <th>示例值</th>
-      </tr> 
-    </thead>
-    <tbody>
-      <tr>
-        <td>type</td>
-        <td>java.lang.String</td>
-        <td></td>
-        <td>Y</td>
-        <td>Y</td>
-        <td>类型</td>
-        <td>类型</td>
-      </tr>
-      <tr>
-        <td>id</td>
-        <td>java.lang.String</td>
-        <td>18</td>
-        <td>Y</td>
-        <td></td>
-        <td>流水号，长度默认为18</td>
-        <td>TN2342543654645654</td>
-      </tr>
-    </tbody>
-  </table>
+                    <#if paramField.hasGenericParam>
+                        <td>
+                            <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                                ${paramField.paramName}
+                        </td>
+                       <#elseif paramField.parentId==0>
+                           <td>${paramField.paramName}</td>
+                       <#else>
+                           <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
+                    </#if>
 
+                    <td><xmp>${paramField.paramType}</xmp></td>
+                    <td>${paramField.paramLength}</td>
+                    <td>${paramField.required}</td>
+                    <td>${paramField.defaultValue}</td>
+                    <td>${paramField.paramDescription}</td>
+                    <td>${paramField.example}</td>
+                </tr>
+            </#list>
+            </tbody>
+        </table>
+
+
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+            <legend>返回值:${interfaceDetail.respParamTypeBO.paramTypeName}</legend>
+        </fieldset>
+        <table class="layui-table layui-form">
+            <thead>
+            <tr>
+                <th>请求参数</th>
+                <th>参数类型</th>
+                <th>长度</th>
+                <th>是否必填</th>
+                <th>默认值</th>
+                <th>接口描述</th>
+                <th>示例值</th>
+            </thead>
+            <tbody class="x-cate">
+
+            <#list interfaceDetail.respParamTypeBO.paramFieldList as paramField>
+                <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
+
+                    <#if paramField.hasGenericParam>
+                        <td>
+                            <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                            ${paramField.paramName}
+                        </td>
+                        <#elseif paramField.parentId==0>
+                            <td>${paramField.paramName}</td>
+                            <#else>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
+                    </#if>
+
+                    <td><xmp>${paramField.paramType}</xmp></td>
+                    <td>${paramField.paramLength}</td>
+                    <td>${paramField.required}</td>
+                    <td>${paramField.defaultValue}</td>
+                    <td>${paramField.paramDescription}</td>
+                    <td>${paramField.example}</td>
+                </tr>
+            </#list>
+            </tbody>
+        </table>
 
       
 

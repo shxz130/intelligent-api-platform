@@ -13,7 +13,7 @@ public interface ParamTypeDOMapper {
 
 
     @Select(ParamTypeSQLConstants.QUERY_BY_INTERFACE_DETAIL_ID_NAME_AND_RESOURCE)
-    public ParamTypeDO queryByInterfaceDetailIdNameAndResource(@Param("interfaceDetailId")Integer interfaceDetailId, @Param("paramTypeName")String name, @Param("resource")String resource);
+    public ParamTypeDO queryByInterfaceDetailIdNameAndResource(@Param("interfaceDetailId")Integer interfaceDetailId,  @Param("resource")String resource);
 
     @Insert(ParamTypeSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")

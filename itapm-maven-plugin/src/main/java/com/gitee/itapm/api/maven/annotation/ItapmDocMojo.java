@@ -85,7 +85,7 @@ public class ItapmDocMojo extends AbstractMojo {
     private Document generateDocument(){
         List<Class> classList=getAllNeedParseClass();
         List<Catagory> catagoryList= ClassParseEngine.parse(classList);
-        return new Document(systemEnName,systemChName,docVersion,catagoryList);
+        return new Document(systemEnName.toUpperCase(),systemChName,docVersion,catagoryList);
     }
 
       private List<Class>  getAllNeedParseClass(){

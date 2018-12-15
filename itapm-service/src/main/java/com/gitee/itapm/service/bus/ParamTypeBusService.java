@@ -15,11 +15,14 @@ public class ParamTypeBusService {
     private ParamTypeService paramTypeService;
 
     public synchronized ParamTypeBO persist(Integer systemVersionId,String className,String resource){
-        ParamTypeBO paramTypeBO=paramTypeService.queryByInterfaceDetailIdNameAndResource(systemVersionId, className,resource);
+        ParamTypeBO paramTypeBO=paramTypeService.queryByInterfaceDetailIdResource(systemVersionId, resource);
         if(paramTypeBO==null){
             paramTypeBO=paramTypeService.persist(systemVersionId, className,resource);
         }
         return paramTypeBO;
     }
 
+    public ParamTypeBO queryByInterfaceDetailIdAndResource(Integer interfaceDetailId, String resource) {
+        return paramTypeService.queryByInterfaceDetailIdResource(interfaceDetailId, resource);
+    }
 }

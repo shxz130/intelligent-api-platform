@@ -20,8 +20,8 @@ public class ParamTypeServiceImpl implements ParamTypeService{
     private ParamTypeDOMapper paramTypeDOMapper;
 
     @Override
-    public ParamTypeBO queryByInterfaceDetailIdNameAndResource(Integer interfaceDetailId, String name, String resource) {
-         ParamTypeDO paramTypeDO=paramTypeDOMapper.queryByInterfaceDetailIdNameAndResource(interfaceDetailId, name, resource);
+    public ParamTypeBO queryByInterfaceDetailIdResource(Integer interfaceDetailId, String resource) {
+         ParamTypeDO paramTypeDO=paramTypeDOMapper.queryByInterfaceDetailIdNameAndResource(interfaceDetailId,  resource);
         if(paramTypeDO==null){
             return null;
         }

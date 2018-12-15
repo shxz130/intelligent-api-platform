@@ -3,6 +3,7 @@ package com.gitee.itapm.service.impl;
 import com.gitee.itapm.mapper.ParamGenericTypeDOMapper;
 import com.gitee.itapm.mapper.bean.ParamGenericTypeDO;
 import com.gitee.itapm.service.ParamGenericTypeService;
+import com.gitee.itapm.service.bean.GenericParamFieldBO;
 import com.gitee.itapm.service.bean.ParamGenericTypeBO;
 import com.gitee.itapm.utils.bean.BeanCopierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,15 @@ public class ParamGenericTypeServiceImpl implements ParamGenericTypeService {
         paramGenericTypeDO.setSystemVersionId(systemVersionId);
         paramGenericTypeDOMapper.persist(paramGenericTypeDO);
         return BeanCopierUtils.copyOne2One(paramGenericTypeDO,ParamGenericTypeBO.class);
+    }
+
+    @Override
+    public ParamGenericTypeBO queryById(Integer genericTypeId) {
+        ParamGenericTypeDO paramGenericTypeDO= paramGenericTypeDOMapper.queryById(genericTypeId);
+        if(paramGenericTypeDO==null){
+            return null;
+        }
+        return BeanCopierUtils.copyOne2One(paramGenericTypeDO,ParamGenericTypeBO.class);
+
     }
 }

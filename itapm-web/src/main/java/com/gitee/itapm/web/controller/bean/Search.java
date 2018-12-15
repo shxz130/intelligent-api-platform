@@ -14,7 +14,7 @@ import lombok.ToString;
 @Data
 public class Search extends BaseDTO {
 
-    private String systemId;
+    private Integer systemId;
 
     private String searchKey;
 

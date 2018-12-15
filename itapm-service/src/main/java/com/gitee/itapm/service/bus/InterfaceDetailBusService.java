@@ -1,10 +1,15 @@
 package com.gitee.itapm.service.bus;
 
+import com.gitee.itapm.mapper.bean.InterfaceDetailDO;
 import com.gitee.itapm.service.InterfaceDetailService;
 import com.gitee.itapm.service.bean.InterfaceDetailBO;
+import com.gitee.itapm.utils.bean.BeanCopierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,7 +32,7 @@ public class InterfaceDetailBusService {
         }else{
             interfaceDetailBO.setId(result.getId());
             interfaceDetailService.updateById(interfaceDetailBO);
-            result= interfaceDetailService.queryBySystemVersionIdAndName(interfaceDetailBO.getSystemVersionId(), interfaceDetailBO.getName());
+            result= interfaceDetailBO;
         }
         return result;
     }
@@ -38,5 +43,18 @@ public class InterfaceDetailBusService {
 
     public void deleteById(Integer id){
         interfaceDetailService.deleteById(id);
+    }
+
+    public InterfaceDetailBO queryById(Integer interfaceDetailId) {
+        return interfaceDetailService.queryById(interfaceDetailId);
+    }
+
+
+    public List<InterfaceDetailBO> queryBySystemVersionId(Integer systemVersionId) {
+        return interfaceDetailService.queryBySystemVersionId(systemVersionId);
+    }
+
+    public List<InterfaceDetailBO> queryBySystemVersionIdAndCondition(Integer systemVersionId, String searchKey) {
+        return interfaceDetailService.queryBySystemVersionIdAndCondition(systemVersionId,searchKey);
     }
 }

@@ -11,4 +11,7 @@ public interface SystemVersionService {
     public SystemVersionBO queryBySystemInfoIdAndVersion(Integer systemId,String version);
 
     public SystemVersionBO persist(Integer systemId,String systemEnName,String version);
+
+
+    SystemVersionBO queryLastOneBySystemInfoId(Integer systemInfoId);
 }

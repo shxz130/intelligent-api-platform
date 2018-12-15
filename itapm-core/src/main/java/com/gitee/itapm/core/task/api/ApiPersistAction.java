@@ -8,11 +8,11 @@ import com.gitee.itapm.service.SystemInfoService;
 import com.gitee.itapm.service.bean.*;
 import com.gitee.itapm.service.bus.*;
 import com.gitee.itapm.service.impl.InterfaceCatagoryServiceImpl;
-import com.sun.xml.internal.ws.wsdl.writer.document.ParamType;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import sun.net.www.content.text.Generic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +40,8 @@ public class ApiPersistAction {
     private ParamGenericTypeBusService paramGenericTypeBusService;
     @Autowired
     private ParamTypeRefGenericBusService paramTypeRefGenericBusService;
+    @Autowired
+    private GenericParamFieldBusService genericParamFieldBusService;
 
     public void handle(Document document){
         //初始化系统信息 增加，修改
@@ -59,9 +61,7 @@ public class ApiPersistAction {
         }
         //删除系统没有的分类
         for(InterfaceCatagoryBO interfaceCatagoryBO:catagoryList){
-
             interfaceCatagoryBusService.deleteById(interfaceCatagoryBO.getId());
-
         }
 
     }
@@ -96,14 +96,24 @@ public class ApiPersistAction {
         }
 
         for(Parameter parameter:parameterList){
+
+
             ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
             //保存
             //所有数据落库
+
+            List<GenericParamFieldBO> currentDBList=genericParamFieldBusService.queryByParamTypeId(paramGenericType.getId());
+
             if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
                 for(ParamField paramField:parameter.getParamFieldList()){
-                    ParamFieldBO insertBO= convertToParamFieldBO(paramGenericType.getId(),paramField);
-                    ParamFieldBO paramFieldBO=paramFieldBusService.persist(insertBO);
+                    GenericParamFieldBO insertBO= convertToGenericParamFieldBO(paramGenericType.getId(), paramField);
+                    genericParamFieldBusService.persist(insertBO);
+                    currentDBList.remove(insertBO);
                 }
+            }
+
+            for(GenericParamFieldBO genericParamFieldBO: currentDBList){
+                genericParamFieldBusService.deleteById(genericParamFieldBO.getId());
             }
         }
 
@@ -131,7 +141,7 @@ public class ApiPersistAction {
                     }
                     ParamFieldBO paramFieldBO=paramFieldBusService.persist(insertBO);
                     paramFieldDBBOList.remove(paramFieldBO);
-                    handleRefGeneric(interfaceDetailBO.getSystemVersionId(),paramTypeBO,paramField.getRefGenericClassNameList());
+                    handleRefGeneric(interfaceDetailBO.getSystemVersionId(),paramFieldBO,paramField.getRefGenericClassNameList());
                 }
             }
             for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
@@ -154,6 +164,18 @@ public class ApiPersistAction {
         return paramFieldBO;
     }
 
+    private GenericParamFieldBO convertToGenericParamFieldBO(Integer parentId,ParamField paramField){
+        GenericParamFieldBO paramFieldBO=new GenericParamFieldBO();
+        paramFieldBO.setGenericParamTypeId(parentId);
+        paramFieldBO.setDefaultValue(paramField.getDefaultValue());
+        paramFieldBO.setExample(paramField.getExample());
+        paramFieldBO.setParamDescription(paramField.getDesrciption());
+        paramFieldBO.setParamLength(paramField.getLength());
+        paramFieldBO.setParamName(paramField.getName());
+        paramFieldBO.setParamType(paramField.getType());
+        paramFieldBO.setRequired(paramField.getRequired());
+        return paramFieldBO;
+    }
 
 
     private InterfaceDetailBO convertApiDoc2InterfaceDetail(SystemVersionBO systemVersionBO,InterfaceCatagoryBO interfaceCatagoryBO,ApiDoc apiDoc){
@@ -172,23 +194,28 @@ public class ApiPersistAction {
         return interfaceDetailBO;
     }
 
-    private void handleRefGeneric(Integer systemVersionId ,ParamTypeBO paramTypeBO,List<String> genericClassList){
+    private void handleRefGeneric(Integer systemVersionId ,ParamFieldBO paramFieldBO,List<String> genericClassList){
         if(CollectionUtils.isEmpty(genericClassList)){
            return;
         }
         for(String classsName:genericClassList){
             ParamGenericTypeBO paramGenericTypeBO=paramGenericTypeBusService.queryBySystemVersionIdAndName(systemVersionId,classsName);
             if(paramGenericTypeBO !=null){
-                paramTypeRefGenericBusService.persist(paramTypeBO.getId(),paramGenericTypeBO.getId());
+                paramTypeRefGenericBusService.persist(paramFieldBO.getId(),paramGenericTypeBO.getId());
             }
         }
     }
 
 
-    private <T> String toString(Collection<T> collection){
+    private <T> String toString(List<T> collection){
         String result="";
-        for(T t:collection){
-            result=result+","+t;
+
+        for(int i=0;i<collection.size();i++){
+            if(collection.size()==1){
+                result= collection.get(i).toString();
+            }else {
+                result=result+","+collection.get(i);
+            }
         }
         return result;
     }

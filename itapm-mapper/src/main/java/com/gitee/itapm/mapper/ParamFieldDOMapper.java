@@ -22,8 +22,8 @@ public interface ParamFieldDOMapper {
     @Delete(ParamFieldSQLConstants.DELETE_BY_ID)
     Integer deleteById(@Param("id")Integer id);
 
+    @Insert(ParamFieldSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")
-    @Select(ParamFieldSQLConstants.PERSIST)
     void persist(ParamFieldDO paramFieldDO);
 
     @Select(ParamFieldSQLConstants.UPDATE_BY_ID)

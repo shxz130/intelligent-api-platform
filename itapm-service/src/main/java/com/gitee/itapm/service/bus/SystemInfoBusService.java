@@ -5,6 +5,8 @@ import com.gitee.itapm.service.bean.SystemInfoBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by jetty on 2018/12/12.
  */
@@ -30,4 +32,8 @@ public class SystemInfoBusService {
         }
        return systemInfoBO;
    }
+
+    public List<SystemInfoBO> queryAllList() {
+        return systemInfoService.queryAllList();
+    }
 }

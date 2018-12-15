@@ -16,4 +16,7 @@ public interface SystemVersionDOMapper {
     @Insert(SystemVersionSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")
     public void persist(SystemVersionDO systemVersionDO);
+
+    @Select(SystemVersionSQLConstants.QUERY_LAST_ONE_BY_STSTEM_INFO_ID)
+    SystemVersionDO queryLastOneBySystemInfoId(@Param("systemInfoId")Integer systemInfoId);
 }

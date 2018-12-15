@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jetty on 2018/12/9.
@@ -14,7 +15,7 @@ import java.util.Date;
 
 @Data
 @ToString
-@EqualsAndHashCode(exclude = {"id","createTime","updateTime"})
+@EqualsAndHashCode(of = {"id"})
 public class InterfaceDetailBO extends BaseBO{
 
     private Integer id;
@@ -51,6 +52,8 @@ public class InterfaceDetailBO extends BaseBO{
 
     private Date updateTime;
 
+    private ParamTypeBO reqParamTypeBO;
 
+    private ParamTypeBO respParamTypeBO;
 
 }

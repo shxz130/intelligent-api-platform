@@ -9,47 +9,40 @@
         <link rel="stylesheet" href="${request.contextPath}/css/font.css">
         <link rel="stylesheet" href="${request.contextPath}/css/xadmin.css">
         <link rel="stylesheet" href="${request.contextPath}/css/layui.css">
+        <script type="text/javascript" src="${request.contextPath}/js/jquery.min.js"></script>
+        <script type="text/javascript" src="${request.contextPath}/js/xadmin.js"></script>
         <script src="${request.contextPath}/js/layui.js" charset="utf-8"></script>
+        <script src="${request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
+
     </head>
     <body>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
     <div class="x-body layui-anim layui-anim-up">
     
         <div class="layui-row layui-col-space10">
              <div class="layui-col-md2">
              <div class="layui-select-title">
                   <div class="layui-input-inline">
-                    <select name="modules" lay-verify="required" class="layui-input" lay-search="">
+                    <select name="modules" lay-verify="required" id="systemId" class="layui-input" lay-search="" >
                       <option value="">所有系统</option>
-                      <option value="1">layer</option>
-                      <option value="2">form</option>
-                      <option value="3">layim</option>
-                      <option value="4">element</option>
-                      <option value="5">laytpl</option>
-                      <option value="6">upload</option>
-                      <option value="7">laydate</option>
-                      <option value="8">laypage</option>
-                      <option value="9">flow</option>
-                      <option value="10">util</option>
-                      <option value="11">code</option>
-                      <option value="12">tree</option>
-                      <option value="13">layedit</option>
-                      <option value="14">nav</option>
-                      <option value="15">tab</option>
-                      <option value="16">table</option>
-                      <option value="17">select</option>
-                      <option value="18">checkbox</option>
-                      <option value="19">switch</option>
-                      <option value="20">radio</option>
+                      <#list systemInfoList as systemInfo>
+                          <option value="${systemInfo.id?c}">${systemInfo.enName}</option>
+                      </#list>
                     </select>
                   </div>
                 </div>
                 </div>
              <div class="layui-col-md8">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入接口名称或者接口描述信息" class="layui-input">
+                <input type="text" name="title" id="searchKey" lay-verify="title" autocomplete="off" placeholder="请输入接口名称或者接口描述信息" class="layui-input">
 
              </div>
              <div class="layui-col-md2">
-                     <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                     <button class="layui-btn" onclick="redirect(1)" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
               </div>
         </div>
 
@@ -58,57 +51,60 @@
         <br/>
         <br/>
         <br/>
-  <table class="layui-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>所属系统</th>
-            <th>接口名称</th>
-            <th>接口描述</th>
-            <th>录入版本</th>
-            <th>接口负责人</th>
-            <td>状态</td>
-            <th>录入时间</th>
-            <th>最后修改时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>FTS</td>
-            <td>com.github.fts.facade.GenearalTransFacade.TransFacade.queryTransByTransId</td>
-            <td>根据交易流水号查询交易接口</td>
-            <td>V1.0 SNAPSHOT</td>
-            <td>zhangbo</td>
-            <td>状态标识</td>
-           <td>2017-01-01 11:11:42</td>
-            <td>2017-01-01 11:11:42</td>
-            <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">查看明细</span>
-            </td>
-          </tr>
-        </tbody>
-       </table>
-       <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
-      </div>
+
+        <#if pageBean??>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>所属系统</th>
+                    <th>接口名称</th>
+                    <th>接口描述</th>
+                    <td>状态</td>
+                    <th>录入时间</th>
+                    <th>最后修改时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list pageBean.dataList as interfaceDetail>
+                    <tr>
+                        <td>${interfaceDetail.id?c}</td>
+                        <td>${interfaceDetail.systemName}</td>
+                        <td>${interfaceDetail.name}</td>
+                        <td>${interfaceDetail.description}</td>
+                        <td>${interfaceDetail.status}</td>
+                        <td>${(interfaceDetail.createTime?date)!}</td>
+                        <td>${(interfaceDetail.updatetime?date)!}</td>
+                        <td class="td-status">
+                            <button class="layui-btn layui-btn-normal layui-btn-mini" onclick="javascript:redirectInterfaceDetail(${interfaceDetail.id?c});">查看明细</button>
+                        </td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+            <div class="page">
+
+                <input type="hidden" id="pageSize" value="${pageBean.currentPage}">
+                <input type="hidden" id="currentPage" value="${pageBean.currentPage}">
 
 
 
+                <div>
+                    <a class="prev" href="javascript:redirect(${pageBean.currentPage-10})">&lt;&lt;</a>
+                    <a class="num" href="javascript:redirect(${pageBean.currentPage-1})">${pageBean.currentPage-1}</a>
+                    <span class="current">${pageBean.currentPage}</span>
+                    <a class="num" href="">${pageBean.currentPage+1}</a>
+                    <a class="next" href="javascript:redirect(${pageBean.currentPage+10})">&gt;&gt;</a>
+                </div>
+            </div>
+        </#if>
 
 
 
 
         
-       <fieldset class="layui-elem-field">
+      <!-- <fieldset class="layui-elem-field">
           <legend>数据统计</legend>
           <div class="layui-field-box">
               <div class="layui-col-md12">
@@ -131,7 +127,7 @@
                                                   <cite>12</cite></p>
                                           </a>
                                       </li>
-                                     <!--  <li class="layui-col-xs2">
+                                     &lt;!&ndash;  <li class="layui-col-xs2">
                                           <a href="javascript:;" class="x-admin-backlog-body">
                                               <h3>回复数</h3>
                                               <p>
@@ -158,7 +154,7 @@
                                               <p>
                                                   <cite>6766</cite></p>
                                           </a>
-                                      </li> -->
+                                      </li> &ndash;&gt;
                                   </ul>
                               </div>
                           </div>
@@ -166,7 +162,7 @@
                   </div>
               </div>
           </div>
-      </fieldset>
+      </fieldset>-->
         <fieldset class="layui-elem-field">
             <legend>开发团队</legend>
             <div class="layui-field-box">
@@ -185,4 +181,27 @@
 
 
     </body>
+
+
+    <script type="text/javascript">
+
+        function redirect(currentPage){
+            var systemId=$("#systemId").val();
+            var searchKey=$("#searchKey").val();
+            var currentPage=currentPage;
+            var pageSize=10;
+            if(systemId ==''){
+                layer.msg('请先选择系统，再查询', function(){
+                });
+                return;
+            }
+            window.location.href="${request.contextPath}"+"/itapm/go_search.htm?systemId="+systemId+"&searchKey="+searchKey+"&currentPage="+currentPage+"&pageSize="+pageSize;
+        }
+
+
+        function redirectInterfaceDetail(interfaceDetailId){
+
+            window.open("${request.contextPath}"+"/itapm/go_interface_detail.htm?interfaceDetailId="+interfaceDetailId);
+        }
+    </script>
 </html>

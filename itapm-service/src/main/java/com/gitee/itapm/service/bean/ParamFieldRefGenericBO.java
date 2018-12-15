@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParamTypeRefGenericBO extends BaseBO {
+public class ParamFieldRefGenericBO extends BaseBO {
 
     private Integer id;
 
-    private Integer paramTypeId;
+    private Integer paramFieldId;
 
     private Integer genericTypeId;
 
-    public ParamTypeRefGenericBO(Integer paramTypeId,Integer genericTypeId){
-        this.paramTypeId=this.paramTypeId;
+    public ParamFieldRefGenericBO(Integer paramFieldId, Integer genericTypeId){
+        this.paramFieldId=this.paramFieldId;
         this.genericTypeId=this.genericTypeId;
     }
 

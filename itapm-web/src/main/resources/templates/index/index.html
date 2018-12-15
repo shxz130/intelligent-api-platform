@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="${request.contextPath}/css/font.css">
 	<link rel="stylesheet" href="${request.contextPath}/css/xadmin.css">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/js/jquery.min.js"></script>
     <script src="${request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/xadmin.js"></script>
 
@@ -25,14 +25,14 @@
         </div>
         
         <ul class="layui-nav right" lay-filter="">
-          <li class="layui-nav-item">
+         <!-- <li class="layui-nav-item">
             <a href="javascript:;">admin</a>
-            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+            <dl class="layui-nav-child"> &lt;!&ndash; 二级菜单 &ndash;&gt;
               <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
               <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
               <dd><a href="../login/login.html">退出</a></dd>
             </dl>
-          </li>
+          </li>-->
         </ul>
         
     </div>
@@ -42,47 +42,40 @@
     <div class="left-nav">
       <div id="side-nav">
         <ul id="nav">
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6b8;</i>
-                    <cite>金融交易系统FTS</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe723;</i>
-                            <cite>查询接口</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="${request.contextPath}/itapm/go_interface_detail.htm">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表查询，酒店明细查询，酒店代码查询</cite>
-                                
-                                </a>
-                            </li >
-                            <li>
-                                <a _href="${request.contextPath}/itapm/go_interface_detail.htm">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>查询交易状态</cite>
-                                    
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="${request.contextPath}/itapm/go_interface_detail.htm">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>调单查询接口</cite>
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </li>
-                </ul>
-            </li>
 
+            <#list systemInfoList as systemInfo>
+                <li>
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe6b8;</i>
+                        <cite> ${systemInfo.systemEnName!}</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <#list systemInfo.catagoryList as catagory>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="iconfont">&#xe723;</i>
+                                    <cite>${catagory.catagoryName}</cite>
+                                    <i class="iconfont nav_right">&#xe697;</i>
+                                </a>
+                                <ul class="sub-menu">
+                                    <#list catagory.interfaceDetailBOList as interfaceDetail>
+                                        <li>
+                                            <a _href="${request.contextPath}/itapm/go_interface_detail.htm?interfaceDetailId=${interfaceDetail.id?c}">
+                                                <i class="iconfont">&#xe6a7;</i>
+                                                <cite>${interfaceDetail.description}</cite>
+                                            </a>
+                                        </li >
+                                    </#list>
+                                </ul>
+                            </li>
+                        </#list>
+
+
+                    </ul>
+                </li>
+            </#list>
         </ul>
       </div>
     </div>

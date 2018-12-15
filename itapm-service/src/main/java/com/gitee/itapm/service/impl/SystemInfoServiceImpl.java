@@ -8,6 +8,10 @@ import com.gitee.itapm.utils.bean.BeanCopierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.interceptor.BeanFactoryCacheOperationSourceAdvisor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jetty on 2018/12/11.
@@ -40,5 +44,14 @@ public class SystemInfoServiceImpl implements SystemInfoService {
     public void updateById(SystemInfoBO systemInfoBO) {
         SystemInfoDO systemInfoDO= BeanCopierUtils.copyOne2One(systemInfoBO,SystemInfoDO.class);
         systemInfoDOMapper.updateById(systemInfoDO);
+    }
+
+    @Override
+    public List<SystemInfoBO> queryAllList() {
+       List<SystemInfoDO> systemInfoDOList= systemInfoDOMapper.queryAllList();
+       if(CollectionUtils.isEmpty(systemInfoDOList)){
+           return Collections.emptyList();
+       }
+       return BeanCopierUtils.copyList2List(systemInfoDOList,SystemInfoBO.class);
     }
 }

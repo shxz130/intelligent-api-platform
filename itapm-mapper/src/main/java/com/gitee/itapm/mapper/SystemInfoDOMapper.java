@@ -4,6 +4,8 @@ import com.gitee.itapm.mapper.bean.SystemInfoDO;
 import com.gitee.itapm.mapper.constants.SystemInfoSQLConstants;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * Created by jetty on 2018/12/9.
  */
@@ -19,4 +21,7 @@ public interface SystemInfoDOMapper {
 
     @Update(SystemInfoSQLConstants.UPDATE_BY_ID)
     public void updateById(SystemInfoDO systemInfoDO);
+
+    @Select(SystemInfoSQLConstants.QUERY_ALL)
+    List<SystemInfoDO> queryAllList();
 }

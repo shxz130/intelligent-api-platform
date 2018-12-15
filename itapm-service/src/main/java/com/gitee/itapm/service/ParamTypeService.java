@@ -7,7 +7,7 @@ import com.gitee.itapm.service.bean.ParamTypeBO;
  */
 public interface ParamTypeService {
 
-    public ParamTypeBO queryByInterfaceDetailIdNameAndResource(Integer interfaceDetailId,String name,String resource);
+    public ParamTypeBO queryByInterfaceDetailIdResource(Integer interfaceDetailId, String resource);
 
     public ParamTypeBO persist(Integer interfaceDetailId,String name,String resource);
 

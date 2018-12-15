@@ -24,10 +24,11 @@ public class InterfaceDetailServiceImpl implements InterfaceDetailService{
     private InterfaceDetailDOMapper interfaceDetailDOMapper;
 
     @Override
-    public InterfaceDetailBO persist(InterfaceDetailBO interfaceDetailBO) {
+    public void persist(InterfaceDetailBO interfaceDetailBO) {
         InterfaceDetailDO interfaceDetailDO= BeanCopierUtils.copyOne2One(interfaceDetailBO, InterfaceDetailDO.class);
         interfaceDetailDOMapper.persist(interfaceDetailDO);
-        return BeanCopierUtils.copyOne2One(interfaceDetailDO,InterfaceDetailBO.class);
+        interfaceDetailBO.setId(interfaceDetailDO.getId());
+
     }
 
     @Override
@@ -57,5 +58,30 @@ public class InterfaceDetailServiceImpl implements InterfaceDetailService{
     @Override
     public void deleteById(Integer id) {
         interfaceDetailDOMapper.deleteById(id);
+    }
+
+    @Override
+    public InterfaceDetailBO queryById(Integer interfaceDetailId) {
+        InterfaceDetailDO interfaceDetailDO= interfaceDetailDOMapper.queryById(interfaceDetailId);
+        if(interfaceDetailDO==null){
+            return null;
+        }
+        return BeanCopierUtils.copyOne2One(interfaceDetailDO,InterfaceDetailBO.class);
+    }
+
+    public List<InterfaceDetailBO> queryBySystemVersionId(Integer systemVersionId) {
+        List<InterfaceDetailDO> interfaceDetailList=interfaceDetailDOMapper.queryBySystemVersionId(systemVersionId);
+        if(CollectionUtils.isEmpty(interfaceDetailList)){
+            return Collections.emptyList();
+        }
+        return BeanCopierUtils.copyList2List(interfaceDetailList,InterfaceDetailBO.class);
+    }
+
+    public List<InterfaceDetailBO> queryBySystemVersionIdAndCondition(Integer systemVersionId, String searchKey) {
+        List<InterfaceDetailDO> interfaceDetailList=interfaceDetailDOMapper.queryBySystemVersionIdAndCondition(systemVersionId,searchKey);
+        if(CollectionUtils.isEmpty(interfaceDetailList)){
+            return Collections.emptyList();
+        }
+        return BeanCopierUtils.copyList2List(interfaceDetailList,InterfaceDetailBO.class);
     }
 }

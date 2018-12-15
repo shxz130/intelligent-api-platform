@@ -1,6 +1,7 @@
 package com.gitee.itapm.service.bus;
 
 import com.gitee.itapm.service.ParamGenericTypeService;
+import com.gitee.itapm.service.bean.GenericParamFieldBO;
 import com.gitee.itapm.service.bean.ParamGenericTypeBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,5 +25,9 @@ public class ParamGenericTypeBusService {
 
     public ParamGenericTypeBO queryBySystemVersionIdAndName(Integer systemVersionId,String name){
         return paramGenericTypeService.queryBySystemVersionIdAndName(systemVersionId,name);
+    }
+
+    public ParamGenericTypeBO queryById(Integer genericTypeId) {
+        return paramGenericTypeService.queryById(genericTypeId);
     }
 }

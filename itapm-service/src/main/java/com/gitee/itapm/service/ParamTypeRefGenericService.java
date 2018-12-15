@@ -1,6 +1,8 @@
 package com.gitee.itapm.service;
 
-import com.gitee.itapm.service.bean.ParamTypeRefGenericBO;
+import com.gitee.itapm.service.bean.ParamFieldRefGenericBO;
+
+import java.util.List;
 
 /**
  * Created by jetty on 2018/12/13.
@@ -9,9 +11,11 @@ import com.gitee.itapm.service.bean.ParamTypeRefGenericBO;
 public interface ParamTypeRefGenericService {
 
 
-    public ParamTypeRefGenericBO queryByParamAndGenericTypeId(Integer paramTypeId,Integer genericTypeId);
+    public ParamFieldRefGenericBO queryByParamAndGenericTypeId(Integer paramTypeId,Integer genericTypeId);
 
-    public ParamTypeRefGenericBO persist(Integer paramTypeId,Integer genericTypeId);
+    public ParamFieldRefGenericBO persist(Integer paramTypeId,Integer genericTypeId);
 
     public void deleteByParamTypeId(Integer id);
+
+    List<ParamFieldRefGenericBO> queryByFieldId(Integer fieldId);
 }

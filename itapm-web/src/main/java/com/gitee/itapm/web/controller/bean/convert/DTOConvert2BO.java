@@ -9,7 +9,10 @@ import com.gitee.itapm.web.controller.bean.Search;
 public class DTOConvert2BO {
 
     public static SearchReq convert2SearchBO(Search search){
-
-        return new SearchReq();
+        SearchReq searchReq=new SearchReq();
+        searchReq.setCurrentPage(search.getCurrentPage());
+        searchReq.setPageSize(search.getPageSize());
+        searchReq.setSystemId(search.getSystemId());
+        return searchReq;
     }
 }

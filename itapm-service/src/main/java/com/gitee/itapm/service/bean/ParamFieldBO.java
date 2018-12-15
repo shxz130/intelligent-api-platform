@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @ToString
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id","createTime","updateTime"})
+@EqualsAndHashCode(of = {"id"})
 public class ParamFieldBO {
 
     private Integer id;
@@ -33,6 +33,10 @@ public class ParamFieldBO {
     private String paramDescription;
 
     private String example;
+
+    private Integer parentId=0;
+
+    private Boolean hasGenericParam=false;
 
     private Date createTime;
 

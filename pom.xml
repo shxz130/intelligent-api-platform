@@ -34,6 +34,7 @@
         <lombok.version>1.16.20</lombok.version>
         <junit.version>4.10</junit.version>
         <hutool.version>4.1.19</hutool.version>
+        <pageHelper.version>5.1.2</pageHelper.version>
     </properties>
 
     <parent>
@@ -138,8 +139,17 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pageHelper.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+
 
 
 

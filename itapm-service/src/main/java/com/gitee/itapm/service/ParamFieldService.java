@@ -15,7 +15,7 @@ public interface ParamFieldService {
 
     public Integer deleteById(Integer id);
 
-    public ParamFieldBO persist(ParamFieldBO paramFieldBO);
+    public void persist(ParamFieldBO paramFieldBO);
 
     public Integer updateById(ParamFieldBO paramFieldBO);
 }

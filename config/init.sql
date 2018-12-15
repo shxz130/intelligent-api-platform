@@ -1,11 +1,10 @@
 /**
   系统列表
 */
-
+drop DATABASE  itapm;
 create database itapm;
 
 use itapm;
-
 
 create table t_itapm_system_info(
   id INT auto_increment PRIMARY  key COMMENT '主键',
@@ -16,7 +15,6 @@ create table t_itapm_system_info(
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '系统信息';
-
 
 ALTER table t_itapm_system_info add UNIQUE INDEX IDX_SYSTEM_EN_NAME(en_name);
 
@@ -30,6 +28,7 @@ create table t_itapm_system_version(
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '系统信息';
+
 ALTER table t_itapm_system_version add UNIQUE INDEX IDX_SYSTEM_VERSION_NAME_VERSION(system_id,system_version);
 
 
@@ -42,6 +41,7 @@ create TABLE t_itapm_interface_catagory(
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '接口类别';
+
 ALTER table t_itapm_interface_catagory add UNIQUE INDEX IDX_catagory_version_id_name(system_version_id,name);
 
 
@@ -61,6 +61,7 @@ create TABLE t_itapm_interface_detail(
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '接口明细表';
+
 ALTER table t_itapm_interface_detail add UNIQUE INDEX idx_detail_version_id_name(catagory_id,name);
 
 
@@ -73,6 +74,7 @@ create TABLE t_itapm_param_type(
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型表';
+
 ALTER table t_itapm_param_type add UNIQUE INDEX idx_param_detail_id_name(interface_detail_id,param_type_name,resource);
 
 
@@ -84,17 +86,19 @@ create TABLE t_itapm_generic_param_type(
   create_time datetime COMMENT '创建时间',
   update_time datetime COMMENT '创建时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '泛型参数类型';
-ALTER TABLE t_itapm_generic_param_type ADD UNIQUE INDEX IDX_GENERIC_TYPE(systemVersionId,name);
+
+ALTER TABLE t_itapm_generic_param_type ADD UNIQUE INDEX IDX_GENERIC_TYPE(system_version_id,name);
 
 
-CREATE TABLE t_itapm_param_type_ref_generic(
-id INT auto_increment PRIMARY key COMMENT '主键',
-param_type_id INT NOT NULL ,
-generic_type_id INT NOT NULL,
-create_time datetime COMMENT '创建时间',
-update_time datetime COMMENT '创建时间'
+CREATE TABLE t_itapm_param_field_ref_generic(
+  id INT auto_increment PRIMARY key COMMENT '主键',
+  param_field_id INT NOT NULL ,
+  generic_type_id INT NOT NULL,
+  create_time datetime COMMENT '创建时间',
+  update_time datetime COMMENT '创建时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型和泛型类型对应关系表';
-ALTER TABLE t_itapm_param_type_ref_generic add UNIQUE INDEX IDX_PARAM_TYPE_REF(param_type_id,generic_type_id);
+
+ALTER TABLE t_itapm_param_field_ref_generic add UNIQUE INDEX IDX_PARAM_TYPE_REF(param_field_id,generic_type_id);
 
 
 
@@ -114,3 +118,21 @@ CREATE TABLE t_itapm_param_field(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型表';
 
 ALTER TABLE t_itapm_param_field add INDEX IDX_PARAM_FIELD_TYPE_ID(param_type_id);
+
+
+
+CREATE TABLE t_itapm_generic_param_field(
+  id INT auto_increment PRIMARY  key COMMENT '主键',
+  generic_param_type_id INT COMMENT '父参数',
+  param_name VARCHAR(128) NOT NULL COMMENT '参数名称',
+  param_type VARCHAR(256) NOT NULL COMMENT '参数类型',
+  param_length INT COMMENT '参数长度',
+  required VARCHAR(2) COMMENT 'Y 必填 N 非必填',
+  default_value VARCHAR(64) COMMENT '默认值',
+  param_description VARCHAR(64) COMMENT '参数描述信息',
+  example VARCHAR(256) COMMENT '例子',
+  create_time datetime COMMENT '创建时间',
+  update_time datetime COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型表';
+
+ALTER TABLE t_itapm_generic_param_field add INDEX IDX_GENERIC_PARAM_FIELD_TYPE_ID(generic_param_type_id);

@@ -46,10 +46,10 @@ public class ParamFieldServiceImpl implements ParamFieldService{
     }
 
     @Override
-    public ParamFieldBO persist(ParamFieldBO paramFieldBO) {
+    public void persist(ParamFieldBO paramFieldBO) {
         ParamFieldDO paramFieldDO=BeanCopierUtils.copyOne2One(paramFieldBO,ParamFieldDO.class);
         paramFieldDOMapper.persist(paramFieldDO);
-        return BeanCopierUtils.copyOne2One(paramFieldDO,ParamFieldBO.class);
+        paramFieldBO.setId(paramFieldDO.getId());
     }
 
     @Override

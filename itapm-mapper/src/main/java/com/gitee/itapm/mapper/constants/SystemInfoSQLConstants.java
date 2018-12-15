@@ -39,6 +39,8 @@ public final class SystemInfoSQLConstants {
             "select " + QUERY_TABLE_PARAMS +" from" + TABLE_NAME+"  where en_name = " +
                     "#{enName}";
 
+    public static final String QUERY_ALL= "select " + QUERY_TABLE_PARAMS +" from" + TABLE_NAME;
+
 
     public static final String UPDATE_BY_ID = "update "+TABLE_NAME+" set ch_name=#{chName}, e" +
             "n_name=${enName},update_time=now() where id=#{id}";

@@ -25,5 +25,7 @@ public class SystemVersionBusService {
     }
 
 
-
+    public SystemVersionBO queryLastOneBySystemInfoId(Integer systemInfoId) {
+        return systemVersionService.queryLastOneBySystemInfoId(systemInfoId);
+    }
 }
