@@ -40,6 +40,9 @@ public class ParamGenericTypeBusService {
     public void deleteById(Integer genericTypeId) {
         ParamGenericTypeBO paramGenericType=paramGenericTypeService.queryById(genericTypeId);
         paramGenericTypeService.deleteById(genericTypeId);
+        if(paramGenericType==null){
+            return;
+        }
         List<GenericParamFieldBO> genericParamFieldList=genericParamFieldBusService.queryByParamTypeId(paramGenericType.getId());
         for(GenericParamFieldBO genericParamFieldBO: genericParamFieldList){
             genericParamFieldBusService.deleteById(genericParamFieldBO.getId());

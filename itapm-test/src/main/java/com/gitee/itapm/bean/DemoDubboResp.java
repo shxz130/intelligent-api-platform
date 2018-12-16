@@ -17,7 +17,7 @@ public class DemoDubboResp {
     @ApiParam
     private String memo;
     @ApiParam(length = 88,required= Required.Y,defaultValue = "Y",example="11",desrciption = "map")
-    private Map<ModelA,ModelB> map;
+    private Map<String,TransInfo> map;
 
     @ApiParam
     private List<String> listString;

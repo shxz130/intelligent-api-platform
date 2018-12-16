@@ -43,7 +43,7 @@ public class ItapmDocMojo extends AbstractMojo {
 
     private Set<String> jarFilePathSet;
 
-    @Parameter(readonly = true, defaultValue = "${systemEnName}")
+    @Parameter
     private String systemEnName;
 
     @Parameter

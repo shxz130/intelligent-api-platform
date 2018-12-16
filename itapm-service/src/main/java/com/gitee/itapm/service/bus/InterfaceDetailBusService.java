@@ -44,12 +44,16 @@ public class InterfaceDetailBusService {
     }
 
     public void deleteById(Integer id){
+        interfaceDetailService.deleteById(id);
         InterfaceDetailBO interfaceDetailBO=interfaceDetailService.queryById(id);
         ParamTypeBO req=paramTypeBusService.queryByInterfaceDetailIdAndResource(id, "REQ");
         ParamTypeBO resp=paramTypeBusService.queryByInterfaceDetailIdAndResource(id, "RESP");
-        paramTypeBusService.deleteById(req.getId());
-        paramTypeBusService.deleteById(resp.getId());
-
+        if(req!=null){
+            paramTypeBusService.deleteById(req.getId());
+        }
+        if(resp!=null){
+            paramTypeBusService.deleteById(resp.getId());
+        }
     }
 
     public InterfaceDetailBO queryById(Integer interfaceDetailId) {

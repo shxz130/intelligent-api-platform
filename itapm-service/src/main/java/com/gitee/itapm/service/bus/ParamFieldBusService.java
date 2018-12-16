@@ -43,7 +43,6 @@ public class ParamFieldBusService {
         List<ParamFieldRefGenericBO> paramFieldRefGenericList=paramTypeRefGenericBusService.queryByFieldId(id);
         for(ParamFieldRefGenericBO paramFieldRefGenericBO: paramFieldRefGenericList){
             paramTypeRefGenericBusService.deleteById(paramFieldRefGenericBO.getId());
-            paramGenericTypeBusService.deleteById(paramFieldRefGenericBO.getGenericTypeId());
         }
 
     }

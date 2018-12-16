@@ -4,6 +4,7 @@ import com.gitee.itapm.annotations.ApiParam;
 import com.gitee.itapm.annotations.enums.Required;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class QueryReq {
     @ApiParam(length = 64,required= Required.Y,defaultValue = "",example="I0003454645453423453",desrciption="名称")
     private String  transId;
     @ApiParam
-    private Integer reqSerial;
+    private List<TransInfo> reqSerial;
 
 
 }
