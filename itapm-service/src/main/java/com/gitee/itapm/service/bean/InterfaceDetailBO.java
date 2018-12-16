@@ -1,5 +1,6 @@
 package com.gitee.itapm.service.bean;
 
+import com.alibaba.druid.util.StringUtils;
 import com.gitee.itapm.mapper.bean.parent.AbstractDO;
 import com.gitee.itapm.service.bean.parent.BaseBO;
 import lombok.Data;
@@ -55,8 +56,6 @@ public class InterfaceDetailBO extends BaseBO{
     private ParamTypeBO reqParamTypeBO;
 
     private ParamTypeBO respParamTypeBO;
-
-
 
 
 }

@@ -31,8 +31,6 @@ public class InterfaceDetailBusService {
         if(result==null){
             interfaceDetailService.persist(interfaceDetailBO);
             result=interfaceDetailBO;
-        }else if(result.equals(interfaceDetailBO)){
-            return result;
         }else{
             interfaceDetailBO.setId(result.getId());
             interfaceDetailService.updateById(interfaceDetailBO);
