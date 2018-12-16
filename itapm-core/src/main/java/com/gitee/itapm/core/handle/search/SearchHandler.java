@@ -11,6 +11,7 @@ import com.gitee.itapm.service.bus.InterfaceDetailBusService;
 import com.gitee.itapm.service.bus.SystemInfoBusService;
 import com.gitee.itapm.service.bus.SystemVersionBusService;
 import com.gitee.itapm.utils.page.PageBean;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,29 +41,26 @@ public class SearchHandler extends AbstractHandler<SearchReq,SearchResp> {
         if(request.getSystemId()==null){
             return;
         }
-        PageHelper.startPage(request.getCurrentPage(), request.getPageSize());
         SystemVersionBO systemVersionBO=systemVersionBusService.queryLastOneBySystemInfoId(request.getSystemId());
+        Page page=null;
         List<InterfaceDetailBO> interfaceDetailBOList=null;
         if(StringUtils.isBlank(request.getSearchKey())){
+            page= PageHelper.startPage(request.getCurrentPage(), request.getPageSize());
             interfaceDetailBOList = interfaceDetailBusService.queryBySystemVersionId(systemVersionBO.getId());
         }else{
+            page=PageHelper.startPage(request.getCurrentPage(), request.getPageSize());
             interfaceDetailBOList = interfaceDetailBusService.queryBySystemVersionIdAndCondition(systemVersionBO.getId(),request.getSearchKey());
         }
-        Integer pageCount=PageHelper.getLocalPage().getPages();
-        response.setPageBean(buildPageBean(interfaceDetailBOList));
+        response.setPageBean(buildPageBean(interfaceDetailBOList,page));
 
     }
 
-    private PageBean<InterfaceDetailBO> buildPageBean(List<InterfaceDetailBO> interfaceDetailBOList){
-        Integer pageCount=PageHelper.getLocalPage().getPages();
-        Integer pageSize=PageHelper.getLocalPage().getPageSize();
-        Integer currentPage=PageHelper.getLocalPage().getPageNum();
-        Integer totalCount=((Long)PageHelper.getLocalPage().getTotal()).intValue();
+    private PageBean<InterfaceDetailBO> buildPageBean(List<InterfaceDetailBO> interfaceDetailBOList,Page page){
         PageBean<InterfaceDetailBO> pageBean=new PageBean<InterfaceDetailBO>();
-        pageBean.setCurrentPage(currentPage);
-        pageBean.setPageSize(pageSize);
-        pageBean.setTotalPage(pageCount);
-        pageBean.setTotalCount(totalCount);
+        pageBean.setCurrentPage(page.getPageNum());
+        pageBean.setPageSize(page.getPageSize());
+        pageBean.setTotalPage(page.getPages());
+        pageBean.setTotalCount(((Long)page.getTotal()).intValue());
         pageBean.setDataList(interfaceDetailBOList);
         return pageBean;
     }

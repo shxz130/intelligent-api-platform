@@ -18,5 +18,8 @@ public class QueryReq {
     @ApiParam
     private List<TransInfo> reqSerial;
 
+    @ApiParam
+    private String name;
+
 
 }
