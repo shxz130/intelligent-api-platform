@@ -11,4 +11,5 @@ public interface ParamTypeService {
 
     public ParamTypeBO persist(Integer interfaceDetailId,String name,String resource);
 
+    void deleteById(Integer id);
 }

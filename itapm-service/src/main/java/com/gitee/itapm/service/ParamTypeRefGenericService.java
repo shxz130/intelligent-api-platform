@@ -18,4 +18,6 @@ public interface ParamTypeRefGenericService {
     public void deleteByParamTypeId(Integer id);
 
     List<ParamFieldRefGenericBO> queryByFieldId(Integer fieldId);
+
+    void deleteById(Integer id);
 }

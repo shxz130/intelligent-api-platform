@@ -45,6 +45,10 @@ public class ParamGenericTypeServiceImpl implements ParamGenericTypeService {
             return null;
         }
         return BeanCopierUtils.copyOne2One(paramGenericTypeDO,ParamGenericTypeBO.class);
+    }
 
+    @Override
+    public void deleteById(Integer genericTypeId) {
+        paramGenericTypeDOMapper.deleteById(genericTypeId);
     }
 }

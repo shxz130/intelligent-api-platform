@@ -2,6 +2,7 @@ package com.gitee.itapm.service.bus;
 
 import com.gitee.itapm.service.ParamFieldService;
 import com.gitee.itapm.service.bean.ParamFieldBO;
+import com.gitee.itapm.service.bean.ParamFieldRefGenericBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,10 @@ public class ParamFieldBusService {
 
     @Autowired
     private ParamFieldService paramFieldService;
+    @Autowired
+    private ParamTypeRefGenericBusService  paramTypeRefGenericBusService;
+    @Autowired
+    private ParamGenericTypeBusService paramGenericTypeBusService;
 
     public synchronized ParamFieldBO persist(ParamFieldBO paramFieldBO){
         ParamFieldBO result= paramFieldService.queryByParamTypeIdAndParamName(paramFieldBO.getParamTypeId(), paramFieldBO.getParamName());
@@ -35,5 +40,11 @@ public class ParamFieldBusService {
 
     public void deleteById(Integer id){
         paramFieldService.deleteById(id);
+        List<ParamFieldRefGenericBO> paramFieldRefGenericList=paramTypeRefGenericBusService.queryByFieldId(id);
+        for(ParamFieldRefGenericBO paramFieldRefGenericBO: paramFieldRefGenericList){
+            paramTypeRefGenericBusService.deleteById(paramFieldRefGenericBO.getId());
+            paramGenericTypeBusService.deleteById(paramFieldRefGenericBO.getGenericTypeId());
+        }
+
     }
 }

@@ -16,6 +16,10 @@ public interface ParamGenericTypeDOMapper {
     @Insert(ParamGenericTypeSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")
     void persist(ParamGenericTypeDO paramGenericTypeDO);
+
     @Select(ParamGenericTypeSQLConstants.QUERY_BY_ID)
     ParamGenericTypeDO queryById(Integer genericTypeId);
+
+    @Delete(ParamGenericTypeSQLConstants.DELETE_BY_ID)
+    void deleteById(@Param("id")Integer genericTypeId);
 }

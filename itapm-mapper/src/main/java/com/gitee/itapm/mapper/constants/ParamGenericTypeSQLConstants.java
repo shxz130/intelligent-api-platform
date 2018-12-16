@@ -14,4 +14,8 @@ public class ParamGenericTypeSQLConstants {
             " name as name from t_itapm_generic_param_type where id=#{id}" ;
 
     public static final String PERSIST = "insert into t_itapm_generic_param_type(system_version_id,name,create_time,update_time) values (#{systemVersionId},#{name},now(),now())";
+
+
+    public static final String DELETE_BY_ID = "delete from t_itapm_generic_param_type where id =${id}";
+
 }

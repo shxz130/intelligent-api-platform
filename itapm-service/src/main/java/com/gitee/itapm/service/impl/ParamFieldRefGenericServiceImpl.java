@@ -53,4 +53,9 @@ public class ParamFieldRefGenericServiceImpl implements ParamTypeRefGenericServi
         }
         return BeanCopierUtils.copyList2List(paramTypeRefGenericDOList,ParamFieldRefGenericBO.class);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        paramTypeRefGenericDOMapper.deleteById(id);
+    }
 }

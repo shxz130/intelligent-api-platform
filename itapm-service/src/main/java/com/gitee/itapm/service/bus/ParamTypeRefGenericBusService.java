@@ -36,4 +36,8 @@ public class ParamTypeRefGenericBusService {
         }
         return BeanCopierUtils.copyList2List(paramTypeRefGenericList,ParamFieldRefGenericBO.class);
     }
+
+    public void deleteById(Integer id) {
+        paramTypeRefGenericService.deleteById(id);
+    }
 }

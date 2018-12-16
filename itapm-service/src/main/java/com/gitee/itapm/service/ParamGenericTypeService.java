@@ -13,4 +13,6 @@ public interface ParamGenericTypeService {
     public ParamGenericTypeBO persist(Integer systemVersionId,String name);
 
     ParamGenericTypeBO queryById(Integer genericTypeId);
+
+    void deleteById(Integer genericTypeId);
 }

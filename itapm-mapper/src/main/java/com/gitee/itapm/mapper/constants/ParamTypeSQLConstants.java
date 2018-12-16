@@ -61,4 +61,6 @@ public class ParamTypeSQLConstants {
             "#{resource}," +
             "now()," +
             "now())";
+
+    public static final String DELETE_BY_ID="delete from "+TABLE_NAME+"where id = #{id}";
 }

@@ -18,4 +18,7 @@ public interface ParamTypeDOMapper {
     @Insert(ParamTypeSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")
     public void persist(ParamTypeDO paramTypeDO);
+
+    @Delete(ParamTypeSQLConstants.DELETE_BY_ID)
+    void deleteById(@Param("id")Integer id);
 }

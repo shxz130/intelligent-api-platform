@@ -1,21 +1,16 @@
 package com.gitee.itapm.core.task.api;
 
-import com.gitee.itapm.mapper.InterfaceDetailDOMapper;
-import com.gitee.itapm.mapper.bean.InterfaceCatagoryDO;
+
 import com.gitee.itapm.paser.bean.*;
-import com.gitee.itapm.service.InterfaceCatagoryService;
-import com.gitee.itapm.service.SystemInfoService;
+
 import com.gitee.itapm.service.bean.*;
 import com.gitee.itapm.service.bus.*;
-import com.gitee.itapm.service.impl.InterfaceCatagoryServiceImpl;
-import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import sun.net.www.content.text.Generic;
 
-import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 /**

@@ -37,4 +37,9 @@ public class ParamTypeServiceImpl implements ParamTypeService{
         paramTypeDOMapper.persist(paramTypeDO);
         return BeanCopierUtils.copyOne2One(paramTypeDO,ParamTypeBO.class);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        paramTypeDOMapper.deleteById(id);
+    }
 }

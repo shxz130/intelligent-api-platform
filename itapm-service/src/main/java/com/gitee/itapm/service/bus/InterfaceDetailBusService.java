@@ -3,7 +3,10 @@ package com.gitee.itapm.service.bus;
 import com.gitee.itapm.mapper.bean.InterfaceDetailDO;
 import com.gitee.itapm.service.InterfaceDetailService;
 import com.gitee.itapm.service.bean.InterfaceDetailBO;
+import com.gitee.itapm.service.bean.ParamFieldBO;
+import com.gitee.itapm.service.bean.ParamTypeBO;
 import com.gitee.itapm.utils.bean.BeanCopierUtils;
+import com.sun.xml.internal.ws.wsdl.writer.document.ParamType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Component;
@@ -20,7 +23,8 @@ public class InterfaceDetailBusService {
 
     @Autowired
     private InterfaceDetailService interfaceDetailService;
-
+    @Autowired
+    private ParamTypeBusService paramTypeBusService;
 
     public synchronized InterfaceDetailBO persist(InterfaceDetailBO interfaceDetailBO){
         InterfaceDetailBO result= interfaceDetailService.queryBySystemVersionIdAndName(interfaceDetailBO.getSystemVersionId(), interfaceDetailBO.getName());
@@ -42,7 +46,12 @@ public class InterfaceDetailBusService {
     }
 
     public void deleteById(Integer id){
-        interfaceDetailService.deleteById(id);
+        InterfaceDetailBO interfaceDetailBO=interfaceDetailService.queryById(id);
+        ParamTypeBO req=paramTypeBusService.queryByInterfaceDetailIdAndResource(id, "REQ");
+        ParamTypeBO resp=paramTypeBusService.queryByInterfaceDetailIdAndResource(id, "RESP");
+        paramTypeBusService.deleteById(req.getId());
+        paramTypeBusService.deleteById(resp.getId());
+
     }
 
     public InterfaceDetailBO queryById(Integer interfaceDetailId) {
