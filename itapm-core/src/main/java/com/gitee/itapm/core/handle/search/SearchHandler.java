@@ -1,6 +1,5 @@
 package com.gitee.itapm.core.handle.search;
 
-import cn.hutool.db.PageResult;
 import com.gitee.itapm.core.handle.bean.SearchReq;
 import com.gitee.itapm.core.handle.bean.SearchResp;
 import com.gitee.itapm.core.handle.parent.AbstractHandler;
