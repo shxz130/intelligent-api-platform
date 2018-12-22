@@ -25,25 +25,25 @@ public class RestController  {
 
     @RestApi(description = "c测试RequestMapping")
     @RequestMapping(value = UrlPathConstants.ITAPM_GO_INDEX,method={RequestMethod.GET,RequestMethod.POST})
-    public RestResp<RestResult> rest1(RestReq restReq,Model model){
+    public RestResult rest1(RestReq restReq,Model model){
         return null;
     }
 
     @RestApi(description = "c测试GetMapping")
     @GetMapping(UrlPathConstants.ITAPM_GO_LOGIN)
-    public RestResp<RestResult> rest2(RestReq restReq,Model model){
+    public RestResult rest2(RestReq restReq,Model model){
         return null;
     }
 
     @RestApi(description = "测试PostMapping")
     @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
-    public RestResp<RestResult> rest3(RestReq restReq,Model model){
+    public RestResult rest3(RestReq restReq,Model model){
         return null;
     }
 
-    @RestApi(description = "没有请求参数")
+    @RestApi(description = "没有请求参数的接口")
     @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
-    public RestResp<RestResult> rest4(Model model){
+    public RestResult rest4(Model model){
         return null;
     }
 }

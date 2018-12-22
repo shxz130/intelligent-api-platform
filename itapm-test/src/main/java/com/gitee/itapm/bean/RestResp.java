@@ -7,12 +7,8 @@ import lombok.Data;
  * Created by jetty on 2018/12/22.
  */
 @Data
-public class RestResp<T> extends BaseResp<T>{
+public class RestResp<T> extends BaseResp{
 
     @ApiParam
-    private String code;
-    @ApiParam
-    private String memo;
-    @ApiParam
-    private T data;
+    private RestResult data;
 }
