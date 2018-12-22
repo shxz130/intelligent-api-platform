@@ -18,7 +18,8 @@ public class DemoDubboReq {
     private int age;
     @ApiParam(length = 88,required= Required.Y,defaultValue = "Y",example="11",desrciption = "modelAList")
     private List<TransInfo> modelAList;
-
+    @ApiParam
+    private TransInfo transInfo;
 
 
 }
