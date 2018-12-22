@@ -25,13 +25,13 @@ public class RestController  {
 
     @RestApi(description = "c测试RequestMapping")
     @RequestMapping(value = UrlPathConstants.ITAPM_GO_INDEX,method={RequestMethod.GET,RequestMethod.POST})
-    public RestResult rest1(RestReq restReq,Model model){
+    public RestResp rest1(RestReq restReq,Model model){
         return null;
     }
 
     @RestApi(description = "c测试GetMapping")
     @GetMapping(UrlPathConstants.ITAPM_GO_LOGIN)
-    public RestResult rest2(RestReq restReq,Model model){
+    public RestResp rest2(RestReq restReq,Model model){
         return null;
     }
 
@@ -43,7 +43,42 @@ public class RestController  {
 
     @RestApi(description = "没有请求参数的接口")
     @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
-    public RestResult rest4(Model model){
+    public RestResp rest4(Model model){
+        return null;
+    }
+
+
+    @RestApi(description = "没有请求参数的接口")
+    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
+    public RestResp rest5(Model model){
+        return null;
+    }
+
+
+    @RestApi(description = "没有请求参数的接口")
+    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
+    public RestResp rest6(Model model){
+        return null;
+    }
+
+
+    @RestApi(description = "没有请求参数的接口")
+    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
+    public RestResp rest7(Model model){
+        return null;
+    }
+
+
+    @RestApi(description = "没有请求参数的接口")
+    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
+    public RestResp rest8(Model model){
+        return null;
+    }
+
+
+    @RestApi(description = "没有请求参数的接口")
+    @PostMapping(UrlPathConstants.ITAPM_GO_SEARCH)
+    public RestResp rest9(Model model){
         return null;
     }
 }

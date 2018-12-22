@@ -92,12 +92,25 @@
                 <input type="hidden" id="preSystemId" value="${search.systemId}">
 
 
-                <div>
-                    <a class="prev" href="javascript:redirect(${pageBean.currentPage-10})">&lt;&lt;</a>
-                    <a class="num" href="javascript:redirect(${pageBean.currentPage-1})">${pageBean.currentPage-1}</a>
-                    <span class="current">${pageBean.currentPage}</span>
-                    <a class="num" href="javascript:redirect(${pageBean.currentPage+1})">${pageBean.currentPage+1}</a>
-                    <a class="next" href="javascript:redirect(${pageBean.currentPage+10})">&gt;&gt;</a>
+                <if>
+                    <#if (pageBean.currentPage-10>0)>
+                        <a class="prev" href="javascript:redirect(${pageBean.currentPage-10})">&lt;&lt;</a>
+                    </#if>
+
+
+                    <#if (pageBean.currentPage-1>0)>
+                        <a class="num" href="javascript:redirect(${pageBean.currentPage-1})">${pageBean.currentPage-1}</a>
+                    </#if>
+                    <#if (pageBean.currentPage>0)>
+                        <span class="current">${pageBean.currentPage}</span>
+                    </#if>
+                    <#if (pageBean.currentPage+1 <= pageBean.totalPage) >
+                         <a class="num" href="javascript:redirect(${pageBean.currentPage+1})">${pageBean.currentPage+1}</a>
+                    </#if>
+
+                    <#if (pageBean.currentPage+10 <= pageBean.totalPage) >
+                        <a class="next" href="javascript:redirect(${pageBean.currentPage+10})">&gt;&gt;</a>
+                    </#if>
                 </div>
             </div>
         </#if>
@@ -225,7 +238,6 @@
 
 
         function redirectInterfaceDetail(interfaceDetailId){
-
             window.open("${request.contextPath}"+"/itapm/go_interface_detail.htm?interfaceDetailId="+interfaceDetailId);
         }
     </script>

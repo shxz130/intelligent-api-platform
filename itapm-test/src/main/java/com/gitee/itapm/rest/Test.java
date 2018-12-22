@@ -19,14 +19,9 @@ public class Test {
     @org.junit.Test
     public void debugTest(){
 
-        RestResp<RestResult> restResp=new RestResp<RestResult>();
+        RestResp restResp=new RestResp();
 
-        Type mySuperclass = restResp.getClass().getGenericSuperclass();
 
-        Type[] gTypes = ((ParameterizedType)mySuperclass).getActualTypeArguments();
-        for(Type gType : gTypes){
-            System.out.println("Generic type:"+gType.toString());
-        }
         ParamParseEngine.parse(new Class[]{restResp.getClass()},new HashMap<>());
 
    /*

@@ -7,7 +7,7 @@ import lombok.Data;
  * Created by jetty on 2018/12/22.
  */
 @Data
-public class RestResp<T> extends BaseResp{
+public class RestResp extends BaseResp{
 
     @ApiParam
     private RestResult data;

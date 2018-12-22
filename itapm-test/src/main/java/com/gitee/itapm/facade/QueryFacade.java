@@ -18,6 +18,12 @@ public interface QueryFacade {
 
     @DubboApi(description = "查询交易接口2",memo = "查询接口2")
     QueryResp queryTranInfo2(QueryReq queryReq);
+
+    @DubboApi(description = "查询交易接口1",memo = "查询接口1")
+    QueryResp queryTranInfo3(QueryReq queryReq);
+
+    @DubboApi(description = "查询交易接口1",memo = "查询接口1")
+    QueryResp queryTranInfo4(QueryReq queryReq);
 }
 
 

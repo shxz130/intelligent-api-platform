@@ -43,9 +43,9 @@ public class ParamParseEngine {
     }
 
 
-    private static ParamField convert2Param(Field field,Map<String,Class> contextMap){
-        ParamField param=new ParamField();
-        ApiParam apiParam=field.getAnnotation(ApiParam.class);
+    private static ParamField convert2Param(Field field,Map<String,Class> contextMap) {
+        ParamField param = new ParamField();
+        ApiParam apiParam = field.getAnnotation(ApiParam.class);
         param.setDefaultValue(apiParam.defaultValue());
         param.setDesrciption(apiParam.desrciption());
         param.setExample(apiParam.example());
@@ -53,8 +53,26 @@ public class ParamParseEngine {
         param.setRequired(apiParam.required().toString());
         param.setType(getType(field.getGenericType().toString()));
         param.setName(field.getName());
-        param.setRefGenericClassNameList(getGenericParamTypeList(field,contextMap));
+        param.setRefGenericClassNameList(getGenericParamTypeList(field, contextMap));
+
+        if (isDefineField(field)) {
+
+            contextMap.put(getType(field.getGenericType().getTypeName()),field.getType());
+            param.getRefGenericClassNameList().add(field.getGenericType().getTypeName());
+        }
         return param;
+    }
+
+
+    private static boolean isDefineField(Field field){
+        String type=field.getGenericType().toString();
+        if(type.startsWith("java")){//jdk自带的类型
+            return false;
+        } else if(!type.contains(".")){//基本类型 没有。
+            return false;
+        }
+        return true;
+
     }
 
 

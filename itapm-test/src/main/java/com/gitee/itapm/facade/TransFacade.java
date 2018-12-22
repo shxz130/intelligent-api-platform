@@ -17,6 +17,23 @@ public interface TransFacade {
     @DubboApi(description = "交易接口",memo = "查询接口")
     DemoDubboResp purchase(DemoDubboReq queryReq);
 
+    @DubboApi(description = "交易接口",memo = "查询接口")
+    DemoDubboResp purchase2(DemoDubboReq queryReq);
+
+
+    @DubboApi(description = "交易接口",memo = "查询接口")
+    DemoDubboResp purchase3(DemoDubboReq queryReq);
+
+    @DubboApi(description = "交易接口",memo = "查询接口")
+    DemoDubboResp purchase4(DemoDubboReq queryReq);
+
+
+    @DubboApi(description = "交易接口",memo = "查询接口")
+    DemoDubboResp purchase5(DemoDubboReq queryReq);
+
+    @DubboApi(description = "交易接口",memo = "查询接口")
+    DemoDubboResp purchase6(DemoDubboReq queryReq);
+
 }
 
 
