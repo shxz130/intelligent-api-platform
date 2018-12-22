@@ -10,7 +10,7 @@ create table t_itapm_system_info(
   id INT auto_increment PRIMARY  key COMMENT '主键',
   ch_name varchar(128) not null COMMENT '中文名',
   en_name VARCHAR(64) not null COMMENT '英文名',
-  description VARCHAR(64) COMMENT '中文描述',
+  description VARCHAR(256) COMMENT '中文描述',
   status VARCHAR(16) COMMENT 'PRE_ONLINE 预上线，ONLINE 已上线，OFFLINE 已下线，PRE_OFFLINE 准备下线',
   create_time datetime COMMENT '创建时间' ,
   update_time datetime COMMENT '创建时间'
@@ -111,7 +111,7 @@ CREATE TABLE t_itapm_param_field(
   param_length INT COMMENT '参数长度',
   required VARCHAR(2) COMMENT 'Y 必填 N 非必填',
   default_value VARCHAR(64) COMMENT '默认值',
-  param_description VARCHAR(64) COMMENT '参数描述信息',
+  param_description VARCHAR(256) COMMENT '参数描述信息',
   example VARCHAR(256) COMMENT '例子',
   create_time datetime COMMENT '创建时间',
   update_time datetime COMMENT '创建时间'
@@ -129,7 +129,7 @@ CREATE TABLE t_itapm_generic_param_field(
   param_length INT COMMENT '参数长度',
   required VARCHAR(2) COMMENT 'Y 必填 N 非必填',
   default_value VARCHAR(64) COMMENT '默认值',
-  param_description VARCHAR(64) COMMENT '参数描述信息',
+  param_description VARCHAR(256) COMMENT '参数描述信息',
   example VARCHAR(256) COMMENT '例子',
   create_time datetime COMMENT '创建时间',
   update_time datetime COMMENT '创建时间'

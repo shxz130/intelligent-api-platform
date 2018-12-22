@@ -164,71 +164,16 @@
     </dependencyManagement>
 
 
-
-
-
     <build>
         <plugins>
-
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>2.0.0.RELEASE</version>
-                    <configuration>
-                        <skip>true</skip>
-                        <mainClass>com.gitee.itapm.Application</mainClass>
-                    </configuration>
-
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
-    <developers>
-        <developer>
-            <name>shxz130</name>
-            <id>jetty</id>
-            <email>15600499930@163.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-
-
-
-
-    <scm>
-        <url>https://github.com/shxz130</url>
-        <connection>https://github.com/shxz130/intelligent-api-platform.git</connection>
-    </scm>
-
-
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 </project>
