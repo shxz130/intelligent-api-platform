@@ -121,13 +121,13 @@ public class ItapmDocMojo extends AbstractMojo {
       } catch (Exception e) {
           throw new RuntimeException(e);
       }
-      if ("war".equals(packageType)) {
+    /*  if ("war".equals(packageType)) {
           String libPath = project.getBuild().getDirectory() + File.separator + project.getBuild().getFinalName() +
                   File.separator + "WEB-INFO" + File.separator + "lib";
           List<File> jarFileList = new ArrayList<File>();
           getAllJarFile(new File(libPath), jarFileList);
           loadAllFileToClassLoader(jarFileList);
-      }
+      }*/
 
       loadAllFileToClassLoader(getAllJavaDependencyFileSet());
 

@@ -45,8 +45,12 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
         ParamTypeBO reqParamTypeBO=paramTypeBusService.queryByInterfaceDetailIdAndResource(interfaceDetailBO.getId(), "REQ");
         ParamTypeBO respPramTypeBO=paramTypeBusService.queryByInterfaceDetailIdAndResource(interfaceDetailBO.getId(), "RESP");
         id=new Integer(1);//用来重新生成ID给前段展示
-        reqParamTypeBO.setParamFieldList(getParamFieldListByParamTypeId(reqParamTypeBO.getId()));
-        respPramTypeBO.setParamFieldList(getParamFieldListByParamTypeId(respPramTypeBO.getId()));
+        if(reqParamTypeBO!=null){
+            reqParamTypeBO.setParamFieldList(getParamFieldListByParamTypeId(reqParamTypeBO.getId()));
+        }
+        if(respPramTypeBO!=null){
+            respPramTypeBO.setParamFieldList(getParamFieldListByParamTypeId(respPramTypeBO.getId()));
+        }
         interfaceDetailBO.setReqParamTypeBO(reqParamTypeBO);
         interfaceDetailBO.setRespParamTypeBO(respPramTypeBO);
         response.setInterfaceDetail(interfaceDetailBO);

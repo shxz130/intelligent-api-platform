@@ -14,9 +14,13 @@
     <dependencies>
         <dependency>
             <groupId>com.gitee.shxz130.itapm</groupId>
-            <artifactId>itapm-core</artifactId>
+            <artifactId>itapm-web</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
+
+
     </dependencies>
     <profiles>
         <profile>
@@ -27,7 +31,7 @@
                 </pluginManagement>
                 <plugins>
                     <plugin>
-                        <groupId>com.gitee.itapm.maven</groupId>
+                        <groupId>com.gitee.shxz130.itapm.maven</groupId>
                         <artifactId>itapm-maven-plugin</artifactId>
                         <version>1.0-SNAPSHOT</version>
                         <executions>

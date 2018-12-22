@@ -125,6 +125,11 @@ public class ApiPersistAction {
             return;
         }
         for(Parameter parameter: parameterList){
+            //如果没有设置参数，则不处理
+            if(CollectionUtils.isEmpty(parameter.getParamFieldList())){
+                continue;
+            }
+
             ParamTypeBO paramTypeBO=paramTypeBusService.persist(interfaceDetailBO.getId(), parameter.getName(),type);
             List<ParamFieldBO> paramFieldDBBOList=paramFieldBusService.queryByParamTypeId(paramTypeBO.getId());
             if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
@@ -142,6 +147,7 @@ public class ApiPersistAction {
             for(ParamFieldBO paramFieldBO:paramFieldDBBOList){
                 paramFieldBusService.deleteById(paramFieldBO.getId());
             }
+            return;
         }
     }
 

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface RestApi {
 
-    String name() default "";
+    String description() default "";
 
     InterfaceStatus status() default InterfaceStatus.ONLINE;
 
@@ -22,6 +22,7 @@ public @interface RestApi {
 
     String[] caller() default {};
 
-    String description() default "";
+    String memo() default "";
+
 
 }

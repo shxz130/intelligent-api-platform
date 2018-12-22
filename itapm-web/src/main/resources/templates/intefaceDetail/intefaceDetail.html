@@ -47,6 +47,23 @@
 
       </div>
 
+        <#if interfaceDetail.type=='REST'>
+            <div class="layui-row layui-col-space10">
+
+                <div class="layui-col-md2">
+                    <span lay-separator="">
+                        <a href>请求方式：${interfaceDetail.requestType!}</a>
+                     </span>
+                </div>
+
+                <div class="layui-col-md8">
+                    <span lay-separator="">
+                    <a href>URL：${interfaceDetail.address!}</a>
+                    </span>
+                </div>
+            </div>
+        </#if>
+
         <div class="layui-row layui-col-space10">
 
                
@@ -78,6 +95,11 @@
              </div>
       </div>
 
+
+
+
+
+
        <div class="layui-row layui-col-space10">
            <div class="layui-col-md10">
              <span lay-separator="">
@@ -88,91 +110,98 @@
            </div>
         </div>
 
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-            <legend>请求参数：${interfaceDetail.reqParamTypeBO.paramTypeName}</legend>
-        </fieldset>
 
-        <table class="layui-table layui-form">
-            <thead>
-            <tr>
-                <th>请求参数</th>
-                <th>参数类型</th>
-                <th>长度</th>
-                <th>是否必填</th>
-                <th>默认值</th>
-                <th>接口描述</th>
-                <th>示例值</th>
-            </thead>
-            <tbody class="x-cate">
+        <#if (interfaceDetail.reqParamTypeBO)??>
 
-            <#list interfaceDetail.reqParamTypeBO.paramFieldList as paramField>
-                <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
 
-                    <#if paramField.hasGenericParam>
-                        <td>
-                            <i class="layui-icon x-show" status='true'>&#xe623;</i>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+                <legend>请求参数：${interfaceDetail.reqParamTypeBO.paramTypeName}</legend>
+            </fieldset>
+
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>请求参数</th>
+                    <th>参数类型</th>
+                    <th>长度</th>
+                    <th>是否必填</th>
+                    <th>默认值</th>
+                    <th>接口描述</th>
+                    <th>示例值</th>
+                </thead>
+                <tbody class="x-cate">
+
+                <#list interfaceDetail.reqParamTypeBO.paramFieldList as paramField>
+                    <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
+
+                        <#if paramField.hasGenericParam>
+                            <td>
+                                <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                                    ${paramField.paramName}
+                            </td>
+                           <#elseif paramField.parentId==0>
+                               <td>${paramField.paramName}</td>
+                           <#else>
+                               <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
+                        </#if>
+
+                        <td><xmp>${paramField.paramType}</xmp></td>
+                        <td>${paramField.paramLength}</td>
+                        <td>${paramField.required}</td>
+                        <td>${paramField.defaultValue}</td>
+                        <td>${paramField.paramDescription}</td>
+                        <td>${paramField.example}</td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </#if>
+
+
+        <#if (interfaceDetail.respParamTypeBO)??>
+
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+                <legend>返回值:${interfaceDetail.respParamTypeBO.paramTypeName}</legend>
+            </fieldset>
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>请求参数</th>
+                    <th>参数类型</th>
+                    <th>长度</th>
+                    <th>是否必填</th>
+                    <th>默认值</th>
+                    <th>接口描述</th>
+                    <th>示例值</th>
+                </thead>
+                <tbody class="x-cate">
+
+                <#list interfaceDetail.respParamTypeBO.paramFieldList as paramField>
+                    <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
+
+                        <#if paramField.hasGenericParam>
+                            <td>
+                                <i class="layui-icon x-show" status='true'>&#xe623;</i>
                                 ${paramField.paramName}
-                        </td>
-                       <#elseif paramField.parentId==0>
-                           <td>${paramField.paramName}</td>
-                       <#else>
-                           <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
-                    </#if>
+                            </td>
+                            <#elseif paramField.parentId==0>
+                                <td>${paramField.paramName}</td>
+                                <#else>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
+                        </#if>
 
-                    <td><xmp>${paramField.paramType}</xmp></td>
-                    <td>${paramField.paramLength}</td>
-                    <td>${paramField.required}</td>
-                    <td>${paramField.defaultValue}</td>
-                    <td>${paramField.paramDescription}</td>
-                    <td>${paramField.example}</td>
-                </tr>
-            </#list>
-            </tbody>
-        </table>
-
-
-
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-            <legend>返回值:${interfaceDetail.respParamTypeBO.paramTypeName}</legend>
-        </fieldset>
-        <table class="layui-table layui-form">
-            <thead>
-            <tr>
-                <th>请求参数</th>
-                <th>参数类型</th>
-                <th>长度</th>
-                <th>是否必填</th>
-                <th>默认值</th>
-                <th>接口描述</th>
-                <th>示例值</th>
-            </thead>
-            <tbody class="x-cate">
-
-            <#list interfaceDetail.respParamTypeBO.paramFieldList as paramField>
-                <tr cate-id='${paramField.id?c}' fid='${paramField.parentId?c}' >
-
-                    <#if paramField.hasGenericParam>
-                        <td>
-                            <i class="layui-icon x-show" status='true'>&#xe623;</i>
-                            ${paramField.paramName}
-                        </td>
-                        <#elseif paramField.parentId==0>
-                            <td>${paramField.paramName}</td>
-                            <#else>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;${paramField.paramName}</td>
-                    </#if>
-
-                    <td><xmp>${paramField.paramType}</xmp></td>
-                    <td>${paramField.paramLength}</td>
-                    <td>${paramField.required}</td>
-                    <td>${paramField.defaultValue}</td>
-                    <td>${paramField.paramDescription}</td>
-                    <td>${paramField.example}</td>
-                </tr>
-            </#list>
-            </tbody>
-        </table>
-
+                        <td><xmp>${paramField.paramType}</xmp></td>
+                        <td>${paramField.paramLength}</td>
+                        <td>${paramField.required}</td>
+                        <td>${paramField.defaultValue}</td>
+                        <td>${paramField.paramDescription}</td>
+                        <td>${paramField.example}</td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </#if>
       
 
     </div>

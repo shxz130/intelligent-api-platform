@@ -61,7 +61,7 @@ public class WebLoggerAspect {
         String url = request.getRequestURL().toString();
         String method = request.getMethod();
         String uri = request.getRequestURI();
-        String queryString = request.getQueryString();
+        String queryString =JSON.toJSONString( request.getParameterMap());
         long startTime=System.currentTimeMillis();
         logger.info("请求开始, url: {}, method: {}, uri: {}, params: {}", url, method, uri, queryString);
         Object result = pjp.proceed();

@@ -59,6 +59,7 @@
                     <th>ID</th>
                     <th>所属系统</th>
                     <th>接口名称</th>
+                    <th>url</th>
                     <th>接口描述</th>
                     <td>状态</td>
                     <th>录入时间</th>
@@ -72,6 +73,7 @@
                         <td>${interfaceDetail.id?c}</td>
                         <td>${interfaceDetail.systemName}</td>
                         <td>${interfaceDetail.name}</td>
+                        <td>${interfaceDetail.address!}</td>
                         <td>${interfaceDetail.description}</td>
                         <td>${interfaceDetail.status}</td>
                         <td>${(interfaceDetail.createTime?date)!}</td>
