@@ -136,3 +136,16 @@ CREATE TABLE t_itapm_generic_param_field(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型表';
 
 ALTER TABLE t_itapm_generic_param_field add INDEX IDX_GENERIC_PARAM_FIELD_TYPE_ID(generic_param_type_id);
+
+
+
+
+CREATE TABLE t_itapm_generic_param_field_ref_generic(
+  id INT auto_increment PRIMARY key COMMENT '主键',
+  generic_param_field_id INT NOT NULL ,
+  generic_type_id INT NOT NULL,
+  create_time datetime COMMENT '创建时间',
+  update_time datetime COMMENT '创建时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型和泛型类型对应关系表';
+
+ALTER TABLE t_itapm_generic_param_field_ref_generic add UNIQUE INDEX IDX_PARAM_TYPE_REF(generic_param_field_id,generic_type_id);

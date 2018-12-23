@@ -5,6 +5,7 @@ import com.gitee.itapm.core.handle.bean.InterfaceDetailResp;
 import com.gitee.itapm.core.handle.parent.AbstractHandler;
 import com.gitee.itapm.service.bean.*;
 import com.gitee.itapm.service.bus.*;
+import com.gitee.itapm.service.impl.GenericParamFieldRefGenericServiceImpl;
 import com.gitee.itapm.utils.bean.BeanCopierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,6 +37,8 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
     private ParamGenericTypeBusService paramGenericTypeBusService;
     @Autowired
     private GenericParamFieldBusService genericParamFieldBusService;
+    @Autowired
+    private GenericParamTypeRefGenericBusService genericParamTypeRefGenericBusService;
 
     private Integer id;
 
@@ -61,14 +64,34 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
         List<ParamFieldBO> resultList=new ArrayList<>();
 
         List<ParamFieldBO> paramFieldList=paramFieldBusService.queryByParamTypeId(paramTypeId);
-        for(ParamFieldBO paramFieldBO : paramFieldList){
+        for(ParamFieldBO paramFieldBO : paramFieldList) {
             resultList.add(paramFieldBO);
-            List<ParamFieldRefGenericBO> paramTypeRefGenericList=paramTypeRefGenericBusService.queryByFieldId(paramFieldBO.getId());
+            List<ParamFieldRefGenericBO> paramTypeRefGenericList = paramTypeRefGenericBusService.queryByFieldId(paramFieldBO.getId());
             paramFieldBO.setId(getNextId());//这里特殊处理，用于前端排序
-            for(ParamFieldRefGenericBO paramFieldRefGenericBO: paramTypeRefGenericList){
-                ParamGenericTypeBO paramGenericTypeBO= paramGenericTypeBusService.queryById(paramFieldRefGenericBO.getGenericTypeId());
-                List<GenericParamFieldBO> genericParamFieldBOList=genericParamFieldBusService.queryByParamTypeId(paramGenericTypeBO.getId());
-                resultList.addAll(convert(paramFieldBO, genericParamFieldBOList));
+            for (ParamFieldRefGenericBO paramFieldRefGenericBO : paramTypeRefGenericList) {
+                ParamGenericTypeBO paramGenericTypeBO = paramGenericTypeBusService.queryById(paramFieldRefGenericBO.getGenericTypeId());
+                List<GenericParamFieldBO> genericParamFieldBOList = genericParamFieldBusService.queryByParamTypeId(paramGenericTypeBO.getId());
+                if (CollectionUtils.isEmpty(genericParamFieldBOList)) {
+                    continue;
+                }
+                for (GenericParamFieldBO genericParamFieldBO : genericParamFieldBOList) {
+                    List<GenericParamFieldBO> genericParamFieldTempList = new ArrayList<>();
+                    genericParamFieldTempList.add(genericParamFieldBO);
+                    List<ParamFieldBO> genericFiledList = convert(paramFieldBO, genericParamFieldTempList);
+                    if (CollectionUtils.isEmpty(genericFiledList)) {
+                        continue;
+                    }
+                    resultList.addAll(genericFiledList);
+                    ParamFieldBO parentParamField = genericFiledList.get(0);
+                    List<GenericParamFieldRefGenericBO> genericParamFieldRefGenericList = genericParamTypeRefGenericBusService.queryByFieldId(genericParamFieldBO.getId());
+                    if (CollectionUtils.isEmpty(genericParamFieldRefGenericList)) {
+                        continue;
+                    }
+                    for (GenericParamFieldRefGenericBO genericParamFieldRefGenericBO : genericParamFieldRefGenericList) {
+                        List<GenericParamFieldBO> genericRefGenericParamFieldList = genericParamFieldBusService.queryByParamTypeId(genericParamFieldRefGenericBO.getGenericTypeId());
+                        resultList.addAll(convert(parentParamField, genericRefGenericParamFieldList));
+                    }
+                }
             }
         }
         return resultList;

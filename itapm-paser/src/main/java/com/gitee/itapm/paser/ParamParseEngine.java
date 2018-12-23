@@ -55,8 +55,7 @@ public class ParamParseEngine {
         param.setName(field.getName());
         param.setRefGenericClassNameList(getGenericParamTypeList(field, contextMap));
 
-        if (isDefineField(field)) {
-
+        if (isDefineField(field)) {//自定义的类当作泛型处理
             contextMap.put(getType(field.getGenericType().getTypeName()),field.getType());
             param.getRefGenericClassNameList().add(field.getGenericType().getTypeName());
         }

@@ -77,4 +77,10 @@ public class ApiDoc {
      */
     private List<Parameter> genericParameterList;
 
+
+    /**
+     * 泛型处理依赖的泛型参数
+     *
+     */
+    private List<Parameter> genericRefGenericParameterList;
 }

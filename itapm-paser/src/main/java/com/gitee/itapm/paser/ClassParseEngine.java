@@ -5,6 +5,7 @@ import com.gitee.itapm.annotations.RestApi;
 import com.gitee.itapm.annotations.enums.ProtocolType;
 import com.gitee.itapm.paser.bean.ApiDoc;
 import com.gitee.itapm.paser.bean.Catagory;
+import com.gitee.itapm.paser.bean.ParamField;
 import com.gitee.itapm.paser.bean.Parameter;
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
@@ -99,7 +100,14 @@ public class ClassParseEngine {
         apiDoc.setReqParamList(reqParameteList);
         List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()},contextMap);
         apiDoc.setRespParamList(respParamterList);
-        apiDoc.setGenericParameterList(getGenericParameterList(contextMap));
+
+        Map genericContextMap=new HashMap<String,Class>();
+        List<Parameter> genericParameterList=getGenericParameterList(contextMap,genericContextMap);
+        apiDoc.setGenericParameterList(genericParameterList);
+
+        //泛型或者自定义类关联的参数列表
+        List<Parameter> genericRefParameterList=getGenericParameterList(genericContextMap,new HashMap<>());
+        apiDoc.setGenericRefGenericParameterList(genericRefParameterList);
         return apiDoc;
     }
 
@@ -125,7 +133,15 @@ public class ClassParseEngine {
         apiDoc.setReqParamList(reqParameteList);
         List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()},contextMap);
         apiDoc.setRespParamList(respParamterList);
-        apiDoc.setGenericParameterList(getGenericParameterList(contextMap));
+
+        //泛型或者自定义类的参数
+        Map genericContextMap=new HashMap<String,Class>();
+        List<Parameter> genericParameters=getGenericParameterList(contextMap,genericContextMap);
+        apiDoc.setGenericParameterList(genericParameters);
+
+        //泛型或者自定义类关联的参数列表
+        List<Parameter> genericRefParameterList=getGenericParameterList(genericContextMap,new HashMap<>());
+        apiDoc.setGenericRefGenericParameterList(genericRefParameterList);
         return apiDoc;
     }
 
@@ -194,7 +210,7 @@ public class ClassParseEngine {
 
 
 
-    private static List<Parameter> getGenericParameterList(Map<String,Class> contextMap){
+    private static List<Parameter> getGenericParameterList(Map<String,Class> contextMap,Map<String,Class> genericContextMap){
 
         List<Class> genericClassList=new ArrayList<>();
         for(Map.Entry<String,Class> entry:contextMap.entrySet()){
@@ -205,8 +221,7 @@ public class ClassParseEngine {
         for(int i=0;i<genericClassList.size();i++){
             genericClasses[i]=genericClassList.get(i);
         }
-
-        return ParamParseEngine.parse(genericClasses,new HashMap<>());
+        return ParamParseEngine.parse(genericClasses,genericContextMap);
     }
 
 

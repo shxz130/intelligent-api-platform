@@ -24,7 +24,7 @@ public interface GenericParamFieldDOMapper {
     @Delete(GenericParamFieldSQLConstants.DELETE_BY_ID)
     Integer deleteById(@Param("id") Integer id);
 
-    @Select(GenericParamFieldSQLConstants.PERSIST)
+    @Insert(GenericParamFieldSQLConstants.PERSIST)
     @Options(useGeneratedKeys=true, keyProperty="id")
     void persist(GenericParamFieldDO paramFieldDO);
 

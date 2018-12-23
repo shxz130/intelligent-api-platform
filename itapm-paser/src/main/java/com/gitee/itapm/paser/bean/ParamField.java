@@ -57,9 +57,13 @@ public class ParamField {
     private String directory;
 
     /**
-     * 关联的泛型的类名,Map会有两个类型<ClassName1,ClassName2>
+     * 关联的泛型的类名,参数关联泛型的类名
      *
      */
     private List<String> refGenericClassNameList;
+    /**
+     * 泛型或者自定义类关联的泛型或自定义类
+     */
+    private List<String> genericRefGenericClassNameList;
 
 }

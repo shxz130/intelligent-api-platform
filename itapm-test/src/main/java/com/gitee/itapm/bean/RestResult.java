@@ -15,4 +15,6 @@ public class RestResult {
     private String name;
     @ApiParam
     private List<TransInfo> dataList;
+    @ApiParam
+    private TransInfo transInfo;
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,6 +39,8 @@ public class ApiPersistAction {
     private ParamTypeRefGenericBusService paramTypeRefGenericBusService;
     @Autowired
     private GenericParamFieldBusService genericParamFieldBusService;
+    @Autowired
+    private GenericParamTypeRefGenericBusService genericParamTypeRefGenericBusService;
 
     public void handle(Document document){
         //初始化系统信息 增加，修改
@@ -69,7 +73,11 @@ public class ApiPersistAction {
         List<InterfaceDetailBO> currentSystemInterfaceDetailList=interfaceDetailBusService.queryByCatagoryId(interfaceCatagoryBO.getId());
 
         for(ApiDoc apiDoc:apiDocList){
-            //处理泛型
+
+
+            //返回所有泛型依赖的泛型类型
+           handleGenericRefGeneric(systemVersionBO,apiDoc,apiDoc.getGenericRefGenericParameterList());
+
             handleGeneric(systemVersionBO,apiDoc,apiDoc.getGenericParameterList());
             //接口明细落库 插入，修改
             InterfaceDetailBO interfaceDetailBO=interfaceDetailBusService.persist(convertApiDoc2InterfaceDetail(systemVersionBO, interfaceCatagoryBO, apiDoc));
@@ -81,6 +89,38 @@ public class ApiPersistAction {
         //删除数据库老的接口信息（注释去掉的哪些）
         for(InterfaceDetailBO interfaceDetailBO:currentSystemInterfaceDetailList){
             interfaceDetailBusService.deleteById(interfaceDetailBO.getId());
+        }
+    }
+
+
+    /**
+     *
+     * @param systemVersionBO
+     * @param apiDoc
+     * @param parameterList
+     * @return
+     */
+    private void handleGenericRefGeneric(SystemVersionBO systemVersionBO,ApiDoc apiDoc,List<Parameter> parameterList){
+        if(CollectionUtils.isEmpty(parameterList)){
+            return ;
+        }
+        for(Parameter parameter:parameterList){
+
+            ParamGenericTypeBO paramGenericType=paramGenericTypeBusService.persist(systemVersionBO.getId(), parameter.getName());
+
+            List<GenericParamFieldBO> currentDBGenericParamFieldBOList=genericParamFieldBusService.queryByParamTypeId(paramGenericType.getId());
+
+            if(!CollectionUtils.isEmpty(parameter.getParamFieldList())){
+                for(ParamField paramField:parameter.getParamFieldList()){
+                    GenericParamFieldBO insertBO= convertToGenericParamFieldBO(paramGenericType.getId(), paramField);
+                    genericParamFieldBusService.persist(insertBO);
+                    currentDBGenericParamFieldBOList.remove(insertBO);
+                }
+            }
+            //将所有已经删除掉的泛型参数的类型删除
+            for(GenericParamFieldBO genericParamFieldBO: currentDBGenericParamFieldBOList){
+                genericParamFieldBusService.deleteById(genericParamFieldBO.getId());
+            }
         }
     }
 
@@ -104,15 +144,35 @@ public class ApiPersistAction {
                     GenericParamFieldBO insertBO= convertToGenericParamFieldBO(paramGenericType.getId(), paramField);
                     genericParamFieldBusService.persist(insertBO);
                     currentDBList.remove(insertBO);
+                    handleGenericRefGenericRelation(systemVersionBO,insertBO,paramField);
                 }
             }
-
             for(GenericParamFieldBO genericParamFieldBO: currentDBList){
                 genericParamFieldBusService.deleteById(genericParamFieldBO.getId());
             }
+
+        }
+    }
+
+    private void handleGenericRefGenericRelation(SystemVersionBO systemVersionBO,GenericParamFieldBO insertBO,ParamField paramField){
+        List<String> genericClassList=paramField.getRefGenericClassNameList();
+        if(CollectionUtils.isEmpty(genericClassList)){
+            return;
+        }
+        List<GenericParamFieldRefGenericBO> allGenericParamFieldRefGenericBOList=genericParamTypeRefGenericBusService.queryByFieldId(insertBO.getId());
+        for(String className:genericClassList){
+
+            ParamGenericTypeBO paramGenericTypeBO=paramGenericTypeBusService.queryBySystemVersionIdAndName(systemVersionBO.getId(),className);
+            GenericParamFieldRefGenericBO genericParamFieldRefGenericBO=genericParamTypeRefGenericBusService.persist(insertBO.getId(), paramGenericTypeBO.getId());
+
+            allGenericParamFieldRefGenericBOList.remove(genericParamFieldRefGenericBO);
         }
 
+        for(GenericParamFieldRefGenericBO genericParamFieldRefGenericBO:allGenericParamFieldRefGenericBOList){
+            genericParamTypeRefGenericBusService.deleteById(genericParamFieldRefGenericBO.getId());
+        }
     }
+
 
     private void handleParamType(InterfaceDetailBO interfaceDetailBO,ApiDoc apiDoc){
         dealParamList(interfaceDetailBO, apiDoc.getReqParamList(), ParamTypeBO.RESOURCE_REQ);
