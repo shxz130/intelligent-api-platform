@@ -34,7 +34,7 @@ public class ParamParseEngine {
             List<ParamField> paramList=new ArrayList<>();
             for(Field field: annotationFieldList){
                 field.setAccessible(true);
-                ParamField param=convert2Param(field,contextMap);
+                ParamField param=convert2Param(field,contextMap,null);
                 paramList.add(param);
             }
             parameterList.add(new Parameter(clazz.getCanonicalName(),paramList));
@@ -43,7 +43,35 @@ public class ParamParseEngine {
     }
 
 
-    private static ParamField convert2Param(Field field,Map<String,Class> contextMap) {
+
+    public static List<Parameter> parse(ParameterizedType parameterizedType,Map<String,Class> contextMap){
+        List<Parameter> parameterList=new ArrayList<>();
+        if(parameterizedType ==null){
+            return parameterList;
+        }
+        Class genericTypeClass=null;
+        try{
+             genericTypeClass=(Class)parameterizedType.getActualTypeArguments()[0];
+        }catch (Exception e){
+        }
+        Class clazz=(Class)parameterizedType.getRawType();
+        List<Field> allfieldList= ReflectionUtils.findAllFields(clazz);
+        List<Field> annotationFieldList=getApiParamAnnotationFieldList(allfieldList);
+        List<ParamField> paramList=new ArrayList<>();
+        for(Field field: annotationFieldList){
+            field.setAccessible(true);
+            ParamField param=convert2Param(field,contextMap,genericTypeClass);
+            paramList.add(param);
+        }
+        parameterList.add(new Parameter(clazz.getCanonicalName(),paramList));
+
+        return parameterList;
+    }
+
+
+
+
+    private static ParamField convert2Param(Field field,Map<String,Class> contextMap,Class genericClassType) {
         ParamField param = new ParamField();
         ApiParam apiParam = field.getAnnotation(ApiParam.class);
         param.setDefaultValue(apiParam.defaultValue());
@@ -51,7 +79,8 @@ public class ParamParseEngine {
         param.setExample(apiParam.example());
         param.setLength(apiParam.length());
         param.setRequired(apiParam.required().toString());
-        param.setType(getType(field.getGenericType().toString()));
+        String type=getType(field.getGenericType().toString());
+        param.setType(type);
         param.setName(field.getName());
         param.setRefGenericClassNameList(getGenericParamTypeList(field, contextMap));
 
@@ -59,6 +88,12 @@ public class ParamParseEngine {
             contextMap.put(getType(field.getGenericType().getTypeName()),field.getType());
             param.getRefGenericClassNameList().add(field.getGenericType().getTypeName());
         }
+        if("T".equals(type)&&genericClassType!=null){
+            param.setType(getType(genericClassType.getCanonicalName()));
+            contextMap.put(getType(genericClassType.getCanonicalName()),genericClassType);
+            param.getRefGenericClassNameList().add(genericClassType.getCanonicalName());
+        }
+
         return param;
     }
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 /**
@@ -131,9 +132,15 @@ public class ClassParseEngine {
         //此map用来缓存泛型中的class，反射会加载出错。
         List<Parameter> reqParameteList=ParamParseEngine.parse(method.getParameterTypes(),contextMap);
         apiDoc.setReqParamList(reqParameteList);
-        List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()},contextMap);
-        apiDoc.setRespParamList(respParamterList);
 
+        if(method.getGenericReturnType()instanceof ParameterizedType){
+            List<Parameter> respParamterList=ParamParseEngine.parse((ParameterizedType)method.getGenericReturnType(),contextMap);
+            apiDoc.setRespParamList(respParamterList);
+        }else{
+            List<Parameter> respParamterList=ParamParseEngine.parse(new Class[]{method.getReturnType()},contextMap);
+            apiDoc.setRespParamList(respParamterList);
+
+        }
         //泛型或者自定义类的参数
         Map genericContextMap=new HashMap<String,Class>();
         List<Parameter> genericParameters=getGenericParameterList(contextMap,genericContextMap);

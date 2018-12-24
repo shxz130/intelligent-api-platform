@@ -2,9 +2,7 @@ package com.gitee.itapm.rest;
 
 import com.gitee.itapm.annotations.Catagory;
 import com.gitee.itapm.annotations.RestApi;
-import com.gitee.itapm.bean.RestReq;
-import com.gitee.itapm.bean.RestResp;
-import com.gitee.itapm.bean.RestResult;
+import com.gitee.itapm.bean.*;
 import com.gitee.itapm.core.handle.bean.IndexResp;
 import com.gitee.itapm.web.utils.TemplatePathConstants;
 import com.gitee.itapm.web.utils.UrlPathConstants;
@@ -25,7 +23,7 @@ public class RestController  {
 
     @RestApi(description = "c测试RequestMapping")
     @RequestMapping(value = UrlPathConstants.ITAPM_GO_INDEX,method={RequestMethod.GET,RequestMethod.POST})
-    public RestResp rest1(RestReq restReq,Model model){
+    public BaseResp<TransInfo> rest1(RestReq restReq,Model model){
         return null;
     }
 
