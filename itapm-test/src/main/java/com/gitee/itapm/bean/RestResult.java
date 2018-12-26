@@ -13,7 +13,7 @@ public class RestResult {
 
     @ApiParam
     private String name;
-    @ApiParam
+    @ApiParam(desrciption = "wosh3423;832432424io4qnfjskafafsdlfskkfdsakfdajsiifodlskafskdkfdsjsidskalsdkfjaskdaiodafksdafdka;fdklasjfdiadfjskfdsafjdaiodfkasdfjkafnsvaf;sdafksjfiaodisjfasl")
     private List<TransInfo> dataList;
     @ApiParam
     private TransInfo transInfo;

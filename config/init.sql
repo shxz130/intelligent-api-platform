@@ -129,8 +129,8 @@ CREATE TABLE t_itapm_generic_param_field(
   param_length INT COMMENT '参数长度',
   required VARCHAR(2) COMMENT 'Y 必填 N 非必填',
   default_value VARCHAR(64) COMMENT '默认值',
-  param_description VARCHAR(256) COMMENT '参数描述信息',
-  example VARCHAR(256) COMMENT '例子',
+  param_description VARCHAR(1024) COMMENT '参数描述信息',
+  example VARCHAR(1024) COMMENT '例子',
   create_time datetime COMMENT '创建时间',
   update_time datetime COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '参数类型表';
