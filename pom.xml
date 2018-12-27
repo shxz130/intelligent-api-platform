@@ -160,6 +160,12 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pageHelper-starter.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -10,9 +10,11 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="${request.contextPath}/css/font.css">
     <link rel="stylesheet" href="${request.contextPath}/css/xadmin.css">
+    <link rel="stylesheet" href="${request.contextPath}/css/layui.css">
     <script type="text/javascript" src="${request.contextPath}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/xadmin.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -35,12 +37,10 @@
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
-  
 
-
-      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-         <legend>基本信息：</legend>
-    </fieldset>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+             <legend>基本信息：</legend>
+        </fieldset>
 
       <div class="layui-row layui-col-space12">
              <div class="layui-col-md3">
@@ -232,11 +232,104 @@
                 </tbody>
             </table>
         </#if>
-      
+
+
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+            <legend>测试区：</legend>
+        </fieldset>
+
+
+        <input type="hidden" id="requestMethod" value="${interfaceDetail.requestType!}">
+        <input type="hidden" id="relativeUrl" value="${interfaceDetail.address!}">
+
+
+        <#if interfaceDetail.type=='REST'>
+            <div class="layui-form-item">
+                <label class="layui-form-label">base路径</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="requestBaseUrl" autocomplete="off" placeholder="基础url路径:http://baidu.com" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">cookies</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="cookies" autocomplete="off" placeholder="cookie信息，使用;分割" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">headers</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="headers" autocomplete="off" placeholder="headers信息，使用;分割" class="layui-input">
+                </div>
+            </div>
+            <#elseif interfaceDetail.type=='DUBBO'>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">zookeeper地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" id="zookeeper" autocomplete="off" placeholder="zookeeper地址" class="layui-input">
+                    </div>
+                </div>
+        </#if>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">请求参数</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入请求参数,格式参考：{'name':'abc'}" id="requestData" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testRest();" >提交</button>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">返回值</label>
+            <div class="layui-input-block">
+                <textarea placeholder="返回结果" id="result" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
 
     </div>
 
 
   </body>
+
+  <script type="text/javascript">
+
+      function testRest(){
+          var requestBaseUrl=$("#requestBaseUrl").val();
+          var requestRelativeUrl=$("#relativeUrl").val();
+          var cookies=$("#cookies").val();
+          var headers=$("#headers").val();
+          var requestData=$("#requestData").val();
+          var requestMethod=$("#requestMethod").val();
+
+          $.ajax({
+              type:"POST",
+              contentType: 'application/json; charset=UTF-8',
+              url:"/itapm/api/test.json",
+              dataType:"json",
+              data:JSON.stringify( {
+                  requestBaseUrl:requestBaseUrl,
+                  requestRelativeUrl:requestRelativeUrl,
+                  cookies:cookies,
+                  headers:headers,
+                  requestData:requestData,
+                  requestMethod:requestMethod,
+              }),
+              success:function(data){
+                  $("#result").val(data.data);
+              },
+              error:function(data){
+                  $("#result").val(data.data);
+              }
+          });
+          return;
+      }
+
+
+  </script>
 
 </html>
