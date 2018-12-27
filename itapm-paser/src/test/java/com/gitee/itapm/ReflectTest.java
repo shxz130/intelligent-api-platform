@@ -1,7 +1,7 @@
 package com.gitee.itapm;
 
 import com.gitee.itapm.bean.TestBean;
-import com.gitee.itapm.utils.reflect.ReflectionUtils;
+import com.gitee.itapm.paser.utils.ReflectionUtils;
 import junit.framework.Test;
 import org.junit.runners.Parameterized;
 
@@ -18,7 +18,7 @@ public class ReflectTest {
     @org.junit.Test
     public void test(){
 
-        List<Field> allFields=ReflectionUtils.findAllFields(TestBean.class);
+        List<Field> allFields= ReflectionUtils.findAllFields(TestBean.class);
         for(Field field: allFields) {
             System.out.println("name:" + field.getName());
             System.out.println("name:" + field.getGenericType());

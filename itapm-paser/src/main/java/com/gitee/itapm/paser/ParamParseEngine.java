@@ -4,7 +4,7 @@ import com.gitee.itapm.annotations.ApiParam;
 import com.gitee.itapm.annotations.enums.ParamDirectoryType;
 import com.gitee.itapm.paser.bean.ParamField;
 import com.gitee.itapm.paser.bean.Parameter;
-import com.gitee.itapm.utils.reflect.ReflectionUtils;
+import com.gitee.itapm.paser.utils.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

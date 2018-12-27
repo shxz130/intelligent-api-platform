@@ -94,8 +94,9 @@ public class ItapmDocMojo extends AbstractMojo {
           String currentClassName=null;
           try {
               for(String className:classFilePathSet){
-                  className = className.split("(classes/)|(!/)")[1];
-                  className = className.replace("/", ".").replace(".class", "");
+
+                  className = className.split("classes")[1].substring(1);
+                  className = className.replace(File.separator, ".").replace(".class", "");
                   classNameList.add(className);
                   currentClassName=className;
                   Class clazz = Class.forName(className, true, urlClassLoader);

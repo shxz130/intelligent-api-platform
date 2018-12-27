@@ -27,7 +27,7 @@ public class ClassParseEngine {
     private static final String REST_URL_KEY="restUrls";
     private static final String REST_METHOD_KEY="restMethods";
     public static List<Catagory> parse(List<Class> clazzList){
-        List<Catagory> catagoryList = new ArrayList<>();
+        List<Catagory> catagoryList = new ArrayList<Catagory>();
 
 
         List<Method> dubboApiMethodList=getAllDubboApiMethods(clazzList);
