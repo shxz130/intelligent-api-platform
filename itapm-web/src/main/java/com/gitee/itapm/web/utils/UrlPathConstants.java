@@ -53,9 +53,15 @@ public final class UrlPathConstants {
     public static final String ITAPM_API_PUSH_URL="/itapm/api/push.json";
 
     /**
-     * 接口测试地址
+     * rest接口测试地址
      *
      */
-    public static final String ITAPM_REST_TEST_URL="/itapm/api/test.json";
+    public static final String ITAPM_REST_TEST_URL="/itapm/api/rest_test.json";
 
+
+    /**
+     * dubbo接口测试地址
+     *
+     */
+    public static final String ITAPM_DUBBO_TEST_URL="/itapm/api/dubbo_test.json";
 }

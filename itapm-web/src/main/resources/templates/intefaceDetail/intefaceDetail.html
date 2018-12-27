@@ -242,6 +242,12 @@
 
         <input type="hidden" id="requestMethod" value="${interfaceDetail.requestType!}">
         <input type="hidden" id="relativeUrl" value="${interfaceDetail.address!}">
+        <input type="hidden" id="interfaceName" value="${interfaceDetail.name!}">
+
+        <#if (interfaceDetail.reqParamTypeBO)??>
+            <input type="hidden" id="requestParamType" value="${interfaceDetail.reqParamTypeBO.paramTypeName!}">
+        </#if>
+
 
 
         <#if interfaceDetail.type=='REST'>
@@ -266,9 +272,24 @@
             </div>
             <#elseif interfaceDetail.type=='DUBBO'>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">zookeeper地址:</label>
+                    <label class="layui-form-label">zookeeper:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" id="zookeeper" autocomplete="off" placeholder="zookeeper地址" class="layui-input">
+                        <input type="text" name="title" id="zookeeper" autocomplete="off" placeholder="zookeeper地址例如:zookeeper://localhost:2181" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">version</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" id="version" autocomplete="off" placeholder="dubbo版本信息" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">group</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" id="group" autocomplete="off" placeholder="dubbo group信息" class="layui-input">
                     </div>
                 </div>
         </#if>
@@ -280,7 +301,12 @@
             </div>
         </div>
         <div class="layui-form-item">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testRest();" >提交</button>
+
+            <#if interfaceDetail.type=='REST'>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testRest();" >提交</button>
+                <#elseif interfaceDetail.type=='DUBBO'>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testDubbo();" >提交</button>
+            </#if>
         </div>
 
         <div class="layui-form-item layui-form-text">
@@ -309,7 +335,7 @@
           $.ajax({
               type:"POST",
               contentType: 'application/json; charset=UTF-8',
-              url:"/itapm/api/test.json",
+              url:"/itapm/api/rest_test.json",
               dataType:"json",
               data:JSON.stringify( {
                   requestBaseUrl:requestBaseUrl,
@@ -318,6 +344,38 @@
                   headers:headers,
                   requestData:requestData,
                   requestMethod:requestMethod,
+              }),
+              success:function(data){
+                  $("#result").val(data.data);
+              },
+              error:function(data){
+                  $("#result").val(data.data);
+              }
+          });
+          return;
+      }
+
+
+      function testDubbo(){
+          var requestData=$("#requestData").val();
+          var interfaceName=$("#interfaceName").val();
+          var version=$("#version").val();
+          var group=$("#group").val();
+          var zookeeper=$("#zookeeper").val();
+          var requestParamType=$("#requestParamType").val();
+
+          $.ajax({
+              type:"POST",
+              contentType: 'application/json; charset=UTF-8',
+              url:"/itapm/api/dubbo_test.json",
+              dataType:"json",
+              data:JSON.stringify( {
+                  requestData:requestData,
+                  interfaceName:interfaceName,
+                  version:version,
+                  group:group,
+                  zookeeper:zookeeper,
+                  requestParamType:requestParamType,
               }),
               success:function(data){
                   $("#result").val(data.data);
