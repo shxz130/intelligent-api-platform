@@ -1,5 +1,7 @@
 package com.gitee;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.gitee.itapm.bean.BaseResp;
 import com.gitee.itapm.bean.TransInfo;
 
@@ -8,9 +10,17 @@ import com.gitee.itapm.bean.TransInfo;
  */
 public class Test {
 
+
     @org.junit.Test
     public void test(){
-        BaseResp<TransInfo> baseResp=new BaseResp<TransInfo>();
+        try{
+            BaseResp<TransInfo> bas=BaseResp.class.newInstance();
+            System.out.println(JSON.toJSONString(bas, SerializerFeature.WriteMapNullValue));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
 
     }
 

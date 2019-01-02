@@ -30,8 +30,8 @@ public class ParamTypeBO extends BaseBO {
 
     private Date updateTime;
 
-
     private List<ParamFieldBO> paramFieldList;
 
+    private String jsonFormat;
 
 }

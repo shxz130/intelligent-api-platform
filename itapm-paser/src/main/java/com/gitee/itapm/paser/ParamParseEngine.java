@@ -122,7 +122,7 @@ public class ParamParseEngine {
             returnType= returnType.replaceAll("java.util.", "");
         }
         if(returnType.contains("java.math.")) {
-            returnType= returnType.replaceAll("java.util.", "");
+            returnType= returnType.replaceAll("java.math.", "");
         }
         if(returnType.contains("class ")){
             returnType= returnType.replaceAll("class\\s","");

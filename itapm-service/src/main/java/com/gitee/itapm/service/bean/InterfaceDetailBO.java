@@ -58,4 +58,5 @@ public class InterfaceDetailBO extends BaseBO{
     private ParamTypeBO respParamTypeBO;
 
 
+
 }
