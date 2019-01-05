@@ -75,7 +75,16 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
 
         List<ParamFieldBO> paramFieldList=paramFieldBusService.queryByParamTypeId(paramTypeId);
         for(ParamFieldBO paramFieldBO : paramFieldList) {
-            paramFieldsMap1.put(paramFieldBO.getParamName(),DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+
+            if(getCollectionByType(paramFieldBO.getParamType())!=null){
+               Collection c= getCollectionByType(paramFieldBO.getParamType());
+                c.add(DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+                paramFieldsMap1.put(paramFieldBO.getParamName(),c);
+
+            }else{
+                paramFieldsMap1.put(paramFieldBO.getParamName(),DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+            }
+
             resultList.add(paramFieldBO);
             List<ParamFieldRefGenericBO> paramTypeRefGenericList = paramTypeRefGenericBusService.queryByFieldId(paramFieldBO.getId());
             paramFieldBO.setId(getNextId());//这里特殊处理，用于前端排序
@@ -95,7 +104,14 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
                 //list为泛型类型处理 泛型对应的所有参数
                 for (GenericParamFieldBO genericParamFieldBO : genericParamFieldBOList) {
                     //每一个参数对应的泛化类型，或者自定义类型的参数进行处理
-                    paramFieldsMap2.put(genericParamFieldBO.getParamName(), DefaultValueGenericUtils.getDefaultValueByJavaType(genericParamFieldBO.getParamType()));
+                    if(getCollectionByType(genericParamFieldBO.getParamType())!=null){
+                        Collection c=getCollectionByType(genericParamFieldBO.getParamType());
+                        c.add(DefaultValueGenericUtils.getDefaultValueByJavaType(genericParamFieldBO.getParamType()));
+                        paramFieldsMap2.put(genericParamFieldBO.getParamName(), c);
+                    }else{
+                        paramFieldsMap2.put(genericParamFieldBO.getParamName(), DefaultValueGenericUtils.getDefaultValueByJavaType(genericParamFieldBO.getParamType()));
+                    }
+
 
                     //这里将GenericParamFieldBO convert为 ParamFieldBO coonvert方法参数为list，所以这里定义了一个。
                     List<GenericParamFieldBO> genericParamFieldTempList = new ArrayList<>();
@@ -122,14 +138,32 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
                         paramFieldsMap3=paramDetail.getJsonMapData();
                     }
                     if(!CollectionUtils.isEmpty(paramFieldsMap3)&&paramFieldsMap3.size()>=1){
-                        paramFieldsMap2.put(genericParamFieldBO.getParamName(), paramFieldsMap3);
+                        if(getCollectionByType(genericParamFieldBO.getParamType())!=null){
+                            Collection c=getCollectionByType(genericParamFieldBO.getParamType());
+                            c.add(paramFieldsMap3);
+                            paramFieldsMap2.put(genericParamFieldBO.getParamName(), c);
+                        }else{
+                            paramFieldsMap2.put(genericParamFieldBO.getParamName(), paramFieldsMap3);
+                        }
                     }
                 }
             }
             if(!CollectionUtils.isEmpty(paramFieldsMap2)&&paramFieldsMap2.size()>=1){
-                paramFieldsMap1.put(paramFieldBO.getParamName(), paramFieldsMap2);
+                if(getCollectionByType(paramFieldBO.getParamType())!=null){
+                    Collection c=getCollectionByType(paramFieldBO.getParamType());
+                    c.add(paramFieldsMap2);
+                    paramFieldsMap1.put(paramFieldBO.getParamName(), c);
+                }else{
+                    paramFieldsMap1.put(paramFieldBO.getParamName(), paramFieldsMap2);
+                }
             }else{
-                paramFieldsMap1.put(paramFieldBO.getParamName(),DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+                if(getCollectionByType(paramFieldBO.getParamType())!=null){
+                    Collection c=getCollectionByType(paramFieldBO.getParamType());
+                    c.add(DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+                    paramFieldsMap1.put(paramFieldBO.getParamName(), c);
+                }else{
+                    paramFieldsMap1.put(paramFieldBO.getParamName(),DefaultValueGenericUtils.getDefaultValueByJavaType(paramFieldBO.getParamType()));
+                }
             }
         }
         return new ParamDetail(resultList,paramFieldsMap1);
@@ -171,6 +205,17 @@ public class InterfaceDetailHandler extends AbstractHandler<InterfaceDetailReq,I
     class ParamDetail{
         List<ParamFieldBO> paramFieldList;
         Map jsonMapData;
+    }
+
+
+    public static  Collection getCollectionByType(String type){
+        if(type.startsWith("List")){
+            return new ArrayList<>();
+        }
+        if(type.startsWith("Set")){
+            return new HashSet<>();
+        }
+        return null;
     }
 
 }

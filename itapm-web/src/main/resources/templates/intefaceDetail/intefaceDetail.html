@@ -236,6 +236,37 @@
 
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+            <legend>JSON格式化专区：</legend>
+        </fieldset>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md5">
+             <span lay-separator="">
+               请求参数格式化：
+                 <textarea placeholder="" class="layui-textarea" id="reqJsonFormat">
+             </textarea>
+            </span>
+            </div>
+            <div class="layui-col-md5">
+             <span lay-separator="">
+               返回参数格式化：
+                 <textarea placeholder="" class="layui-textarea" id="respJsonFormat">
+                 </textarea>
+
+
+            </span>
+            </div>
+        </div>
+
+
+        <#if (interfaceDetail.reqParamTypeBO)??>
+            <input type="hidden" id="reqParamJson" value='${interfaceDetail.reqParamTypeBO.jsonFormat!}'>
+        </#if>
+        <#if (interfaceDetail.respParamTypeBO)??>
+            <input type="hidden" id="respParamJson" value='${interfaceDetail.respParamTypeBO.jsonFormat!}'>
+        </#if>
+
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
             <legend>测试区：</legend>
         </fieldset>
 
@@ -323,6 +354,15 @@
   </body>
 
   <script type="text/javascript">
+
+      $(function() {// 初始化内容
+          var reqJsonData=$("#reqParamJson").val();
+          var respJsonData=$("#respParamJson").val();
+          $("#reqJsonFormat").text( JSON.stringify(JSON.parse(reqJsonData),null,4));
+          $("#respJsonFormat").text( JSON.stringify(JSON.parse(respJsonData),null,4));
+      });
+
+
 
       function testRest(){
           var requestBaseUrl=$("#requestBaseUrl").val();
