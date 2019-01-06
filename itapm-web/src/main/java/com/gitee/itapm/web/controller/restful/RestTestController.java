@@ -53,7 +53,7 @@ public class RestTestController {
             }else if(request.getRequestMethod().endsWith("POST")){
                 httpResponse= httpRequest.method(Method.POST).form(dataMap).timeout(3000).execute();
             }
-            return new ResultBean(getResponseData(httpResponse));
+            return new ResultBean( getResponseData(httpResponse));
         }catch (Exception e){
             return new ResultBean(getStackTrace(e));
         }
@@ -94,7 +94,8 @@ public class RestTestController {
 
 
     private void setCookies(HttpRequest httpRequest,String cookiesString){
-        if(StringUtils.isBlank(cookiesString)){
+        httpRequest.cookie(cookiesString);
+      /*  if(StringUtils.isBlank(cookiesString)){
             return;
         }
         Map<String,String> dataMap= Splitter.on(";").withKeyValueSeparator("=").split(cookiesString);
@@ -104,7 +105,7 @@ public class RestTestController {
             HttpCookie httpCookie=new HttpCookie((String)entry.getKey(),(String)entry.getValue());
             httpCookies[i]=httpCookie;
         }
-        httpRequest.cookie(httpCookies);
+        httpRequest.cookie(httpCookies);*/
     }
 
 

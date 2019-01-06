@@ -291,14 +291,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">cookies</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" id="cookies" autocomplete="off" placeholder="cookie信息，使用;分割" class="layui-input">
+                    <input type="text" name="title" id="cookies" autocomplete="off" placeholder="cookie信息,只能指定一个 例如：accessToken=1223432" class="layui-input">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">headers</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" id="headers" autocomplete="off" placeholder="headers信息，使用;分割" class="layui-input">
+                    <input type="text" name="title" id="headers" autocomplete="off" placeholder="headers信息，使用;分割，例如：age=3432;page=1" class="layui-input">
                 </div>
             </div>
             <#elseif interfaceDetail.type=='DUBBO'>
@@ -334,7 +334,9 @@
         <div class="layui-form-item">
 
             <#if interfaceDetail.type=='REST'>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testRest();" >提交</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testRest();" >代理提交</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testLocalRest();" >本地调用</button>
+
                 <#elseif interfaceDetail.type=='DUBBO'>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="layui-btn" onclick="testDubbo();" >提交</button>
             </#if>
@@ -358,10 +360,75 @@
       $(function() {// 初始化内容
           var reqJsonData=$("#reqParamJson").val();
           var respJsonData=$("#respParamJson").val();
-          $("#reqJsonFormat").text( JSON.stringify(JSON.parse(reqJsonData),null,4));
-          $("#respJsonFormat").text( JSON.stringify(JSON.parse(respJsonData),null,4));
+
+          if(reqJsonData!=null){
+              $("#reqJsonFormat").text( JSON.stringify(JSON.parse(reqJsonData),null,4));
+          }
+          if(respJsonData!=null){
+              $("#respJsonFormat").text( JSON.stringify(JSON.parse(respJsonData),null,4));
+          }
       });
 
+
+
+      function testLocalRest(){
+          var requestBaseUrl=$("#requestBaseUrl").val();
+          var requestRelativeUrl=$("#relativeUrl").val();
+          var cookies=$("#cookies").val();
+          var headers=$("#headers").val();
+          var requestData=$("#requestData").val();
+          var requestMethod=$("#requestMethod").val();
+
+          var requestUrl=requestBaseUrl+requestRelativeUrl;
+
+          if(requestMethod=='GET'){
+              if(requestData!=null){
+                  var data='';
+                  var reqData=JSON.parse(requestData);
+                  for (var key in reqData){
+                      data=data+key+"="+reqData[key]+"&";
+                  }
+                  requestData=data;
+              }
+          }
+          if(requestMethod=='POST'){
+              if(requestData!=null){
+                  var data='';
+                  var reqData=JSON.parse(requestData);
+                  requestData=JSON.stringify(reqData);
+              }
+          }
+          $.ajax({
+              type:requestMethod,
+              xhrFields: {
+                  withCredentials: true // 这里设置了withCredentials
+              },
+              contentType: 'application/json; charset=UTF-8',
+              url:requestUrl,
+              dataType:"json",
+              async: true,
+              data:requestData,
+              beforeSend: function(request) {
+                  if(cookies!=null){
+                      document.cookie=cookies;
+                  }
+                  if(headers != null){
+                      headers= headers.split(";");
+                      for(var header in headers){
+                          var headNameAndValue= headers[header].split("=");
+                          request.setRequestHeader(headNameAndValue[0], headNameAndValue[1]);
+                      };
+                  }
+              },
+              success:function(data){
+                  $("#result").val(JSON.stringify(data));
+              },
+              error:function(data){
+                  $("#result").val(data.toLocaleString());
+              }
+          });
+
+      }
 
 
       function testRest(){
