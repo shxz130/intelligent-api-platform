@@ -394,7 +394,7 @@
           if(requestMethod=='POST'){
               if(requestData!=null){
                   var data='';
-                  var reqData=JSON.parse(requestData);
+                  var reqData=eval('('+requestData+')');
                   requestData=JSON.stringify(reqData);
               }
           }
@@ -407,12 +407,12 @@
               url:requestUrl,
               dataType:"json",
               async: true,
-              data:requestData,
+              data: requestData,
               beforeSend: function(request) {
-                  if(cookies!=null){
+                  if(cookies){
                       document.cookie=cookies;
                   }
-                  if(headers != null){
+                  if(headers){
                       headers= headers.split(";");
                       for(var header in headers){
                           var headNameAndValue= headers[header].split("=");

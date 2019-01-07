@@ -7,6 +7,7 @@ import com.gitee.itapm.web.controller.bean.test.TestRequest;
 import com.gitee.itapm.web.utils.UrlPathConstants;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class TestController {
     @PostMapping(UrlPathConstants.ITAPM_TEST_POST)
     @Catagory("测试")
     @RestApi(description = "post方法测试")
-    public ResultBean<Integer> post(TestRequest testRequest,HttpServletRequest httpServletRequest){
+    public ResultBean<Integer> post(@RequestBody TestRequest testRequest,HttpServletRequest httpServletRequest){
         System.out.println(testRequest);
         return new ResultBean<>(1);
     }
