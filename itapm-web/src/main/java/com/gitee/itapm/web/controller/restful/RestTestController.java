@@ -51,7 +51,8 @@ public class RestTestController {
             if(request.getRequestMethod().equals("GET")){
                 httpResponse= httpRequest.method(Method.GET).form(dataMap).timeout(3000).execute();
             }else if(request.getRequestMethod().endsWith("POST")){
-                httpResponse= httpRequest.method(Method.POST).form(dataMap).timeout(3000).execute();
+
+                httpResponse= httpRequest.method(Method.POST).body(JSON.toJSONString(dataMap)).timeout(3000).execute();
             }
             return new ResultBean( getResponseData(httpResponse));
         }catch (Exception e){
