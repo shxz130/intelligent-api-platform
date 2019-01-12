@@ -11,9 +11,6 @@ import java.util.List;
 @Data
 public class RestResp extends BaseResp{
 
-    @ApiParam
-    private RestResult data;
-
 
     @ApiParam
     private List<String> nameList;

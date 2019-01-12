@@ -20,15 +20,12 @@
 
 
 
-
     </dependencies>
+
     <profiles>
         <profile>
             <id>generate-doc</id>
             <build>
-                <pluginManagement>
-
-                </pluginManagement>
                 <plugins>
                     <plugin>
                         <groupId>com.gitee.shxz130.itapm.maven</groupId>
@@ -53,6 +50,7 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
+
+
 </project>
