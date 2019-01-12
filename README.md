@@ -3,8 +3,9 @@
 #### 项目介绍
 智能的api平台，提供根据项目自动生成接口文档(只支持java项目)，自动生成json格式数据，便于做自测/测试，可以对接口直接进行测试，模拟http请求，自定义cookie，header信息。
 
+
 ####PPT
-详细见doc
+详细见项目/doc路径
 
 #### 软件架构
 ![文档架构简要图](https://upload-images.jianshu.io/upload_images/3397380-dcc8444bc76042c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
