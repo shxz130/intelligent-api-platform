@@ -9,6 +9,7 @@
 
 #### 软件架构
 ![文档架构简要图](https://upload-images.jianshu.io/upload_images/3397380-dcc8444bc76042c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 当我们开发过程中，通过给代码加注解，然后通过 **`mvn clean install -P generate-doc`**,在编译期通过解析class生成doc树，并将doc树通过http请求，发送到itapm系统后台，通过itapm-web展示。
 
 #### 安装教程
@@ -68,6 +69,7 @@ itapm-maven-plugins配置：
 
 
 最后，欢迎加好友交流，一起学习共同进步
+
 ![微信号](https://upload-images.jianshu.io/upload_images/3397380-2e430bd8654def22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
