@@ -36,4 +36,13 @@ public class SystemInfoBusService {
     public List<SystemInfoBO> queryAllList() {
         return systemInfoService.queryAllList();
     }
+
+    public SystemInfoBO queryListBySystemName(String name) {
+        return  systemInfoService.queryByEnName(name);
+    }
+
+    public void deleteById(Integer id) {
+
+        systemInfoService.deleteById(id);
+    }
 }

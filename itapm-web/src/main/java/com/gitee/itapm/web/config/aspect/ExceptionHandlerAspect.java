@@ -5,7 +5,7 @@ package com.gitee.itapm.web.config.aspect;
  */
 
 import com.gitee.itapm.utils.enums.RespCodeEnum;
-import com.gitee.itapm.utils.exception.AtapmRuntimeException;
+import com.gitee.itapm.utils.exception.ItapmRuntimeException;
 import com.gitee.itapm.utils.page.ResultBean;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -46,8 +46,8 @@ public class ExceptionHandlerAspect {
     private ResultBean<?> handlerException(ProceedingJoinPoint pjp, Throwable e) {
         ResultBean<?> result = new ResultBean();
         LOGGER.error(pjp.getSignature() + " error ", e);
-        if(e instanceof AtapmRuntimeException){
-            AtapmRuntimeException atapmRuntimeException=(AtapmRuntimeException)e;
+        if(e instanceof ItapmRuntimeException){
+            ItapmRuntimeException atapmRuntimeException=(ItapmRuntimeException)e;
             result.setCode(atapmRuntimeException.getCode());
             result.setMessage(atapmRuntimeException.getMessage());
         }else {

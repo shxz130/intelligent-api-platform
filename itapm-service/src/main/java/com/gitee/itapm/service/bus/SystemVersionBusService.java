@@ -28,4 +28,9 @@ public class SystemVersionBusService {
     public SystemVersionBO queryLastOneBySystemInfoId(Integer systemInfoId) {
         return systemVersionService.queryLastOneBySystemInfoId(systemInfoId);
     }
+
+
+    public void deleteById(Integer id) {
+        systemVersionService.deleteById(id);
+    }
 }

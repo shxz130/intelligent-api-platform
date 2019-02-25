@@ -14,4 +14,6 @@ public interface SystemVersionService {
 
 
     SystemVersionBO queryLastOneBySystemInfoId(Integer systemInfoId);
+
+    void deleteById(Integer id);
 }

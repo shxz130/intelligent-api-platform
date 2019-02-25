@@ -19,4 +19,8 @@ public interface SystemVersionDOMapper {
 
     @Select(SystemVersionSQLConstants.QUERY_LAST_ONE_BY_STSTEM_INFO_ID)
     SystemVersionDO queryLastOneBySystemInfoId(@Param("systemInfoId")Integer systemInfoId);
+
+    @Delete(SystemVersionSQLConstants.DELETE_BY_ID)
+    void deleteById(@Param("id")Integer id);
+
 }

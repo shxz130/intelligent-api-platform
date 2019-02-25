@@ -8,18 +8,6 @@ import java.util.Date;
 public class SystemVersionSQLConstants {
 
 
-    private Integer id;
-
-    private Integer systemId;
-
-    private String systemName;
-
-    private String systemVersion;
-
-    private Date createTime;
-
-    private Date updateTime;
-
     private static final String BASE_QUERY_FIELD=
                     "id as id," +
                     "system_id as systemId," +
@@ -57,5 +45,9 @@ public class SystemVersionSQLConstants {
 
     public static final String QUERY_LAST_ONE_BY_STSTEM_INFO_ID = QUERY_BASE_SQL+"where "+
             "system_id =#{systemInfoId} order by create_time desc limit 1";
+
+
+    public static final String DELETE_BY_ID = "delete from " +TABLE_NAME +" where id = #{id}";
+
 
 }

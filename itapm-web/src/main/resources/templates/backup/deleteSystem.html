@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.0</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="${request.contextPath}/css/font.css">
+        <link rel="stylesheet" href="${request.contextPath}/css/xadmin.css">
+        <link rel="stylesheet" href="${request.contextPath}/css/layui.css">
+        <script type="text/javascript" src="${request.contextPath}/js/jquery.min.js"></script>
+        <script type="text/javascript" src="${request.contextPath}/js/xadmin.js"></script>
+        <script src="${request.contextPath}/js/layui.js" charset="utf-8"></script>
+        <script src="${request.contextPath}/lib/layui/layui.js" charset="utf-8"></script>
+
+    </head>
+    <body>
+    <div class="x-body">
+            <div class="layui-form-item">
+                <label for="systemName" class="layui-form-label">
+                    <span class="x-red">*</span>系统名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="systemName" name="username" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="delete" class="layui-form-label">
+                </label>
+                <button  class="layui-btn" lay-filter="add" onclick="deleteBySystemName();">
+                    删除
+                </button>
+            </div>
+
+    </div>
+    </body>
+
+    <script>
+        function deleteBySystemName(){
+            var enName=$("#systemName").val();
+            if(enName == null ||enName ==''){
+                layer.msg('请输入系统名称', function(){
+                });
+                return;
+            }
+            $.ajax({
+                type:'POST',
+                contentType: 'application/json; charset=UTF-8',
+                url:"/itapm/backup/delete_by_system_name.json",
+                dataType:"json",
+                async: true,
+                data: {
+                    "name":enName
+                },
+                success:function(data){
+                    if(data.code == '000000'){
+                        layer.alert('删除成功，请刷新主页');
+                    }else{
+                        var message=data.message;
+                        layer.alert('删除失败,'+message);
+                    }
+                },
+                error:function(data){
+                    $("#result").val(data.toLocaleString());
+                }
+            });
+
+        }
+
+
+    </script>
+</html>

@@ -24,4 +24,7 @@ public interface SystemInfoDOMapper {
 
     @Select(SystemInfoSQLConstants.QUERY_ALL)
     List<SystemInfoDO> queryAllList();
+
+    @Delete(SystemInfoSQLConstants.DELETE_BY_ID)
+    void deleteById(@Param("id")Integer id);
 }

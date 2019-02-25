@@ -47,4 +47,10 @@ public class SystemVersionServiceImpl implements SystemVersionService {
         }
         return BeanCopierUtils.copyOne2One(systemVersionDO,SystemVersionBO.class);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        systemVersionDOMapper.deleteById(id);
+
+    }
 }

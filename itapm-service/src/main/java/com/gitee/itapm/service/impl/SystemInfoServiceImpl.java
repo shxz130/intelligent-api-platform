@@ -54,4 +54,9 @@ public class SystemInfoServiceImpl implements SystemInfoService {
        }
        return BeanCopierUtils.copyList2List(systemInfoDOList,SystemInfoBO.class);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        systemInfoDOMapper.deleteById(id);
+    }
 }

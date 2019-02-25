@@ -13,4 +13,6 @@ public class TemplatePathConstants {
 
     public static final String SEARCH="/search/search";
 
+    public static final String BACKUP_DELETE_SYSTEM="/backup/deleteSystem";
+
 }

@@ -17,4 +17,6 @@ public interface SystemInfoService {
     public void updateById(SystemInfoBO systemInfoBO);
 
     List<SystemInfoBO> queryAllList();
+
+    void deleteById(Integer id);
 }

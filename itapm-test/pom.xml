@@ -44,7 +44,7 @@
                             <systemEnName>fts</systemEnName>
                             <systemChName>金融交易系统</systemChName>
                             <docBaseUrl>http://localhost:8080/itapm/api/push.json</docBaseUrl>
-                            <docVersion>2.0.0</docVersion>
+                            <docVersion>1.0.0</docVersion>
                         </configuration>
                     </plugin>
                 </plugins>

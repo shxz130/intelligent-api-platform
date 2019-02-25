@@ -44,4 +44,7 @@ public final class SystemInfoSQLConstants {
 
     public static final String UPDATE_BY_ID = "update "+TABLE_NAME+" set ch_name=#{chName}, e" +
             "n_name=${enName},update_time=now() where id=#{id}";
+
+
+    public static final String DELETE_BY_ID = "delete from "+TABLE_NAME + " where id=#{id}";
 }

@@ -64,4 +64,17 @@ public final class UrlPathConstants {
      *
      */
     public static final String ITAPM_DUBBO_TEST_URL="/itapm/api/dubbo_test.json";
+
+
+    /**
+     * 删除系统
+     *
+     */
+    public static final String ITAPM_GO_DELETE_SYSTEM="/itapm/go_delete_system.htm";
+
+    /**
+     * 删除系统
+     *
+     */
+    public static final String ITAPM_DELETE_SYSTEM="/itapm/backup/delete_by_system_name.json";
 }
