@@ -12,7 +12,7 @@ public class DefaultValueGenericUtils {
     private static final List<String> basicTypeList= Arrays.asList("int","byte","short","long","float","double","boolean","char");
 
 
-    private static final List<String> javaTypeList=Arrays.asList("String","java.math.BigDecimal","Double","Long","Date","BigDecimal");
+    private static final List<String> javaTypeList=Arrays.asList("String","java.math.BigDecimal","Double","Long","Date","BigDecimal","Integer","Float","Long");
     /**
      * 根据基本类型获取默认值
      *
@@ -109,6 +109,15 @@ public class DefaultValueGenericUtils {
         }
         if("Date".equals(type)){
             return new Date();
+        }
+        if("Long".equals(type)){
+            return new Long(1);
+        }
+        if("Integer".equals(type)){
+            return new Integer(1);
+        }
+        if("Float".equals(type)){
+            return new Float(1);
         }
         return "";
     }

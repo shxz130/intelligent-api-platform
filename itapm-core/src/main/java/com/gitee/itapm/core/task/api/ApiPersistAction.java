@@ -270,7 +270,9 @@ public class ApiPersistAction {
 
     private <T> String toString(List<T> collection){
         String result="";
-
+        if(CollectionUtils.isEmpty(collection)){
+            return "";
+        }
         for(int i=0;i<collection.size();i++){
             if(collection.size()==1){
                 result= collection.get(i).toString();
